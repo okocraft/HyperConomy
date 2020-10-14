@@ -47,4 +47,5 @@ public enum TimeEffectType {
 		}
 		return false;
 	}
+
 }

@@ -56,4 +56,5 @@ public class Hcpay extends BaseCommand implements HyperCommand {
 		return data;
 
 	}
+
 }

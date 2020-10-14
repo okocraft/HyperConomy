@@ -421,4 +421,5 @@ public class Hcdata extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

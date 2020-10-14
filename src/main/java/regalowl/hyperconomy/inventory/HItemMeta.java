@@ -231,4 +231,5 @@ public class HItemMeta {
 	public int hashCode() {
 		return Objects.hash(displayName, lore, enchantments, itemFlags, unbreakable, repairCost);
 	}
+
 }

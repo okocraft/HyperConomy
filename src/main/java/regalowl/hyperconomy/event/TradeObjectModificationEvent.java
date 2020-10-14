@@ -22,4 +22,5 @@ public class TradeObjectModificationEvent extends HyperEvent implements Serializ
 	public TradeObjectModificationType getTradeObjectModificationType() {
 		return tomt;
 	}
+
 }

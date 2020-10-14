@@ -88,4 +88,5 @@ public class SerializableFireworkMeta extends SerializableItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), effects, power);
 	}
+
 }

@@ -79,4 +79,5 @@ public class SerializablePotionEffect extends SerializableObject {
 	public int hashCode() {
 		return Objects.hash(potionEffectType, amplifier, duration, isAmbient);
 	}
+
 }

@@ -68,4 +68,5 @@ public class Sell extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

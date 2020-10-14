@@ -25,4 +25,5 @@ public class Toggleeconomy extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

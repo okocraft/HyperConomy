@@ -24,4 +24,5 @@ public class HyperEvent {
 	public void setFiredSuccessfully() {
 		firedSuccessfully = true;
 	}
+
 }

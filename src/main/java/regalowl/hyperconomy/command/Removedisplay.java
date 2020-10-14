@@ -42,4 +42,5 @@ public class Removedisplay extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

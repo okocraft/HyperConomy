@@ -77,4 +77,5 @@ public class QuickListModel<T> extends AbstractListModel<T> {
 		data.addAll(ls);
 		fireIntervalAdded(this, 0, data.size() - 1);
 	}
+
 }

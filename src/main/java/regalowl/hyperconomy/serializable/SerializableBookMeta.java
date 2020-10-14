@@ -89,4 +89,5 @@ public class SerializableBookMeta extends SerializableItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), author, pages, title);
 	}
+
 }

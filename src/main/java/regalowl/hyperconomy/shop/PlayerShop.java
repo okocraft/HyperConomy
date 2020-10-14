@@ -743,4 +743,5 @@ public class PlayerShop implements Shop {
 		availableObjects.remove(to.getName());
 		removePlayerShopObject(to);
 	}
+
 }

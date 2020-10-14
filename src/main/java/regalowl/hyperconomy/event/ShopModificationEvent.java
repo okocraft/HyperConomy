@@ -12,4 +12,5 @@ public class ShopModificationEvent extends HyperEvent {
 	public Shop getShop() {
 		return s;
 	}
+
 }

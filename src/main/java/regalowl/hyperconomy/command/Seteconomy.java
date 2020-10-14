@@ -35,4 +35,5 @@ public class Seteconomy extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

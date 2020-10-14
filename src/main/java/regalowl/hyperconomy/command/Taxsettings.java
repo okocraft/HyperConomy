@@ -32,4 +32,5 @@ public class Taxsettings extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

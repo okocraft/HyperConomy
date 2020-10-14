@@ -101,4 +101,5 @@ public class SerializableFireworkEffect extends SerializableObject {
 	public int hashCode() {
 		return Objects.hash(colors, fadeColors, type, hasFlicker, hasTrail);
 	}
+
 }

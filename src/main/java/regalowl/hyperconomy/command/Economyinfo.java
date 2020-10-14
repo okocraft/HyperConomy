@@ -22,4 +22,5 @@ public class Economyinfo extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

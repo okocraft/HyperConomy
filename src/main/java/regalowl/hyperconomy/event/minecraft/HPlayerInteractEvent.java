@@ -27,4 +27,5 @@ public class HPlayerInteractEvent extends HyperEvent {
 	public boolean isLeftClick() {
 		return isLeftClick;
 	}
+
 }

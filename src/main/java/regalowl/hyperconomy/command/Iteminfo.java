@@ -76,4 +76,5 @@ public class Iteminfo extends BaseCommand implements HyperCommand {
 		data.addResponse(L.get("LINE_BREAK"));
 		return data;
 	}
+
 }

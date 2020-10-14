@@ -845,4 +845,5 @@ public class ChestShop {
 	public int hashCode() {
 		return Objects.hashCode(location);
 	}
+
 }

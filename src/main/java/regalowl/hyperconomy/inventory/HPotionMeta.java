@@ -95,4 +95,5 @@ public class HPotionMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), potionEffects, potionData);
 	}
+
 }

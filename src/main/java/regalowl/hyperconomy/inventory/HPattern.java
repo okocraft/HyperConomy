@@ -56,4 +56,5 @@ public class HPattern {
 	public int hashCode() {
 		return Objects.hash(dyeColor, patternType);
 	}
+
 }

@@ -12,4 +12,5 @@ public class HyperBankModificationEvent extends HyperEvent {
 	public HyperBank getHyperBank() {
 		return hb;
 	}
+
 }

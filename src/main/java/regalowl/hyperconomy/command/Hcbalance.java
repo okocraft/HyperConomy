@@ -38,4 +38,5 @@ public class Hcbalance extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

@@ -20,4 +20,5 @@ public class TransactionEvent extends HyperEvent {
 	public TransactionResponse getTransactionResponse() {
 		return response;
 	}
+
 }

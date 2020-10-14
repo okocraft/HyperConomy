@@ -135,4 +135,5 @@ public class UpdateYML {
 		cfg.setDefault("chest-shop.limit-chest-shops", true);
 		cfg.setDefault("chest-shop.max-per-player", 5);
 	}
+
 }

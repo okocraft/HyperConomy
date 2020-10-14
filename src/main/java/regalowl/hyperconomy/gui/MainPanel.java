@@ -686,4 +686,5 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		}
 
 	}
+
 }

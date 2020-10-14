@@ -53,4 +53,5 @@ public class Objectsettings extends BaseCommand implements HyperCommand {
 		data.addResponse(L.get("LINE_BREAK"));
 		return data;
 	}
+
 }

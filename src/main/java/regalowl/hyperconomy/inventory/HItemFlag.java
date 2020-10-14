@@ -48,4 +48,5 @@ public class HItemFlag {
 	public int hashCode() {
 		return Objects.hashCode(itemFlag);
 	}
+
 }

@@ -34,4 +34,5 @@ public class Makeaccount extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

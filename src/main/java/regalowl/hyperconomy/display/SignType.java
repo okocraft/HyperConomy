@@ -47,4 +47,5 @@ public enum SignType {
 			return true;
 		return false;
 	}
+
 }

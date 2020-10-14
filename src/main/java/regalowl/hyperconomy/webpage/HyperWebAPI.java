@@ -282,4 +282,5 @@ public class HyperWebAPI extends HttpServlet {
 		}
 		return lJsonArray;
 	}
+
 }

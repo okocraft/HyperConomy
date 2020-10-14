@@ -62,4 +62,5 @@ public class SerializableEnchantment extends SerializableObject {
 	public int hashCode() {
 		return Objects.hash(enchantment, lvl);
 	}
+
 }

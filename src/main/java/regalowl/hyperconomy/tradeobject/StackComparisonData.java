@@ -34,4 +34,5 @@ public class StackComparisonData implements Serializable {
 	public int hashCode() {
 		return Objects.hash(material, durability, data, itemMeta, maxStackSize, maxDurability, isBlank);
 	}
+
 }

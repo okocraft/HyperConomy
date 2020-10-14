@@ -65,4 +65,5 @@ public class HColor {
 	public int hashCode() {
 		return Objects.hash(red, green, blue);
 	}
+
 }

@@ -57,4 +57,5 @@ public class HMapMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), isScaling);
 	}
+
 }

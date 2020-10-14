@@ -55,4 +55,5 @@ public class HEnchantment {
 	public int hashCode() {
 		return Objects.hash(enchantment, lvl);
 	}
+
 }

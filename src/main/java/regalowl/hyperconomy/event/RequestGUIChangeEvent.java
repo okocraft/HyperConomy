@@ -21,4 +21,5 @@ public class RequestGUIChangeEvent extends HyperEvent {
 	public String getMessage() {
 		return message;
 	}
+
 }

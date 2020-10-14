@@ -73,4 +73,5 @@ public class SerializableFireworkEffectMeta extends SerializableItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), effect);
 	}
+
 }

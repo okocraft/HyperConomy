@@ -106,4 +106,5 @@ public class HFireworkEffect {
 	public int hashCode() {
 		return Objects.hash(colors, fadeColors, type, hasFlicker, hasTrail);
 	}
+
 }

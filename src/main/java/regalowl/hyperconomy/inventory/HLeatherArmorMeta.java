@@ -57,4 +57,5 @@ public class HLeatherArmorMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), color);
 	}
+
 }

@@ -82,4 +82,5 @@ public class Scalebypercent extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

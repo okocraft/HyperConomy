@@ -26,4 +26,5 @@ public class HPlayerItemHeldEvent extends HyperEvent {
 	public int getNewSlot() {
 		return newSlot;
 	}
+
 }

@@ -67,4 +67,5 @@ public class Buy extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

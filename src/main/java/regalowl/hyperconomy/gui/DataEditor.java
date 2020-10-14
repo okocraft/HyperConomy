@@ -56,4 +56,5 @@ public class DataEditor extends JFrame {
 			}
 		});
 	}
+
 }

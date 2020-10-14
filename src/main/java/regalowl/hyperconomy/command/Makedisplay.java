@@ -46,4 +46,5 @@ public class Makedisplay extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

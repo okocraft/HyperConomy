@@ -244,4 +244,5 @@ public class TimeEffect {
 	public int getTimeRemaining() {
 		return timeRemaining;
 	}
+
 }

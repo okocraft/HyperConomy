@@ -93,4 +93,5 @@ public class HBannerMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), baseColor, patterns);
 	}
+
 }

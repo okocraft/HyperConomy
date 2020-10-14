@@ -65,4 +65,5 @@ public class HPotionData {
 	public int hashCode() {
 		return Objects.hash(potionType, isExtended, isUpgraded);
 	}
+
 }

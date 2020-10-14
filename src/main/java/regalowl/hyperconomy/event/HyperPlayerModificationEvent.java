@@ -12,4 +12,5 @@ public class HyperPlayerModificationEvent extends HyperEvent {
 	public HyperPlayer getHyperPlayer() {
 		return hp;
 	}
+
 }

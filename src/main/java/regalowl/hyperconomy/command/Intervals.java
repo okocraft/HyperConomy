@@ -30,4 +30,5 @@ public class Intervals extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

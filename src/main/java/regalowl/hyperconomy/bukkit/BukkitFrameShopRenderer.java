@@ -138,4 +138,5 @@ public class BukkitFrameShopRenderer extends MapRenderer {
 	public String color(String message, byte color) {
 		return "\u00A7" + color + ";" + message;
 	}
+
 }

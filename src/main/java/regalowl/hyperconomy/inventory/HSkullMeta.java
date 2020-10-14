@@ -58,4 +58,5 @@ public class HSkullMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), owner);
 	}
+
 }

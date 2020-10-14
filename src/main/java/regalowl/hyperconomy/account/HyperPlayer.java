@@ -575,4 +575,5 @@ public class HyperPlayer implements HyperAccount {
 		HyperPlayer hyperPlayer = (HyperPlayer) o;
 		return Objects.equals(name, hyperPlayer.name) && Objects.equals(uuid, hyperPlayer.uuid);
 	}
+
 }

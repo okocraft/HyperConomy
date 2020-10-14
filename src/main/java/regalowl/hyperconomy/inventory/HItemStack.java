@@ -279,4 +279,5 @@ public class HItemStack {
 				&& maxStackSize == hItemStack.maxStackSize && maxDurability == hItemStack.maxDurability
 				&& isBlank == hItemStack.isBlank;
 	}
+
 }

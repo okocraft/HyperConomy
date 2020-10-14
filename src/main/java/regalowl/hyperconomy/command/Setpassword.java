@@ -42,4 +42,5 @@ public class Setpassword extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

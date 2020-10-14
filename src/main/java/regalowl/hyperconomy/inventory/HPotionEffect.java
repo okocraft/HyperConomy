@@ -75,4 +75,5 @@ public class HPotionEffect {
 	public int hashCode() {
 		return Objects.hash(potionEffectType, amplifier, duration, isAmbient);
 	}
+
 }

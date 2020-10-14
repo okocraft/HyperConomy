@@ -66,4 +66,5 @@ public enum EnchantmentClass {
 			return 0;
 		}
 	}
+
 }

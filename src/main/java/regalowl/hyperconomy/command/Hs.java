@@ -54,4 +54,5 @@ public class Hs extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

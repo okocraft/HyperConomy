@@ -359,4 +359,5 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 		page += "</html>\n";
 		return page;
 	}
+
 }

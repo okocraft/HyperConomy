@@ -61,4 +61,5 @@ public class HFireworkEffectMeta extends HItemMeta {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), effect);
 	}
+
 }

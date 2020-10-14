@@ -113,4 +113,5 @@ public class SerializableItemMeta extends SerializableObject {
 	public int hashCode() {
 		return Objects.hash(displayName, lore, enchantments);
 	}
+
 }

@@ -57,4 +57,5 @@ public class Frameshopcommand extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
+
 }

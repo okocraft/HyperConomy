@@ -40,4 +40,5 @@ public class Lockshop extends BaseCommand implements HyperCommand {
 			return data;
 		}
 	}
+
 }

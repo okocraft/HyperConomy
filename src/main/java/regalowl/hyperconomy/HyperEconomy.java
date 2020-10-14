@@ -512,4 +512,5 @@ public class HyperEconomy implements Serializable {
 				&& Objects.equals(composites, hyperEconomy.composites) && useComposites == hyperEconomy.useComposites
 				&& Objects.equals(economyName, hyperEconomy.economyName) && Objects.equals(xpName, hyperEconomy.xpName);
 	}
+
 }

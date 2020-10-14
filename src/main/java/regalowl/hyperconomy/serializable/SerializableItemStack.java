@@ -142,4 +142,5 @@ public class SerializableItemStack extends SerializableObject {
 		Material m = Material.matchMaterial(material);
 		return m == null || m.getMaxDurability() <= 0;
 	}
+
 }
