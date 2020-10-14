@@ -2,13 +2,13 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 
 import org.bukkit.enchantments.Enchantment;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-public class SerializableEnchantment extends SerializableObject implements Serializable {
+public class SerializableEnchantment extends SerializableObject {
 	private static final long serialVersionUID = 4510326523024526205L;
+
 	private String enchantment;
 	private int lvl;
 

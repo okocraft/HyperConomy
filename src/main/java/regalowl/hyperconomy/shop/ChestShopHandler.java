@@ -887,15 +887,6 @@ public class ChestShopHandler implements HyperEventListener {
 				return;
 			}
 
-			if (!hc.getMC().canHoldChestShopSign(sign.getAttachedBlock().getLocation())) {
-				sign.setLine(0, "&4You can't");
-				sign.setLine(1, "&4attach your");
-				sign.setLine(2, "&4sign to that");
-				sign.setLine(3, "&4block!");
-				sign.update();
-				return;
-			}
-
 			if (limitChestShops && getChestShops(hp).size() >= maxChestShopsPerPlayer) {
 				sign.setLine(0, "&4You have");
 				sign.setLine(1, "&4too many");

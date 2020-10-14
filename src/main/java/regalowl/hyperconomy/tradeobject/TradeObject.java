@@ -11,7 +11,6 @@ import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.inventory.HEnchantment;
 import regalowl.hyperconomy.inventory.HItemStack;
 import regalowl.hyperconomy.shop.PlayerShop;
-import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
 public interface TradeObject extends Comparable<TradeObject>, Serializable {
 

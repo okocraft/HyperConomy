@@ -339,11 +339,6 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public boolean canHoldChestShopSign(HLocation l) {
-		return false;
-	}
-
-	@Override
 	public HItem dropItemDisplay(HLocation location, HItemStack item) {
 		return null;
 	}

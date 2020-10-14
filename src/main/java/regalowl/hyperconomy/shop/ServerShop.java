@@ -14,7 +14,7 @@ import regalowl.hyperconomy.minecraft.HLocation;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.util.LanguageFile;
 
-public class ServerShop implements Shop, Comparable<Shop> {
+public class ServerShop implements Shop {
 
 	private transient HyperConomy hc;
 	private static final long serialVersionUID = 4242407361167946426L;
@@ -353,7 +353,7 @@ public class ServerShop implements Shop, Comparable<Shop> {
 
 	public void unBanObjects(ArrayList<TradeObject> objects) {
 		for (TradeObject ho : objects) {
-			if (!availableObjects.contains(ho)) {
+			if (!availableObjects.contains(ho.getName())) {
 				availableObjects.add(ho.getName());
 			}
 		}

@@ -169,8 +169,6 @@ public interface MineCraftConnector {
 
 	public boolean isChest(HLocation l);
 
-	public boolean canHoldChestShopSign(HLocation l);
-
 	public HItem dropItemDisplay(HLocation location, HItemStack item);
 
 	public void removeItem(HItem item);

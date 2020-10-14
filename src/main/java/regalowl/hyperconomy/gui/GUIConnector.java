@@ -1,10 +1,9 @@
 package regalowl.hyperconomy.gui;
 
-import regalowl.hyperconomy.api.MineCraftConnector;
 import regalowl.hyperconomy.api.ServerConnectionType;
 import regalowl.hyperconomy.util.DefaultConnector;
 
-public class GUIConnector extends DefaultConnector implements MineCraftConnector {
+public class GUIConnector extends DefaultConnector {
 
 	public GUIConnector() {
 		super();

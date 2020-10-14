@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -29,7 +31,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
@@ -89,11 +90,9 @@ public class BukkitListener implements Listener {
 		this.minimal = state;
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onSignChangeEvent(SignChangeEvent event) {
 		if (minimal)
-			return;
-		if (event.isCancelled())
 			return;
 		HyperPlayer hp = bc.getBukkitCommon().getPlayer(event.getPlayer());
 		HLocation sl = bc.getBukkitCommon().getLocation(event.getBlock().getLocation());
@@ -109,11 +108,9 @@ public class BukkitListener implements Listener {
 			event.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerItemHeldEvent(PlayerItemHeldEvent pihevent) {
 		if (minimal)
-			return;
-		if (pihevent.isCancelled())
 			return;
 		HyperPlayer hp = bc.getBukkitCommon().getPlayer(pihevent.getPlayer());
 		HPlayerItemHeldEvent hpih = new HPlayerItemHeldEvent(hp, pihevent.getPreviousSlot(), pihevent.getNewSlot());
@@ -146,11 +143,8 @@ public class BukkitListener implements Listener {
 		hc.getHyperEventHandler().fireEvent(new HPlayerQuitEvent(hp));
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent bbevent) {
-		if (bbevent.isCancelled()) {
-			return;
-		}
 		HyperPlayer hp = bc.getBukkitCommon().getPlayer(bbevent.getPlayer());
 		HBlockBreakEvent event = new HBlockBreakEvent(bc.getBukkitCommon().getBlock(bbevent.getBlock()), hp);
 		hc.getHyperEventHandler().fireEvent(event);
@@ -158,11 +152,8 @@ public class BukkitListener implements Listener {
 			bbevent.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplodeEvent(EntityExplodeEvent eeevent) {
-		if (eeevent.isCancelled()) {
-			return;
-		}
 		ArrayList<HBlock> blocks = new ArrayList<HBlock>();
 		for (Block b : eeevent.blockList()) {
 			blocks.add(bc.getBukkitCommon().getBlock(b));
@@ -173,11 +164,8 @@ public class BukkitListener implements Listener {
 			eeevent.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPistonExtendEvent(BlockPistonExtendEvent bpeevent) {
-		if (bpeevent.isCancelled()) {
-			return;
-		}
 		ArrayList<HBlock> blocks = new ArrayList<HBlock>();
 		for (Block b : bpeevent.getBlocks()) {
 			blocks.add(bc.getBukkitCommon().getBlock(b));
@@ -188,11 +176,8 @@ public class BukkitListener implements Listener {
 			bpeevent.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPistonRetractEvent(BlockPistonRetractEvent bprevent) {
-		if (bprevent.isCancelled()) {
-			return;
-		}
 		HBlockPistonRetractEvent event = new HBlockPistonRetractEvent(
 				bc.getBukkitCommon().getBlock(bprevent.getBlock()));
 		hc.getHyperEventHandler().fireEvent(event);
@@ -200,21 +185,16 @@ public class BukkitListener implements Listener {
 			bprevent.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPlaceEvent(BlockPlaceEvent bpevent) {
-		if (bpevent.isCancelled()) {
-			return;
-		}
 		HBlockPlaceEvent event = new HBlockPlaceEvent(bc.getBukkitCommon().getBlock(bpevent.getBlock()));
 		hc.getHyperEventHandler().fireEvent(event);
 		if (event.isCancelled())
 			bpevent.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEvent(PlayerInteractEvent event) {
-		if (event.isCancelled())
-			return;
 		if (!event.hasBlock())
 			return;
 		HyperPlayer hp = null;
@@ -235,13 +215,10 @@ public class BukkitListener implements Listener {
 			event.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onChestShopInventoryClickEvent(InventoryClickEvent icevent) {
 		if (minimal)
 			return;
-		if (icevent.isCancelled()) {
-			return;
-		}
 		HumanEntity he = icevent.getWhoClicked();
 		if (!(he instanceof Player))
 			return;
@@ -291,13 +268,10 @@ public class BukkitListener implements Listener {
 		// TODO fire inventory click event with proper settings
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onChestShopInventoryOpenEvent(InventoryOpenEvent ioevent) {
 		if (minimal)
 			return;
-		if (ioevent.isCancelled()) {
-			return;
-		}
 		HumanEntity he = ioevent.getPlayer();
 		if (!(he instanceof Player))
 			return;
@@ -412,7 +386,10 @@ public class BukkitListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerPickupItemDisplayEvent(PlayerPickupItemEvent event) {
+	public void onPlayerPickupItemDisplayEvent(EntityPickupItemEvent event) {
+		if (event.getEntityType() != EntityType.PLAYER) {
+			return;
+		}
 		Item item = event.getItem();
 		if (!event.isCancelled()) {
 			List<MetadataValue> meta = item.getMetadata("HyperConomy");
@@ -433,11 +410,9 @@ public class BukkitListener implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerDropItemEvent(PlayerDropItemEvent devent) {
 		if (minimal)
-			return;
-		if (devent.isCancelled())
 			return;
 		HPlayerDropItemEvent event = new HPlayerDropItemEvent(bc.getBukkitCommon().getItem(devent.getItemDrop()),
 				bc.getBukkitCommon().getPlayer(devent.getPlayer()));

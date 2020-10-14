@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
@@ -27,7 +28,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 
 	private transient HyperConomy hc;
 
-	private short mapId;
+	private int mapId;
 	private TradeObject to;
 	private int tradeAmount;
 	private BukkitFrameShopRenderer fsr;
@@ -37,7 +38,6 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 
 	private BukkitConnector bc;
 
-	@SuppressWarnings("deprecation")
 	public BukkitFrameShop(HyperConomy hc, HLocation l, TradeObject ho, Shop s, int amount) {
 		this.hc = hc;
 		hc.getHyperEventHandler().registerListener(this);
@@ -97,7 +97,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 
 	}
 
-	public short getMapId() {
+	public int getMapId() {
 		return mapId;
 	}
 
@@ -136,8 +136,10 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 		}
 		fsr = new BukkitFrameShopRenderer(hc, to);
 		mapView.addRenderer(fsr);
-		ItemStack stack = new ItemStack(Material.MAP, 1);
-		stack.setDurability(mapId);
+		ItemStack stack = new ItemStack(Material.FILLED_MAP);
+		MapMeta meta = (MapMeta) stack.getItemMeta();
+		meta.setMapView(mapView);
+		stack.setItemMeta(meta);
 		frame.setItem(stack);
 	}
 

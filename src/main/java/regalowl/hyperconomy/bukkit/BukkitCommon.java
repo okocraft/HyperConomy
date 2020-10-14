@@ -22,6 +22,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -126,29 +127,21 @@ public class BukkitCommon {
 	}
 
 	protected boolean isTransactionSign(HLocation l) {
-		Block b = getBlock(l);
-		if (b != null && b.getType().equals(Material.SIGN_POST)
-				|| b != null && b.getType().equals(Material.WALL_SIGN)) {
-			Sign s = (Sign) b.getState();
-			String line3 = ChatColor.stripColor(s.getLine(2)).trim();
-			if (line3.equalsIgnoreCase("[sell:buy]") || line3.equalsIgnoreCase("[sell]")
-					|| line3.equalsIgnoreCase("[buy]")) {
-				return true;
-			}
+		Sign s = getSign(l);
+		if (s == null) {
+			return false;
 		}
-		return false;
+		String line3 = ChatColor.stripColor(s.getLine(2)).trim();
+		return line3.equalsIgnoreCase("[sell:buy]") || line3.equalsIgnoreCase("[sell]")
+		|| line3.equalsIgnoreCase("[buy]");
 	}
-
+	
 	protected boolean isInfoSign(HLocation l) {
-		Block b = getBlock(l);
-		if (b != null && b.getType().equals(Material.SIGN_POST)
-				|| b != null && b.getType().equals(Material.WALL_SIGN)) {
-			Sign s = (Sign) b.getState();
-			String type = ChatColor.stripColor(s.getLine(2)).trim().replace(":", "").replace(" ", "");
-			if (SignType.isSignType(type))
-				return true;
+		Sign s = getSign(l);
+		if (s == null) {
+			return false;
 		}
-		return false;
+		return SignType.isSignType(ChatColor.stripColor(s.getLine(2)).trim().replace(":", "").replace(" ", ""));
 	}
 
 	protected boolean isChestShopChest(HLocation l) {
@@ -200,8 +193,8 @@ public class BukkitCommon {
 			return null;
 		for (BlockFace cface : planeFaces) {
 			Block block = b.getRelative(cface);
-			if (block.getType().equals(Material.WALL_SIGN)) {
-				org.bukkit.material.Sign sign = (org.bukkit.material.Sign) block.getState().getData();
+			if (block.getBlockData() instanceof WallSign) {
+				WallSign sign = (WallSign) block.getBlockData();
 				BlockFace attachedface = sign.getFacing();
 				if (block.getRelative(attachedface.getOppositeFace()).equals(b)) {
 					Sign s = (Sign) block.getState();

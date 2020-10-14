@@ -4,7 +4,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.inventory.HEnchantment;
 
-public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObject {
+public class ShopTradeEnchant extends BasicShopTradeObject {
 
 	private static final long serialVersionUID = -213806188136759445L;
 

@@ -2,14 +2,12 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-public class SerializablePotionEffect extends SerializableObject implements Serializable {
-
+public class SerializablePotionEffect extends SerializableObject {
 	private static final long serialVersionUID = 1194773802989404854L;
 
 	private String potionEffectType;

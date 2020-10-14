@@ -212,7 +212,7 @@ public class HyperWebAPI extends HttpServlet {
 				lArgs[lIndex] = Boolean.parseBoolean(pParams.get(lIndex));
 			} // It's a char
 			else if (lType.isAssignableFrom(char.class)) {
-				lArgs[lIndex] = new Character(pParams.get(lIndex).charAt(0));
+				lArgs[lIndex] = Character.valueOf(pParams.get(lIndex).charAt(0));
 			} // It's a player -> find by name
 			else if (lType.isAssignableFrom(HyperPlayer.class)) {
 				lArgs[lIndex] = hc.getHyperPlayerManager().getHyperPlayer(pParams.get(lIndex));

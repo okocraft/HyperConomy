@@ -32,10 +32,6 @@ public class HBlock implements Serializable {
 		return hc.getMC().isTransactionSign(location);
 	}
 
-	public boolean canHoldChestShopSign() {
-		return hc.getMC().canHoldChestShopSign(location);
-	}
-
 	public HBlock getFirstNonAirBlockBelow() {
 		return hc.getMC().getFirstNonAirBlockInColumn(location);
 	}

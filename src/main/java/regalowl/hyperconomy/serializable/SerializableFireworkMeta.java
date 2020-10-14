@@ -2,7 +2,6 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +12,9 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-public class SerializableFireworkMeta extends SerializableItemMeta implements Serializable {
-
+public class SerializableFireworkMeta extends SerializableItemMeta {
 	private static final long serialVersionUID = 7131977924010280498L;
+
 	private List<SerializableFireworkEffect> effects = new ArrayList<SerializableFireworkEffect>();
 	private int power;
 
@@ -50,7 +49,7 @@ public class SerializableFireworkMeta extends SerializableItemMeta implements Se
 
 	@Override
 	public ItemMeta getItemMeta() {
-		ItemStack s = new ItemStack(Material.FIREWORK);
+		ItemStack s = new ItemStack(Material.FIREWORK_ROCKET);
 		FireworkMeta fm = (FireworkMeta) s.getItemMeta();
 		fm.setDisplayName(displayName);
 		fm.setLore(lore);

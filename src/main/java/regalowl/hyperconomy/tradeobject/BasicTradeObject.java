@@ -20,7 +20,6 @@ import regalowl.hyperconomy.inventory.HEnchantment;
 import regalowl.hyperconomy.inventory.HItemStack;
 import regalowl.hyperconomy.shop.PlayerShop;
 import regalowl.hyperconomy.shop.Shop;
-import regalowl.hyperconomy.tradeobject.TradeObject;
 
 public class BasicTradeObject implements TradeObject {
 

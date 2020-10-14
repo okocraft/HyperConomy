@@ -25,7 +25,7 @@ import regalowl.hyperconomy.tradeobject.TradeObjectType;
 import regalowl.hyperconomy.tradeobject.ShopTradeEnchant;
 import regalowl.hyperconomy.util.LanguageFile;
 
-public class PlayerShop implements Shop, Comparable<Shop> {
+public class PlayerShop implements Shop {
 
 	private transient HyperConomy hc;
 	private static final long serialVersionUID = -159740615025262195L;
@@ -545,7 +545,7 @@ public class PlayerShop implements Shop, Comparable<Shop> {
 		if (pso == null) {
 			return;
 		} else {
-			shopContents.remove(pso);
+			shopContents.values().remove(pso);
 			hc.getSQLWrite().addToQueue("DELETE FROM hyperconomy_shop_objects WHERE SHOP = '" + name
 					+ "' AND HYPEROBJECT = '" + hyperObject.getName() + "'");
 			hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));

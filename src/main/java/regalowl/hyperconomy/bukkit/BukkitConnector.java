@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -24,6 +23,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -36,7 +37,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -132,8 +132,7 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 
 	@Override
 	public void checkExternalEconomyRegistration() {
-		Plugin vault = getServer().getPluginManager().getPlugin("Vault");
-		vaultInstalled = (vault != null & vault instanceof Vault) ? true : false;
+		vaultInstalled = getServer().getPluginManager().isPluginEnabled("Vault");
 		useExternalEconomy = hc.gYH().getFileConfiguration("config").getBoolean("economy-plugin.use-external");
 		if (!vaultInstalled)
 			useExternalEconomy = false;
@@ -592,17 +591,6 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 	 */
 
 	@Override
-	public boolean canHoldChestShopSign(HLocation l) {
-		Block b = common.getBlock(l);
-		Material m = b.getType();
-		if (m == Material.ICE || m == Material.LEAVES || m == Material.SAND || m == Material.GRAVEL
-				|| m == Material.SIGN || m == Material.SIGN_POST || m == Material.TNT) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
 	public String removeColor(String text) {
 		return common.removeColor(text);
 	}
@@ -612,9 +600,9 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 		if (location == null)
 			return null;
 		Block b = common.getLocation(location).getBlock();
-		if (b != null && (b.getType().equals(Material.SIGN_POST) || b.getType().equals(Material.WALL_SIGN))) {
+		if (b != null && b.getState() instanceof Sign) {
 			Sign s = (Sign) b.getState();
-			boolean isWallSign = (b.getType().equals(Material.WALL_SIGN)) ? true : false;
+			boolean isWallSign = b.getBlockData() instanceof WallSign;
 			ArrayList<String> lines = new ArrayList<String>();
 			for (String l : s.getLines()) {
 				lines.add(l);
@@ -640,10 +628,16 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 	@Override
 	public HBlock getAttachedBlock(HSign sign) {
 		Block b = common.getBlock(sign.getLocation());
-		org.bukkit.material.Sign msign = (org.bukkit.material.Sign) b.getState().getData();
-		BlockFace attachedface = msign.getAttachedFace();
-		Block attachedblock = b.getRelative(attachedface);
-		return common.getBlock(attachedblock);
+		BlockData data = b.getBlockData();
+		Block attached;
+		if (data instanceof org.bukkit.block.data.type.Sign) {
+			attached = b.getRelative(BlockFace.DOWN);
+		} else if (data instanceof WallSign) {
+			attached = b.getRelative(((WallSign) data).getFacing().getOppositeFace());
+		} else {
+			return null;
+		}
+		return common.getBlock(attached);
 	}
 
 	@Override

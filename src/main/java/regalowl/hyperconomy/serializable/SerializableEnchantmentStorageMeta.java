@@ -2,7 +2,6 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +14,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-public class SerializableEnchantmentStorageMeta extends SerializableItemMeta implements Serializable {
-
+public class SerializableEnchantmentStorageMeta extends SerializableItemMeta {
 	private static final long serialVersionUID = -6050487153906386305L;
 
 	private List<SerializableEnchantment> storedEnchantments = new ArrayList<SerializableEnchantment>();
