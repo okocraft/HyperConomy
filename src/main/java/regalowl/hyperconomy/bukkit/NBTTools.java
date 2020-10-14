@@ -19,7 +19,7 @@ public class NBTTools {
 	private Method nmsItemStackGetTagMethod;
 	private Method nmsItemStackSetTagMethod;
 	private Method nbtTagCompoundHasKeyMethod;
-	private Method nbtTagCompoundCMethod;
+	private Method nbtTagCompoundGetKeysMethod;
 	private Method nbtTagCompoundSetMethod;
 	private Method nbtTagCompoundGetCompoundMethod;
 	private Method nbtTagCompoundSetStringMethod;
@@ -53,7 +53,7 @@ public class NBTTools {
 			nmsItemStackGetTagMethod = nmsItemStack.getClass().getMethod("getTag");
 			nmsItemStackSetTagMethod = nmsItemStack.getClass().getMethod("setTag", nbtTag.getClass());
 			nbtTagCompoundHasKeyMethod = nbtTag.getClass().getMethod("hasKey", String.class);
-			nbtTagCompoundCMethod = nbtTag.getClass().getMethod("c");
+			nbtTagCompoundGetKeysMethod = nbtTag.getClass().getMethod("getKeys");
 			nbtTagCompoundSetMethod = nbtTag.getClass().getMethod("set", String.class, nbtBase);
 			nbtTagCompoundGetCompoundMethod = nbtTag.getClass().getMethod("getCompound", String.class);
 			nbtTagCompoundSetStringMethod = nbtTag.getClass().getMethod("setString", String.class, String.class);
@@ -94,7 +94,7 @@ public class NBTTools {
 			Object nbtTag = getNBTTag(nmsItemStack);
 			if (nbtTag == null)
 				return new ArrayList<String>();
-			Set<String> tags = (Set<String>) nbtTagCompoundCMethod.invoke(nbtTag);
+			Set<String> tags = (Set<String>) nbtTagCompoundGetKeysMethod.invoke(nbtTag);
 			ArrayList<String> tagArray = new ArrayList<String>(tags);
 			return tagArray;
 		} catch (Exception e) {
