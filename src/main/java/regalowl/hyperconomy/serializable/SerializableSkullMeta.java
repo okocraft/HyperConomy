@@ -10,9 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-
- 
-
 public class SerializableSkullMeta extends SerializableItemMeta implements Serializable {
 
 	private static final long serialVersionUID = -1095975801937823837L;
@@ -22,40 +19,41 @@ public class SerializableSkullMeta extends SerializableItemMeta implements Seria
 	public SerializableSkullMeta(ItemMeta im) {
 		super(im);
 		if (im instanceof SkullMeta) {
-			SkullMeta sm = (SkullMeta)im;
+			SkullMeta sm = (SkullMeta) im;
 			this.owner = sm.getOwner();
 		}
-    }
+	}
 
 	public SerializableSkullMeta(String base64String) {
 		super(base64String);
-    	try {
+		try {
 			byte[] data = Base64Coder.decode(base64String);
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o = ois.readObject();
 			ois.close();
-			if (!(o instanceof SerializableSkullMeta)) {return;}
-			SerializableSkullMeta ssm = (SerializableSkullMeta)o;
+			if (!(o instanceof SerializableSkullMeta)) {
+				return;
+			}
+			SerializableSkullMeta ssm = (SerializableSkullMeta) o;
 			this.owner = ssm.getOwner();
-    	} catch (Exception e) {
-    		
-    	}
-    }
-	
-	
+		} catch (Exception e) {
+
+		}
+	}
+
 	@Override
 	public ItemMeta getItemMeta() {
 		ItemStack s = new ItemStack(Material.SKULL_ITEM);
-		SkullMeta sm = (SkullMeta)s.getItemMeta();
+		SkullMeta sm = (SkullMeta) s.getItemMeta();
 		sm.setDisplayName(displayName);
 		sm.setLore(lore);
-		for (SerializableEnchantment se:enchantments) {
+		for (SerializableEnchantment se : enchantments) {
 			sm.addEnchant(se.getEnchantment(), se.getLvl(), true);
 		}
 		sm.setOwner(owner);
 		return sm;
 	}
-	
+
 	public String getOwner() {
 		return owner;
 	}

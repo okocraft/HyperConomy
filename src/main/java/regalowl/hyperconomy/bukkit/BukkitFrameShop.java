@@ -26,7 +26,7 @@ import regalowl.hyperconomy.transaction.TransactionType;
 public class BukkitFrameShop implements FrameShop, HyperEventListener {
 
 	private transient HyperConomy hc;
-	
+
 	private short mapId;
 	private TradeObject to;
 	private int tradeAmount;
@@ -34,7 +34,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 	private HLocation l;
 
 	private Shop s;
-	
+
 	private BukkitConnector bc;
 
 	@SuppressWarnings("deprecation")
@@ -49,22 +49,24 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 		this.to = ho;
 		this.tradeAmount = amount;
 		this.s = s;
-		this.bc = (BukkitConnector)hc.getMC();
+		this.bc = (BukkitConnector) hc.getMC();
 		MapView mapView = Bukkit.getServer().createMap(bc.getBukkitCommon().getLocation(l).getWorld());
 		mapId = mapView.getId();
 		String shop = "";
 		if (s != null) {
 			shop = s.getName();
 		}
-		hc.getSQLWrite().addToQueue("INSERT INTO hyperconomy_frame_shops (ID, HYPEROBJECT, ECONOMY, SHOP, TRADE_AMOUNT, X, Y, Z, WORLD) VALUES "
-				+ "('" + mapId + "','" + ho.getName() + "','" + ho.getEconomy() + "','" + shop + "','" + tradeAmount + "','" + l.getX() + "','" + 
-				l.getY() + "','" + l.getZ() + "','" + l.getWorld() + "')");
+		hc.getSQLWrite().addToQueue(
+				"INSERT INTO hyperconomy_frame_shops (ID, HYPEROBJECT, ECONOMY, SHOP, TRADE_AMOUNT, X, Y, Z, WORLD) VALUES "
+						+ "('" + mapId + "','" + ho.getName() + "','" + ho.getEconomy() + "','" + shop + "','"
+						+ tradeAmount + "','" + l.getX() + "','" + l.getY() + "','" + l.getZ() + "','" + l.getWorld()
+						+ "')");
 		render();
 	}
 
 	public BukkitFrameShop(HyperConomy hc, short mapId, HLocation l, TradeObject ho, Shop s, int amount) {
 		this.hc = hc;
-		this.bc = (BukkitConnector)hc.getMC();
+		this.bc = (BukkitConnector) hc.getMC();
 		hc.getHyperEventHandler().registerListener(this);
 		if (ho == null) {
 			delete();
@@ -83,16 +85,16 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 			render();
 		}
 	}
-	
+
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof TradeObjectModificationEvent) {
-			TradeObjectModificationEvent tevent = (TradeObjectModificationEvent)event;
+			TradeObjectModificationEvent tevent = (TradeObjectModificationEvent) event;
 			if (tevent.getTradeObject().equals(to)) {
 				render();
 			}
 		}
-		
+
 	}
 
 	public short getMapId() {
@@ -102,7 +104,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 	public Shop getShop() {
 		return s;
 	}
-	
+
 	public TradeObject getTradeObject() {
 		return to;
 	}
@@ -113,7 +115,8 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 
 	public void setTradeAmount(int amount) {
 		tradeAmount = amount;
-		hc.getSQLWrite().addToQueue("UPDATE hyperconomy_frame_shops SET TRADE_AMOUNT = '" + tradeAmount + "' WHERE ID = '" + mapId + "'");
+		hc.getSQLWrite().addToQueue(
+				"UPDATE hyperconomy_frame_shops SET TRADE_AMOUNT = '" + tradeAmount + "' WHERE ID = '" + mapId + "'");
 	}
 
 	public void render() {
@@ -144,7 +147,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 		pt.setHyperObject(to);
 		TransactionResponse response = hp.processTransaction(pt);
 		response.sendMessages();
-		//render();
+		// render();
 	}
 
 	public void sell(HyperPlayer hp) {
@@ -153,7 +156,7 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 		pt.setHyperObject(to);
 		TransactionResponse response = hp.processTransaction(pt);
 		response.sendMessages();
-		//render();
+		// render();
 	}
 
 	public ItemFrame getFrame(Location loc) {
@@ -165,26 +168,28 @@ public class BukkitFrameShop implements FrameShop, HyperEventListener {
 			}
 		return null;
 	}
-	
+
 	public HLocation getLocation() {
 		return l;
 	}
-	
+
 	public Block getAttachedBlock() {
 		Location loc = bc.getBukkitCommon().getLocation(l);
-		if (l == null) {return null;}
+		if (l == null) {
+			return null;
+		}
 		ItemFrame frame = getFrame(loc);
-		if (frame == null) {return null;}
+		if (frame == null) {
+			return null;
+		}
 		Block b = loc.getBlock().getRelative(frame.getAttachedFace());
 		return b;
 	}
-	
+
 	public void delete() {
 		hc.getHyperEventHandler().unRegisterListener(this);
 		hc.getFrameShopHandler().removeFrameShop(l);
 		hc.getSQLWrite().addToQueue("DELETE FROM hyperconomy_frame_shops WHERE ID = '" + mapId + "'");
 	}
-
-
 
 }

@@ -9,18 +9,24 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-
 public class TradeXp extends BasicTradeObject implements TradeObject {
 
 	private static final long serialVersionUID = -5156550871200368032L;
 
-	public TradeXp(HyperConomy hc, HyperEconomy he, String name, String economy, String displayName, String aliases, String categories, String type, double value, String isstatic, double staticprice, double stock, double median, String initiation, double startprice, double ceiling, double floor, double maxstock, String compositeData, int objectDataId, String objectData, double version) {
-		super(hc, he, name, economy, displayName, aliases, categories, type, value, isstatic, staticprice, stock, median, initiation, startprice, ceiling, floor, maxstock, compositeData, objectDataId, objectData, version);
+	public TradeXp(HyperConomy hc, HyperEconomy he, String name, String economy, String displayName, String aliases,
+			String categories, String type, double value, String isstatic, double staticprice, double stock,
+			double median, String initiation, double startprice, double ceiling, double floor, double maxstock,
+			String compositeData, int objectDataId, String objectData, double version) {
+		super(hc, he, name, economy, displayName, aliases, categories, type, value, isstatic, staticprice, stock,
+				median, initiation, startprice, ceiling, floor, maxstock, compositeData, objectDataId, objectData,
+				version);
 	}
-	
+
 	@Override
 	public void add(int amount, HyperPlayer hp) {
-		if (hp == null || amount < 0) {return;}
+		if (hp == null || amount < 0) {
+			return;
+		}
 		int totalxp = hp.getTotalXpPoints();
 		int newxp = totalxp + amount;
 		int newlvl = hp.getLvlFromXP(newxp);
@@ -29,13 +35,17 @@ public class TradeXp extends BasicTradeObject implements TradeObject {
 		hp.setLevel(newlvl);
 		hp.setExp(xpbarxp);
 	}
-	
+
 	@Override
 	public double remove(int amount, HyperPlayer hp) {
-		if (hp == null || amount < 0) {return 0.0;}
+		if (hp == null || amount < 0) {
+			return 0.0;
+		}
 		int totalxp = hp.getTotalXpPoints();
 		int newxp = totalxp - amount;
-		if (newxp < 0) {return 0.0;}
+		if (newxp < 0) {
+			return 0.0;
+		}
 		int newlvl = hp.getLvlFromXP(newxp);
 		newxp = newxp - hp.getLvlXpPoints(newlvl);
 		float xpbarxp = (float) newxp / (float) hp.getXpForNextLvl(newlvl);
@@ -43,7 +53,7 @@ public class TradeXp extends BasicTradeObject implements TradeObject {
 		hp.setExp(xpbarxp);
 		return amount;
 	}
-	
+
 	@Override
 	public Image getImage(int width, int height) {
 		Image i = null;
@@ -53,7 +63,8 @@ public class TradeXp extends BasicTradeObject implements TradeObject {
 			if (i != null) {
 				return i.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return null;
 	}
 

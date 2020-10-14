@@ -5,23 +5,24 @@ import regalowl.hyperconomy.account.HyperAccount;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.MessageBuilder;
 
+public class Hcpay extends BaseCommand implements HyperCommand {
 
-public class Hcpay extends BaseCommand implements HyperCommand{
-	
 	public Hcpay(HyperConomy hc) {
 		super(hc, true);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 2) {
 				String recipient = args[0];
 				Double amount = 0.0;
 				try {
 					amount = Double.parseDouble(args[1]);
-				} catch (Exception e) {}
+				} catch (Exception e) {
+				}
 				if (amount <= 0) {
 					data.addResponse(L.get("CANNOT_PAY_NEGATIVE"));
 					return data;
@@ -31,11 +32,12 @@ public class Hcpay extends BaseCommand implements HyperCommand{
 						hp.withdraw(amount);
 						HyperAccount rAccount = dm.getAccount(recipient);
 						if (rAccount instanceof HyperPlayer) {
-							HyperPlayer rPlayer = (HyperPlayer)rAccount;
+							HyperPlayer rPlayer = (HyperPlayer) rAccount;
 							MessageBuilder mb = new MessageBuilder(hc, "HCPAY_PAID");
 							mb.setAmount(amount);
 							mb.setPlayerName(hp.getName());
-							if (rPlayer.isOnline()) rPlayer.sendMessage(mb.build());
+							if (rPlayer.isOnline())
+								rPlayer.sendMessage(mb.build());
 						}
 						dm.getAccount(recipient).deposit(amount);
 						data.addResponse(L.f(L.get("MONEY_PAID"), amount, recipient));
@@ -52,11 +54,6 @@ public class Hcpay extends BaseCommand implements HyperCommand{
 			hc.gSDL().getErrorWriter().writeError(e);
 		}
 		return data;
-		
-		
-		
-		
-		
-		
+
 	}
 }

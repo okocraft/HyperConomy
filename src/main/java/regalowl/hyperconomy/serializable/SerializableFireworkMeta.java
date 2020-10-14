@@ -13,9 +13,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-
- 
-
 public class SerializableFireworkMeta extends SerializableItemMeta implements Serializable {
 
 	private static final long serialVersionUID = 7131977924010280498L;
@@ -25,50 +22,52 @@ public class SerializableFireworkMeta extends SerializableItemMeta implements Se
 	public SerializableFireworkMeta(ItemMeta im) {
 		super(im);
 		if (im instanceof FireworkMeta) {
-			FireworkMeta fm = (FireworkMeta)im;
-			for (FireworkEffect fe:fm.getEffects()) {
+			FireworkMeta fm = (FireworkMeta) im;
+			for (FireworkEffect fe : fm.getEffects()) {
 				effects.add(new SerializableFireworkEffect(fe));
 			}
 			this.power = fm.getPower();
 		}
-    }
+	}
 
 	public SerializableFireworkMeta(String base64String) {
 		super(base64String);
-    	try {
+		try {
 			byte[] data = Base64Coder.decode(base64String);
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o = ois.readObject();
 			ois.close();
-			if (!(o instanceof SerializableFireworkMeta)) {return;}
-			SerializableFireworkMeta sfm = (SerializableFireworkMeta)o;
+			if (!(o instanceof SerializableFireworkMeta)) {
+				return;
+			}
+			SerializableFireworkMeta sfm = (SerializableFireworkMeta) o;
 			this.effects = sfm.getEffects();
 			this.power = sfm.getPower();
-    	} catch (Exception e) {
-    		
-    	}
-    }
-	
-	
+		} catch (Exception e) {
+
+		}
+	}
+
 	@Override
 	public ItemMeta getItemMeta() {
 		ItemStack s = new ItemStack(Material.FIREWORK);
-		FireworkMeta fm = (FireworkMeta)s.getItemMeta();
+		FireworkMeta fm = (FireworkMeta) s.getItemMeta();
 		fm.setDisplayName(displayName);
 		fm.setLore(lore);
-		for (SerializableEnchantment se:enchantments) {
+		for (SerializableEnchantment se : enchantments) {
 			fm.addEnchant(se.getEnchantment(), se.getLvl(), true);
 		}
-		for (SerializableFireworkEffect sfe:effects) {
+		for (SerializableFireworkEffect sfe : effects) {
 			fm.addEffect(sfe.getFireworkEffect());
 		}
 		fm.setPower(power);
 		return fm;
 	}
-	
+
 	public List<SerializableFireworkEffect> getEffects() {
 		return effects;
 	}
+
 	public int getPower() {
 		return power;
 	}

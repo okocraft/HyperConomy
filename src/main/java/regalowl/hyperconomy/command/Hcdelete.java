@@ -1,24 +1,19 @@
 package regalowl.hyperconomy.command;
 
-
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-
-
-
 public class Hcdelete extends BaseCommand implements HyperCommand {
-	
+
 	public Hcdelete(HyperConomy hc) {
 		super(hc, false);
 	}
 
-
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperEconomy he = getEconomy();
 		if (args.length == 0) {
 			data.addResponse(L.get("HCDELETE_INVALID"));
@@ -54,6 +49,5 @@ public class Hcdelete extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-	
 
 }

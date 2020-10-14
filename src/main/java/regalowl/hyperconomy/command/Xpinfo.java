@@ -2,10 +2,7 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-
-
 public class Xpinfo extends BaseCommand implements HyperCommand {
-
 
 	public Xpinfo(HyperConomy hc) {
 		super(hc, true);
@@ -13,13 +10,14 @@ public class Xpinfo extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 0) {
 				int totalexp = hp.getTotalXpPoints();
 				int lvl = hp.getLevel();
-				int xpfornextlvl = hp.getXpForNextLvl(lvl) - hp.getBarXpPoints();			
-				int xpfor30 = hp.getLvlXpPoints(30) - totalexp;				
+				int xpfornextlvl = hp.getXpForNextLvl(lvl) - hp.getBarXpPoints();
+				int xpfor30 = hp.getLvlXpPoints(30) - totalexp;
 				data.addResponse(L.get("LINE_BREAK"));
 				data.addResponse(L.f(L.get("TOTAL_XP_POINTS"), totalexp));
 				data.addResponse(L.f(L.get("XP_FOR_NEXT_LVL"), xpfornextlvl));
@@ -33,5 +31,5 @@ public class Xpinfo extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-	
+
 }

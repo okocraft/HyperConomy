@@ -1,60 +1,59 @@
 package regalowl.hyperconomy.inventory;
 
-
 import java.util.HashMap;
 
 import regalowl.simpledatalib.CommonFunctions;
 
 public class HPotionEffect {
 
-
 	private String potionEffectType;
 	private int amplifier;
 	private int duration;
 	private boolean isAmbient;
- 
-	
+
 	public HPotionEffect(String potionEffectType, int amplifier, int duration, boolean isAmbient) {
 		this.potionEffectType = potionEffectType;
 		this.amplifier = amplifier;
 		this.duration = duration;
 		this.isAmbient = isAmbient;
-    }
+	}
 
 	public HPotionEffect(String serialized) {
-		HashMap<String,String> data = CommonFunctions.explodeMap(serialized);
+		HashMap<String, String> data = CommonFunctions.explodeMap(serialized);
 		this.potionEffectType = data.get("potionEffectType");
 		this.amplifier = Integer.parseInt(data.get("amplifier"));
 		this.duration = Integer.parseInt(data.get("duration"));
 		this.isAmbient = Boolean.parseBoolean(data.get("isAmbient"));
-    }
-	
+	}
+
 	public HPotionEffect(HPotionEffect pe) {
 		this.potionEffectType = pe.potionEffectType;
 		this.amplifier = pe.amplifier;
 		this.duration = pe.duration;
 		this.isAmbient = pe.isAmbient;
-    }
+	}
 
 	public String serialize() {
-		HashMap<String,String> data = new HashMap<String,String>();
+		HashMap<String, String> data = new HashMap<String, String>();
 		data.put("potionEffectType", potionEffectType);
-		data.put("amplifier", amplifier+"");
-		data.put("duration", duration+"");
-		data.put("isAmbient", isAmbient+"");
+		data.put("amplifier", amplifier + "");
+		data.put("duration", duration + "");
+		data.put("isAmbient", isAmbient + "");
 		return CommonFunctions.implodeMap(data);
 	}
 
-	
 	public String getType() {
 		return potionEffectType;
 	}
+
 	public int getAmplifier() {
 		return amplifier;
 	}
+
 	public int getDuration() {
 		return duration;
 	}
+
 	public boolean isAmbient() {
 		return isAmbient;
 	}
@@ -92,7 +91,5 @@ public class HPotionEffect {
 			return false;
 		return true;
 	}
-	
 
-	
 }

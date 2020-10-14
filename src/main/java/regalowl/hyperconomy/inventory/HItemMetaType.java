@@ -1,12 +1,11 @@
 package regalowl.hyperconomy.inventory;
 
 public enum HItemMetaType {
-	BOOK,ENCHANTMENT_STORAGE,FIREWORK,FIREWORK_EFFECT,ITEM,LEATHER_ARMOR,MAP,POTION,SKULL,BANNER,SPAWN_EGG;
-	
-	
-	
+	BOOK, ENCHANTMENT_STORAGE, FIREWORK, FIREWORK_EFFECT, ITEM, LEATHER_ARMOR, MAP, POTION, SKULL, BANNER, SPAWN_EGG;
+
 	public static HItemMetaType fromString(String type) {
-		if (type == null) return null;
+		if (type == null)
+			return null;
 		type = type.toUpperCase();
 		if (type.equals("BOOK")) {
 			return BOOK;
@@ -34,5 +33,5 @@ public enum HItemMetaType {
 			return null;
 		}
 	}
-	
+
 }

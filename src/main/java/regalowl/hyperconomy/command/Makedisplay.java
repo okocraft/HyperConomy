@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.display.ItemDisplayHandler;
@@ -8,21 +7,21 @@ import regalowl.hyperconomy.minecraft.HLocation;
 
 public class Makedisplay extends BaseCommand implements HyperCommand {
 
-
 	public Makedisplay(HyperConomy hc) {
 		super(hc, true);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (!hc.getConf().getBoolean("enable-feature.item-displays")) {
 			data.addResponse(L.get("ENABLE_ITEM_DISPLAYS"));
 			return data;
 		}
 		ItemDisplayHandler itdi = hc.getItemDisplay();
 		HyperEconomy he = hp.getHyperEconomy();
-		
+
 		if (args.length == 1) {
 			HLocation sl = hp.getTargetLocation();
 			String name = args[0];

@@ -1,7 +1,5 @@
 package regalowl.hyperconomy.bukkit;
 
-
-
 import org.bukkit.entity.Player;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapPalette;
@@ -20,52 +18,45 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 import regalowl.hyperconomy.util.LanguageFile;
 
-
-
-
-
 public class BukkitFrameShopRenderer extends MapRenderer {
-
 
 	private transient LanguageFile L;
 	private TradeObject ho;
-    private Image image;
-    
-    private ArrayList<String> renderedFor = new ArrayList<String>();
-    @SuppressWarnings("deprecation")
-	private final byte borderColor = MapPalette.DARK_BROWN;
-    
-    public BukkitFrameShopRenderer(HyperConomy hc, TradeObject ho) {
-        super();
-        L = hc.getLanguageFile();
-        this.ho = ho;
-        this.image = ho.getImage(60,60);
-    }
-    
+	private Image image;
 
-    
-    @SuppressWarnings("deprecation")
+	private ArrayList<String> renderedFor = new ArrayList<String>();
+	@SuppressWarnings("deprecation")
+	private final byte borderColor = MapPalette.DARK_BROWN;
+
+	public BukkitFrameShopRenderer(HyperConomy hc, TradeObject ho) {
+		super();
+		L = hc.getLanguageFile();
+		this.ho = ho;
+		this.image = ho.getImage(60, 60);
+	}
+
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MapView map, MapCanvas canvas, Player p) {
-		if (ho == null || canvas == null || p == null) {return;}
+		if (ho == null || canvas == null || p == null) {
+			return;
+		}
 
-    	if (!renderedFor.contains(p.getName())) {
-    		
-    		//sets white default background
-			for (int i=0;i<128;i++) {
-				for (int j=0;j<128;j++) {
+		if (!renderedFor.contains(p.getName())) {
+
+			// sets white default background
+			for (int i = 0; i < 128; i++) {
+				for (int j = 0; j < 128; j++) {
 					canvas.setPixel(i, j, MapPalette.WHITE);
 				}
 			}
-			
+
 			int fHeight = MinecraftFont.Font.getHeight();
-			
-			
-			//adds item name
+
+			// adds item name
 			canvas.drawText(7, fHeight, MinecraftFont.Font, color(ho.getDisplayName(), MapPalette.BLUE));
 
-			
-			//adds sell price
+			// adds sell price
 			double value = 0.0;
 			if (ho.getType() == TradeObjectType.ENCHANTMENT) {
 				value = ho.getSellPrice(EnchantmentClass.DIAMOND);
@@ -74,11 +65,11 @@ public class BukkitFrameShopRenderer extends MapRenderer {
 			} else {
 				value = ho.getSellPrice(1);
 			}
-			String sell = color("Sell: ", MapPalette.DARK_GRAY) + color(L.fCS(CommonFunctions.twoDecimals((value - ho.getSalesTaxEstimate(value)))), MapPalette.DARK_GREEN);
+			String sell = color("Sell: ", MapPalette.DARK_GRAY) + color(
+					L.fCS(CommonFunctions.twoDecimals((value - ho.getSalesTaxEstimate(value)))), MapPalette.DARK_GREEN);
 			canvas.drawText(8, fHeight + 10, MinecraftFont.Font, sell);
-			
-			
-			//adds buy price
+
+			// adds buy price
 			double cost = 0.0;
 			if (ho.getType() == TradeObjectType.ENCHANTMENT) {
 				cost = ho.getBuyPrice(EnchantmentClass.DIAMOND);
@@ -87,64 +78,64 @@ public class BukkitFrameShopRenderer extends MapRenderer {
 			} else {
 				cost = ho.getBuyPrice(1);
 			}
-			String buy = color("Buy: ", MapPalette.DARK_GRAY) + color(L.fCS(CommonFunctions.twoDecimals((cost + ho.getPurchaseTax(cost)))), MapPalette.DARK_GREEN);
+			String buy = color("Buy: ", MapPalette.DARK_GRAY) + color(
+					L.fCS(CommonFunctions.twoDecimals((cost + ho.getPurchaseTax(cost)))), MapPalette.DARK_GREEN);
 			canvas.drawText(8, fHeight + 20, MinecraftFont.Font, buy);
-			
-			
-			//adds stock info
-			String stock = color("Stock: ", MapPalette.DARK_GRAY) + color(CommonFunctions.twoDecimals(ho.getStock())+"", MapPalette.DARK_GREEN);
+
+			// adds stock info
+			String stock = color("Stock: ", MapPalette.DARK_GRAY)
+					+ color(CommonFunctions.twoDecimals(ho.getStock()) + "", MapPalette.DARK_GREEN);
 			canvas.drawText(8, fHeight + 30, MinecraftFont.Font, stock);
-			
-			
-			//draws image if it exists
+
+			// draws image if it exists
 			if (image != null) {
 				canvas.drawImage(68, 68, image);
 			}
-			
-    		//clears transparent image pixels
-			for (int i=0;i<128;i++) {
-				for (int j=0;j<128;j++) {
+
+			// clears transparent image pixels
+			for (int i = 0; i < 128; i++) {
+				for (int j = 0; j < 128; j++) {
 					if (canvas.getPixel(i, j) == MapPalette.TRANSPARENT) {
 						canvas.setPixel(i, j, MapPalette.WHITE);
 					}
 				}
 			}
-			//creates border
-			for (int i=0;i<128;i++) {
+			// creates border
+			for (int i = 0; i < 128; i++) {
 				canvas.setPixel(i, 0, borderColor);
 				canvas.setPixel(i, 1, borderColor);
 				canvas.setPixel(i, 2, borderColor);
 				canvas.setPixel(i, 3, borderColor);
 			}
-			for (int i=0;i<128;i++) {
+			for (int i = 0; i < 128; i++) {
 				canvas.setPixel(i, 127, borderColor);
 				canvas.setPixel(i, 126, borderColor);
 				canvas.setPixel(i, 125, borderColor);
 				canvas.setPixel(i, 124, borderColor);
 			}
-			for (int i=0;i<128;i++) {
+			for (int i = 0; i < 128; i++) {
 				canvas.setPixel(0, i, borderColor);
 				canvas.setPixel(1, i, borderColor);
 				canvas.setPixel(2, i, borderColor);
 				canvas.setPixel(3, i, borderColor);
 			}
-			for (int i=0;i<128;i++) {
+			for (int i = 0; i < 128; i++) {
 				canvas.setPixel(127, i, borderColor);
 				canvas.setPixel(126, i, borderColor);
 				canvas.setPixel(125, i, borderColor);
 				canvas.setPixel(124, i, borderColor);
 			}
-			
+
 			renderedFor.add(p.getName());
 			p.sendMap(map);
-    	}
+		}
 	}
-    
-    public void clearRendered() {
-    	renderedFor.clear();
-    }
-    
-    public String color(String message, byte color) {
-    	return "\u00A7"+color+";" + message;
-    }
+
+	public void clearRendered() {
+		renderedFor.clear();
+	}
+
+	public String color(String message, byte color) {
+		return "\u00A7" + color + ";" + message;
+	}
 }

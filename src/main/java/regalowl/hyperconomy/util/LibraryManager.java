@@ -27,7 +27,6 @@ import regalowl.hyperconomy.event.HyperEventListener;
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.simpledatalib.file.FileTools;
 
-
 public class LibraryManager implements HyperEventListener {
 	private String libFolder;
 	private HyperConomy hc;
@@ -47,49 +46,76 @@ public class LibraryManager implements HyperEventListener {
 		t.schedule(libraryLoadEventTask, 500, 500);
 		heh.registerListener(this);
 	}
-	
-	
-	
-    private class LibraryLoader implements Runnable {
+
+	private class LibraryLoader implements Runnable {
 
 		public void run() {
 			FileTools ft = hc.getSimpleDataLib().getFileTools();
 			libFolder = hc.getSimpleDataLib().getStoragePath() + File.separator + "lib";
 			ft.makeFolder(libFolder);
-			
+
 			ArrayList<Dependency> dependencies = new ArrayList<Dependency>();
 
-			dependencies.add(new Dependency(libFolder + File.separator + "sqlite-jdbc-3.7.2.jar", "https://bitbucket.org/xerial/sqlite-jdbc/downloads/sqlite-jdbc-3.20.0.jar", true));
-			dependencies.add(new Dependency(libFolder + File.separator + "mysql-connector-java-5.1.44.jar", "http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar", true));
-			dependencies.add(new Dependency(libFolder + File.separator + "json-simple-1.1.1.jar", "http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar", true));
-			
-			//include in jar so that config can load quicker
-			//dependencies.add(new Dependency(libFolder + File.separator + "snakeyaml-1.15.jar", "https://oss.sonatype.org/content/groups/public/org/yaml/snakeyaml/1.15/snakeyaml-1.15.jar", true));
-			
-			
-			
-			//dependencies.add(new Dependency(libFolder + File.separator + "c3p0-0.9.1.2.jar", "http://central.maven.org/maven2/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar", true));
-			//dependencies.add(new Dependency(libFolder + File.separator + "slf4j-api-1.6.1.jar", "http://central.maven.org/maven2/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar", true));
-			
-			
-			
-			dependencies.add(new Dependency(libFolder + File.separator + "javax.servlet-api-3.0.1.jar", "http://central.maven.org/maven2/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-servlet-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-servlet/8.1.9.v20130131/jetty-servlet-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-continuation-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-continuation/8.1.9.v20130131/jetty-continuation-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-http-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-http/8.1.9.v20130131/jetty-http-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-io-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-io/8.1.9.v20130131/jetty-io-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-server-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-server/8.1.9.v20130131/jetty-server-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-util-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-util/8.1.9.v20130131/jetty-util-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-security-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-security/8.1.9.v20130131/jetty-security-8.1.9.v20130131.jar", false));
-			dependencies.add(new Dependency(libFolder + File.separator + "jetty-jmx-8.1.9.v20130131.jar", "http://central.maven.org/maven2/org/eclipse/jetty/jetty-jmx/8.1.9.v20130131/jetty-jmx-8.1.9.v20130131.jar", false));
-			
-			
-			dependencies.add(new Dependency(libFolder + File.separator + "opencsv-2.3.jar", "http://central.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.jar", false));
+			dependencies.add(new Dependency(libFolder + File.separator + "sqlite-jdbc-3.7.2.jar",
+					"https://bitbucket.org/xerial/sqlite-jdbc/downloads/sqlite-jdbc-3.20.0.jar", true));
+			dependencies.add(new Dependency(libFolder + File.separator + "mysql-connector-java-5.1.44.jar",
+					"http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar",
+					true));
+			dependencies.add(new Dependency(libFolder + File.separator + "json-simple-1.1.1.jar",
+					"http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar",
+					true));
 
-			//download missing dependencies	
-			for (Dependency d:dependencies) {
-				if (ft.fileExists(d.filePath)) continue;
-				if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI && d.guiOnly) continue; //skip dependencies only needed for the GUI
+			// include in jar so that config can load quicker
+			// dependencies.add(new Dependency(libFolder + File.separator +
+			// "snakeyaml-1.15.jar",
+			// "https://oss.sonatype.org/content/groups/public/org/yaml/snakeyaml/1.15/snakeyaml-1.15.jar",
+			// true));
+
+			// dependencies.add(new Dependency(libFolder + File.separator +
+			// "c3p0-0.9.1.2.jar",
+			// "http://central.maven.org/maven2/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar", true));
+			// dependencies.add(new Dependency(libFolder + File.separator +
+			// "slf4j-api-1.6.1.jar",
+			// "http://central.maven.org/maven2/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar",
+			// true));
+
+			dependencies.add(new Dependency(libFolder + File.separator + "javax.servlet-api-3.0.1.jar",
+					"http://central.maven.org/maven2/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-servlet-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-servlet/8.1.9.v20130131/jetty-servlet-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-continuation-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-continuation/8.1.9.v20130131/jetty-continuation-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-http-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-http/8.1.9.v20130131/jetty-http-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-io-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-io/8.1.9.v20130131/jetty-io-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-server-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-server/8.1.9.v20130131/jetty-server-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-util-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-util/8.1.9.v20130131/jetty-util-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-security-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-security/8.1.9.v20130131/jetty-security-8.1.9.v20130131.jar",
+					false));
+			dependencies.add(new Dependency(libFolder + File.separator + "jetty-jmx-8.1.9.v20130131.jar",
+					"http://central.maven.org/maven2/org/eclipse/jetty/jetty-jmx/8.1.9.v20130131/jetty-jmx-8.1.9.v20130131.jar",
+					false));
+
+			dependencies.add(new Dependency(libFolder + File.separator + "opencsv-2.3.jar",
+					"http://central.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.jar", false));
+
+			// download missing dependencies
+			for (Dependency d : dependencies) {
+				if (ft.fileExists(d.filePath))
+					continue;
+				if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI && d.guiOnly)
+					continue; // skip dependencies only needed for the GUI
 				try {
 					URL link = new URL(d.url);
 					InputStream in = new BufferedInputStream(link.openStream());
@@ -106,26 +132,28 @@ public class LibraryManager implements HyperEventListener {
 					fos.write(response);
 					fos.close();
 				} catch (IOException e) {
-					hc.getMC().logSevere("[HyperConomy]Failed to download dependency: "+d.getFileName());
-					hc.getMC().logSevere("[HyperConomy]Check your internet connection or manually install libraries.  Cannot run with missing dependencies.");
+					hc.getMC().logSevere("[HyperConomy]Failed to download dependency: " + d.getFileName());
+					hc.getMC().logSevere(
+							"[HyperConomy]Check your internet connection or manually install libraries.  Cannot run with missing dependencies.");
 					e.printStackTrace();
 					dependencyError = true;
 				} catch (Exception e) {
-					hc.getMC().logSevere("[HyperConomy]Error while downloading dependency: "+d.getFileName());
+					hc.getMC().logSevere("[HyperConomy]Error while downloading dependency: " + d.getFileName());
 					e.printStackTrace();
 					dependencyError = true;
 				}
 			}
-			
+
 			if (dependencyError) {
 				librariesLoaded = true;
 				return;
 			}
-			
-			//generate list of classes to load and add to classpath
+
+			// generate list of classes to load and add to classpath
 			ArrayList<ClassToLoad> classesToLoad = new ArrayList<ClassToLoad>();
-			for (Dependency d:dependencies) {
-				if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI && d.guiOnly) continue;
+			for (Dependency d : dependencies) {
+				if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI && d.guiOnly)
+					continue;
 				File f = new File(d.filePath);
 				try {
 					addURL(f.toURI().toURL());
@@ -133,7 +161,8 @@ public class LibraryManager implements HyperEventListener {
 					Enumeration<JarEntry> j = jar.entries();
 					while (j.hasMoreElements()) {
 						JarEntry e = j.nextElement();
-						if (e.isDirectory() || !e.getName().endsWith(".class")) continue;
+						if (e.isDirectory() || !e.getName().endsWith(".class"))
+							continue;
 						String className = e.getName().substring(0, e.getName().length() - 6);
 						className = className.replace('/', '.');
 						classesToLoad.add(new ClassToLoad(className));
@@ -143,10 +172,8 @@ public class LibraryManager implements HyperEventListener {
 					e.printStackTrace();
 				}
 			}
-			
-			
 
-			//load classes in dependencies
+			// load classes in dependencies
 			int count = 0;
 			boolean complete = false;
 			while (!complete) {
@@ -163,8 +190,8 @@ public class LibraryManager implements HyperEventListener {
 				}
 				count++;
 				if (count > 20) {
-					for (ClassToLoad c:classesToLoad) {
-						dependencyLoadErrors.add("["+c.className+"]"+c.lastError);
+					for (ClassToLoad c : classesToLoad) {
+						dependencyLoadErrors.add("[" + c.className + "]" + c.lastError);
 					}
 					break;
 				}
@@ -172,57 +199,59 @@ public class LibraryManager implements HyperEventListener {
 
 			librariesLoaded = true;
 		}
-    }
-    
-    private class ClassToLoad {
-    	String className;
-    	String lastError;
-    	
-    	ClassToLoad(String className) {
-    		this.className = className;
-    	}
-    	
-    	boolean load() {
-    		try {
-    			Class.forName(className);
-    			return true;
-    		} catch (ClassNotFoundException e) {
-    			lastError = CommonFunctions.getErrorString(e);
-    			return false;
-    		} catch (NoClassDefFoundError e) {
-    			lastError = CommonFunctions.getErrorString(e);
-    			return false;
-    		} catch (Exception e) {
-    			lastError = CommonFunctions.getErrorString(e);
-    			return false;
-    		}
-    	}
-    }
-    
-    private class Dependency {
-    	String filePath;
-    	String url;
-    	boolean guiOnly;
-    	Dependency(String filePath, String url, boolean guiOnly) {
-    		this.url = url;
-    		this.filePath = filePath;
-    		this.guiOnly = guiOnly;
-    	}
-    	String getFileName() {
-    		return url.substring(url.lastIndexOf("/") + 1, url.length());
-    	}
-    }
-     
-    private class LibraryLoadEventTask extends TimerTask {
-    	@Override
-		public synchronized void run() {
-    		if (librariesLoaded && hc.enabled()) {
-    			heh.fireEventFromAsyncThread(new DataLoadEvent(DataLoadType.LIBRARIES));
-    			libraryLoadEventTask.cancel();
-    		}
+	}
+
+	private class ClassToLoad {
+		String className;
+		String lastError;
+
+		ClassToLoad(String className) {
+			this.className = className;
 		}
 
-    }
+		boolean load() {
+			try {
+				Class.forName(className);
+				return true;
+			} catch (ClassNotFoundException e) {
+				lastError = CommonFunctions.getErrorString(e);
+				return false;
+			} catch (NoClassDefFoundError e) {
+				lastError = CommonFunctions.getErrorString(e);
+				return false;
+			} catch (Exception e) {
+				lastError = CommonFunctions.getErrorString(e);
+				return false;
+			}
+		}
+	}
+
+	private class Dependency {
+		String filePath;
+		String url;
+		boolean guiOnly;
+
+		Dependency(String filePath, String url, boolean guiOnly) {
+			this.url = url;
+			this.filePath = filePath;
+			this.guiOnly = guiOnly;
+		}
+
+		String getFileName() {
+			return url.substring(url.lastIndexOf("/") + 1, url.length());
+		}
+	}
+
+	private class LibraryLoadEventTask extends TimerTask {
+		@Override
+		public synchronized void run() {
+			if (librariesLoaded && hc.enabled()) {
+				heh.fireEventFromAsyncThread(new DataLoadEvent(DataLoadType.LIBRARIES));
+				libraryLoadEventTask.cancel();
+			}
+		}
+
+	}
 
 	private void addURL(URL url) {
 		try {
@@ -239,15 +268,15 @@ public class LibraryManager implements HyperEventListener {
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof DataLoadEvent) {
-			DataLoadEvent devent = (DataLoadEvent)event;
+			DataLoadEvent devent = (DataLoadEvent) event;
 			if (devent.loadType == DataLoadType.COMPLETE) {
-				for (String e:dependencyLoadErrors) {
-					hc.getDebugMode().debugWriteMessage("[LibraryManager: failed to load class]"+e);
+				for (String e : dependencyLoadErrors) {
+					hc.getDebugMode().debugWriteMessage("[LibraryManager: failed to load class]" + e);
 				}
 			}
 		}
 	}
-	
+
 	public boolean dependencyError() {
 		return dependencyError;
 	}

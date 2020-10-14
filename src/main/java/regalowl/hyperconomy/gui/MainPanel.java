@@ -55,8 +55,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 	private JFrame frmEconomyEditor;
 	private HyperConomy hc;
 	private SimpleDataLib sdl;
-	
-	
+
 	private JTextField addEconomyNameField;
 	private JLabel lblAddAnEconomy;
 	private JButton addEconomyButton;
@@ -76,8 +75,9 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 	private JPanel panel_2;
 	private JLabel guiSyncStatusLabel;
 	private JPanel panel_3;
-	
+
 	private JDialog waitMessage;
+
 	/**
 	 * Launch the application.
 	 */
@@ -97,7 +97,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 	 * Create the application.
 	 */
 	public MainPanel() {
-		
+
 		MineCraftConnector mc = new GUIConnector();
 		this.hc = mc.getHC();
 		hc.load();
@@ -106,9 +106,9 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		this.sdl = hc.gSDL();
 		sdl.setDebug(true);
 		hc.enable();
-		
-		
-		JOptionPane optionPane = new JOptionPane("Loading and downloading dependencies...please wait.", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+		JOptionPane optionPane = new JOptionPane("Loading and downloading dependencies...please wait.",
+				JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
 		waitMessage = new JDialog();
 		waitMessage.setTitle("Loading....");
 		waitMessage.setModal(true);
@@ -116,10 +116,6 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		waitMessage.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		waitMessage.pack();
 		waitMessage.setVisible(true);
-		
-		
-		
-		
 
 	}
 
@@ -128,36 +124,37 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 	 */
 	private void initialize() {
 
-		
 		frmEconomyEditor = new JFrame();
 		frmEconomyEditor.setTitle("Economy Editor");
 		frmEconomyEditor.setBounds(100, 100, 600, 580);
 		frmEconomyEditor.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frmEconomyEditor.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Exit?", "Exit Application", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-		    		if (hc.getRemoteGUIServer().enabled()) {
-		    			hc.getRemoteGUIServer().disconnect();
-		    		}
-		        	if (hc != null) hc.disable(false);
-		            System.exit(0);
-		        }
-		    }
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Exit?", "Exit Application",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					if (hc.getRemoteGUIServer().enabled()) {
+						hc.getRemoteGUIServer().disconnect();
+					}
+					if (hc != null)
+						hc.disable(false);
+					System.exit(0);
+				}
+			}
 		});
 		frmEconomyEditor.getContentPane().setLayout(null);
-		
+
 		panel = new JPanel();
 		panel.setBackground(new Color(248, 248, 255));
 		panel.setBounds(207, 12, 363, 502);
 		frmEconomyEditor.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{175, 175, 0};
-		gbl_panel.rowHeights = new int[]{40, 40, 40, 40, 40, 40, 40, 32, 32, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[] { 175, 175, 0 };
+		gbl_panel.rowHeights = new int[] { 40, 40, 40, 40, 40, 40, 40, 32, 32, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-		
+
 		lblAddAnEconomy = new JLabel("New Economy Name");
 		lblAddAnEconomy.setBackground(SystemColor.controlHighlight);
 		GridBagConstraints gbc_lblAddAnEconomy = new GridBagConstraints();
@@ -166,7 +163,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_lblAddAnEconomy.gridx = 0;
 		gbc_lblAddAnEconomy.gridy = 0;
 		panel.add(lblAddAnEconomy, gbc_lblAddAnEconomy);
-		
+
 		JLabel lblNewValue = new JLabel("New Value");
 		lblNewValue.setBackground(SystemColor.controlHighlight);
 		GridBagConstraints gbc_lblNewValue = new GridBagConstraints();
@@ -175,7 +172,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_lblNewValue.gridx = 1;
 		gbc_lblNewValue.gridy = 0;
 		panel.add(lblNewValue, gbc_lblNewValue);
-		
+
 		addEconomyNameField = new JTextField();
 		GridBagConstraints gbc_addEconomyNameField = new GridBagConstraints();
 		gbc_addEconomyNameField.fill = GridBagConstraints.BOTH;
@@ -185,7 +182,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		panel.add(addEconomyNameField, gbc_addEconomyNameField);
 		addEconomyNameField.setToolTipText("Input the new economy's name.");
 		addEconomyNameField.setColumns(10);
-		
+
 		newValueField = new JTextField();
 		newValueField.setToolTipText("Changes will be applied to all objects in the economy.");
 		GridBagConstraints gbc_newValueField = new GridBagConstraints();
@@ -195,7 +192,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_newValueField.gridy = 1;
 		panel.add(newValueField, gbc_newValueField);
 		newValueField.setColumns(10);
-		
+
 		addEconomyButton = new JButton("Add");
 		GridBagConstraints gbc_addEconomyButton = new GridBagConstraints();
 		gbc_addEconomyButton.fill = GridBagConstraints.BOTH;
@@ -204,7 +201,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_addEconomyButton.gridy = 2;
 		panel.add(addEconomyButton, gbc_addEconomyButton);
 		addEconomyButton.setToolTipText("Adds a new economy with the name specified above.");
-		
+
 		newValueType = new JComboBox<String>();
 		newValueType.setToolTipText("Changes will be applied to all objects in the economy.");
 		GridBagConstraints gbc_newValueType = new GridBagConstraints();
@@ -223,7 +220,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		newValueType.addItem("Static Price");
 		newValueType.addItem("Initial Price");
 		newValueType.addItem("Floor");
-		
+
 		btnCloneSelected = new JButton("Clone");
 		GridBagConstraints gbc_btnCloneSelected = new GridBagConstraints();
 		gbc_btnCloneSelected.fill = GridBagConstraints.BOTH;
@@ -234,114 +231,138 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		btnCloneSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newName = addEconomyNameField.getText();
-				if (newName == null || newName.equals("")) return;
-				if (hc.getDataManager().economyExists(newName)) return;
+				if (newName == null || newName.equals(""))
+					return;
+				if (hc.getDataManager().economyExists(newName))
+					return;
 				HyperEconomy he = getSelectedEconomy();
-				if (he == null) return;
+				if (he == null)
+					return;
 				hc.getDataManager().createNewEconomy(newName, he.getName(), true);
 			}
 		});
 		btnCloneSelected.setToolTipText("Clones the economy selected on the left to the name specified above.");
-		
+
 		JButton btnUpdateEconomy = new JButton("Update Economy");
 		btnUpdateEconomy.setToolTipText("Changes will be applied to all objects in the economy.");
 		btnUpdateEconomy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				String type = newValueType.getSelectedItem().toString();
 				HyperEconomy he = getSelectedEconomy();
-				if (he == null) return;
-		        if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Are you sure you want to update all objects in the economy?", "Update Economy", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
-		        	return;
-		        }
+				if (he == null)
+					return;
+				if (JOptionPane.showConfirmDialog(frmEconomyEditor,
+						"Are you sure you want to update all objects in the economy?", "Update Economy",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
+					return;
+				}
 				if (type.equals("Stock")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setStock(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The stock must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The stock must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Use Initial Pricing")) {
 					try {
 						boolean value = Boolean.parseBoolean(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setUseInitialPricing(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The value must be true or false.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The value must be true or false.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Use Static Pricing")) {
 					try {
 						boolean value = Boolean.parseBoolean(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setStatic(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The value must be true or false.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The value must be true or false.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Value")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setValue(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The value must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Median")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setMedian(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The median must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The median must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Ceiling")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setCeiling(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The ceiling value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The ceiling value must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Floor")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setFloor(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The floor value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The floor value must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Static Price")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setStaticPrice(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The static price must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The static price must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (type.equals("Initial Price")) {
 					try {
 						double value = Double.parseDouble(newValueField.getText());
-						for (TradeObject to:he.getTradeObjects()) {
-							if (to.isCompositeObject()) continue;
+						for (TradeObject to : he.getTradeObjects()) {
+							if (to.isCompositeObject())
+								continue;
 							to.setStartPrice(value);
 						}
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "The start price must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The start price must be numeric.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -352,7 +373,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_btnUpdateEconomy.gridx = 1;
 		gbc_btnUpdateEconomy.gridy = 3;
 		panel.add(btnUpdateEconomy, gbc_btnUpdateEconomy);
-		
+
 		JButton btnEditEconomy = new JButton("Edit");
 		GridBagConstraints gbc_btnEditEconomy = new GridBagConstraints();
 		gbc_btnEditEconomy.fill = GridBagConstraints.BOTH;
@@ -360,19 +381,23 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_btnEditEconomy.gridx = 0;
 		gbc_btnEditEconomy.gridy = 4;
 		panel.add(btnEditEconomy, gbc_btnEditEconomy);
-		
+
 		stockToMedianButton = new JButton("Set Stock to Median");
 		stockToMedianButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Are you sure you want to set stocks to their median value for this economy?", 
-		        		"Set Stock To Median", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(frmEconomyEditor,
+						"Are you sure you want to set stocks to their median value for this economy?",
+						"Set Stock To Median", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					HyperEconomy he = getSelectedEconomy();
-					if (he == null) return;
-					for (TradeObject to:he.getTradeObjects()) {
-						if (to.isCompositeObject()) continue;
+					if (he == null)
+						return;
+					for (TradeObject to : he.getTradeObjects()) {
+						if (to.isCompositeObject())
+							continue;
 						to.setStock(to.getMedian());
 					}
-		        }
+				}
 			}
 		});
 		stockToMedianButton.setToolTipText("Sets the stock of all objects in the economy to the median.");
@@ -382,7 +407,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_stockToMedianButton.gridx = 1;
 		gbc_stockToMedianButton.gridy = 4;
 		panel.add(stockToMedianButton, gbc_stockToMedianButton);
-		
+
 		btnDeleteEconomy = new JButton("Delete");
 		btnDeleteEconomy.setForeground(new Color(255, 250, 250));
 		btnDeleteEconomy.setBackground(new Color(220, 20, 60));
@@ -392,7 +417,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_btnDeleteEconomy.gridx = 0;
 		gbc_btnDeleteEconomy.gridy = 5;
 		panel.add(btnDeleteEconomy, gbc_btnDeleteEconomy);
-		
+
 		panel_1 = new JPanel();
 		panel_1.setBackground(UIManager.getColor("MenuItem.selectionForeground"));
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, SystemColor.control, null, null, null));
@@ -403,12 +428,12 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_panel_1.gridy = 7;
 		panel.add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{175, 0};
-		gbl_panel_1.rowHeights = new int[]{32, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWidths = new int[] { 175, 0 };
+		gbl_panel_1.rowHeights = new int[] { 32, 0 };
+		gbl_panel_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
-		
+
 		JLabel lblRemoteGui = new JLabel("Remote GUI");
 		lblRemoteGui.setForeground(Color.WHITE);
 		lblRemoteGui.setBackground(UIManager.getColor("OptionPane.errorDialog.titlePane.foreground"));
@@ -417,7 +442,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_lblRemoteGui.gridx = 0;
 		gbc_lblRemoteGui.gridy = 0;
 		panel_1.add(lblRemoteGui, gbc_lblRemoteGui);
-		
+
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -428,12 +453,12 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_panel_2.gridy = 8;
 		panel.add(panel_2, gbc_panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{175, 0};
-		gbl_panel_2.rowHeights = new int[]{32, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWidths = new int[] { 175, 0 };
+		gbl_panel_2.rowHeights = new int[] { 32, 0 };
+		gbl_panel_2.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_2.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_2.setLayout(gbl_panel_2);
-		
+
 		remoteGUIStatusTextField = new JLabel();
 		remoteGUIStatusTextField.setText("Disabled");
 		GridBagConstraints gbc_remoteGUIStatusTextField = new GridBagConstraints();
@@ -441,14 +466,14 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_remoteGUIStatusTextField.gridx = 0;
 		gbc_remoteGUIStatusTextField.gridy = 0;
 		panel_2.add(remoteGUIStatusTextField, gbc_remoteGUIStatusTextField);
-		//remoteGUIStatusTextField.setColumns(10);
+		// remoteGUIStatusTextField.setColumns(10);
 		if (hc.getRemoteGUIServer().enabled()) {
 			panel_2.setBackground(Color.YELLOW);
 			remoteGUIStatusTextField.setText("Connecting...");
 		} else {
 			remoteGUIStatusTextField.setText("Disabled");
 		}
-		
+
 		panel_3 = new JPanel();
 		panel_3.setBackground(Color.LIGHT_GRAY);
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -459,12 +484,12 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_panel_3.gridy = 8;
 		panel.add(panel_3, gbc_panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{175, 0};
-		gbl_panel_3.rowHeights = new int[]{32, 0};
-		gbl_panel_3.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_3.columnWidths = new int[] { 175, 0 };
+		gbl_panel_3.rowHeights = new int[] { 32, 0 };
+		gbl_panel_3.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_3.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
-		
+
 		guiSyncStatusLabel = new JLabel("N/A");
 		if (hc.getRemoteGUIServer().enabled()) {
 			guiSyncStatusLabel.setText("Synchronizing...");
@@ -476,8 +501,7 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_guiSyncStatusLabel.gridy = 0;
 		panel_3.add(guiSyncStatusLabel, gbc_guiSyncStatusLabel);
 		guiSyncStatusLabel.setToolTipText("Displays the remote GUI synchronization state.");
-		
-		
+
 		remoteGUIScrollPane = new JScrollPane();
 		GridBagConstraints gbc_remoteGUIScrollPane = new GridBagConstraints();
 		gbc_remoteGUIScrollPane.gridwidth = 2;
@@ -485,40 +509,45 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		gbc_remoteGUIScrollPane.gridx = 0;
 		gbc_remoteGUIScrollPane.gridy = 9;
 		panel.add(remoteGUIScrollPane, gbc_remoteGUIScrollPane);
-		
+
 		remoteGUIInfoTextArea = new JTextArea();
 		remoteGUIScrollPane.setViewportView(remoteGUIInfoTextArea);
 		remoteGUIInfoTextArea.setEnabled(false);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(9, 12, 186, 502);
 		frmEconomyEditor.getContentPane().add(scrollPane);
-		
+
 		economyList = new QuickListModel<String>();
 		economySelectList = new JList<String>(economyList);
 		economySelectList.setBounds(9, 12, 184, 157);
-		//frmEconomyEditor.getContentPane().add(economySelectList);
+		// frmEconomyEditor.getContentPane().add(economySelectList);
 		economySelectList.setBackground(new Color(248, 248, 255));
 		economySelectList.setToolTipText("Select an economy.");
 		scrollPane.setViewportView(economySelectList);
 		btnDeleteEconomy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HyperEconomy he = getSelectedEconomy();
-				if (he == null) return;
+				if (he == null)
+					return;
 				if (he.getName().equals("default")) {
-					JOptionPane.showMessageDialog(null, "You can't delete the default economy.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "You can't delete the default economy.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-		        if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Are you sure you want to delete the economy?", "Delete Economy", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(frmEconomyEditor, "Are you sure you want to delete the economy?",
+						"Delete Economy", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					he.delete();
 					refreshEconomyList();
-		        }
+				}
 			}
 		});
 		btnEditEconomy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HyperEconomy he = getSelectedEconomy();
-				if (he == null) return;
+				if (he == null)
+					return;
 				ObjectPanel ep = new ObjectPanel(hc, he);
 				ep.setVisible(true);
 			}
@@ -526,20 +555,22 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		addEconomyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newName = addEconomyNameField.getText();
-				if (newName == null || newName.equals("")) return;
-				if (hc.getDataManager().economyExists(newName)) return;
+				if (newName == null || newName.equals(""))
+					return;
+				if (hc.getDataManager().economyExists(newName))
+					return;
 				hc.getDataManager().createNewEconomy(newName, "default", false);
 			}
 		});
 	}
-	
+
 	private HyperEconomy getSelectedEconomy() {
 		if (hc != null && hc.loaded()) {
 			return hc.getDataManager().getEconomy(economySelectList.getSelectedValue());
 		}
 		return null;
 	}
-	
+
 	private void refreshEconomyList() {
 		int selected = economySelectList.getSelectedIndex();
 		economyList.clear();
@@ -553,13 +584,12 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 		JOptionPane.showMessageDialog(new JFrame(), message);
 	}
 
-	
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof HyperEconomyCreationEvent) {
 			refreshEconomyList();
 		} else if (event instanceof RequestGUIChangeEvent) {
-			RequestGUIChangeEvent hevent = (RequestGUIChangeEvent)event;
+			RequestGUIChangeEvent hevent = (RequestGUIChangeEvent) event;
 			switch (hevent.getType()) {
 				case CONNECTED:
 					remoteGUIStatusTextField.setText("Loading...");
@@ -605,11 +635,11 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 					break;
 			}
 		} else if (event instanceof DataLoadEvent) {
-			DataLoadEvent hevent = (DataLoadEvent)event;
+			DataLoadEvent hevent = (DataLoadEvent) event;
 			if (hevent.loadType == DataLoadType.COMPLETE) {
 				initialize();
 				waitMessage.dispose();
-				
+
 				economySelectList.setSelectedIndex(economyList.indexOf("default"));
 				frmEconomyEditor.setVisible(true);
 				refreshEconomyList();
@@ -617,23 +647,26 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 				if (hc.getLibraryManager().dependencyError()) {
 					waitMessage.dispose();
 
-					final JOptionPane optionPane = new JOptionPane("There was a problem downloading libraries.  Please check your internet connection or manually install the libraries.  Shutting down...", 
-							JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+					final JOptionPane optionPane = new JOptionPane(
+							"There was a problem downloading libraries.  Please check your internet connection or manually install the libraries.  Shutting down...",
+							JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
 					final JDialog dialog = new JDialog();
 					dialog.setTitle("Error");
 					dialog.setModal(true);
 					dialog.setContentPane(optionPane);
 					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 					dialog.pack();
-					//remove error message after 8 seconds
+					// remove error message after 8 seconds
 					Timer timer = new Timer(8000, new AbstractAction() {
 						private static final long serialVersionUID = 1820275341492338555L;
+
 						@Override
-					    public void actionPerformed(ActionEvent ae) {
-					        dialog.dispose();
-				        	if (hc != null) hc.disable(false);
-				            System.exit(0);
-					    }
+						public void actionPerformed(ActionEvent ae) {
+							dialog.dispose();
+							if (hc != null)
+								hc.disable(false);
+							System.exit(0);
+						}
 					});
 					timer.setRepeats(false);
 					timer.start();
@@ -641,15 +674,16 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 				}
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void handleSDLEvent(SDLEvent event) {
 		if (event instanceof LogEvent) {
-			LogEvent levent = (LogEvent)event;
-			if (levent.getException() != null) levent.getException().printStackTrace();
+			LogEvent levent = (LogEvent) event;
+			if (levent.getException() != null)
+				levent.getException().printStackTrace();
 		}
-		
+
 	}
 }

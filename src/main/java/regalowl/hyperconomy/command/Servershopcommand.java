@@ -1,14 +1,7 @@
 package regalowl.hyperconomy.command;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
-
-
-
-
 
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -23,22 +16,22 @@ import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
 public class Servershopcommand extends BaseCommand implements HyperCommand {
-	
+
 	public Servershopcommand(HyperConomy hc) {
 		super(hc, true);
 	}
 
 	private HashMap<HyperPlayer, Shop> currentShop = new HashMap<HyperPlayer, Shop>();
-	
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperShopManager hsm = hc.getHyperShopManager();
 		if (hsm.inAnyShop(hp)) {
 			Shop s = hsm.getShop(hp);
 			if (s instanceof ServerShop) {
-				ServerShop ss = (ServerShop)s;
+				ServerShop ss = (ServerShop) s;
 				if (hp.hasPermission("hyperconomy.admin")) {
 					currentShop.put(hp, ss);
 				}
@@ -58,7 +51,7 @@ public class Servershopcommand extends BaseCommand implements HyperCommand {
 			}
 			return data;
 		}
-		
+
 		if (args[0].equalsIgnoreCase("select") || args[0].equalsIgnoreCase("s")) {
 			try {
 				if (!hsm.shopExists(args[1])) {
@@ -91,7 +84,8 @@ public class Servershopcommand extends BaseCommand implements HyperCommand {
 					hsm.getShop(name).setPoint1(hp.getLocation());
 				} else {
 					HLocation l = hp.getLocation();
-					Shop shop = new ServerShop(hc, name, hp.getEconomy(), hp.getHyperEconomy().getDefaultAccount(), l, l);
+					Shop shop = new ServerShop(hc, name, hp.getEconomy(), hp.getHyperEconomy().getDefaultAccount(), l,
+							l);
 					hsm.addShop(shop);
 					hc.getHyperEventHandler().fireEvent(new ShopCreationEvent(shop));
 				}
@@ -107,7 +101,8 @@ public class Servershopcommand extends BaseCommand implements HyperCommand {
 					hsm.getShop(name).setPoint2(hp.getLocation());
 				} else {
 					HLocation l = hp.getLocation();
-					Shop shop = new ServerShop(hc, name, hp.getEconomy(), hp.getHyperEconomy().getDefaultAccount(), l, l);
+					Shop shop = new ServerShop(hc, name, hp.getEconomy(), hp.getHyperEconomy().getDefaultAccount(), l,
+							l);
 					hsm.addShop(shop);
 					hc.getHyperEventHandler().fireEvent(new ShopCreationEvent(shop));
 				}
@@ -119,7 +114,7 @@ public class Servershopcommand extends BaseCommand implements HyperCommand {
 		} else if (args[0].equalsIgnoreCase("list")) {
 			ArrayList<Shop> shops = hsm.getShops();
 			String sList = "";
-			for (Shop s:shops) {
+			for (Shop s : shops) {
 				if (s instanceof ServerShop || s instanceof GlobalShop) {
 					sList += s.getDisplayName() + ",";
 				}

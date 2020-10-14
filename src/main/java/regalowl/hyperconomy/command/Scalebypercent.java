@@ -2,10 +2,6 @@ package regalowl.hyperconomy.command;
 
 import java.util.ArrayList;
 
-
-
-
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -15,14 +11,14 @@ import regalowl.hyperconomy.util.Backup;
 
 public class Scalebypercent extends BaseCommand implements HyperCommand {
 
-
 	public Scalebypercent(HyperConomy hc) {
 		super(hc, false);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			HyperEconomy he = super.getEconomy();
 			ArrayList<String> names = he.getNames();
@@ -42,15 +38,21 @@ public class Scalebypercent extends BaseCommand implements HyperCommand {
 				Double percent = Double.parseDouble(args[1]);
 				percent = percent / 100;
 				if (percent >= 0) {
-					if (type.equalsIgnoreCase("value") || type.equalsIgnoreCase("staticprice") || type.equalsIgnoreCase("stock") || type.equalsIgnoreCase("median") || type.equalsIgnoreCase("startprice")) {
+					if (type.equalsIgnoreCase("value") || type.equalsIgnoreCase("staticprice")
+							|| type.equalsIgnoreCase("stock") || type.equalsIgnoreCase("median")
+							|| type.equalsIgnoreCase("startprice")) {
 						if (hc.getConf().getBoolean("enable-feature.automatic-backups")) {
 							new Backup(hc);
 						}
 						for (int c = 0; c < names.size(); c++) {
 							String cname = names.get(c);
 							TradeObject ho = he.getTradeObject(cname);
-							if (!(ho.getType() == TradeObjectType.ITEM) && onlyItems) {continue;}
-							if (!(ho.getType() == TradeObjectType.ENCHANTMENT) && onlyEnchants) {continue;}
+							if (!(ho.getType() == TradeObjectType.ITEM) && onlyItems) {
+								continue;
+							}
+							if (!(ho.getType() == TradeObjectType.ENCHANTMENT) && onlyEnchants) {
+								continue;
+							}
 							if (!ho.isCompositeObject()) {
 								if (type.equalsIgnoreCase("value")) {
 									ho.setValue(CommonFunctions.twoDecimals(ho.getValue() * percent));

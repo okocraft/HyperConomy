@@ -14,15 +14,14 @@ import regalowl.hyperconomy.tradeobject.EnchantmentClass;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-
 /**
  * 
  * 
- * This class stores item price history in history.yml  (Value/Purchase price.)
+ * This class stores item price history in history.yml (Value/Purchase price.)
  * 
  */
 public class History {
-	
+
 	private HyperConomy hc;
 	private DataManager em;
 	private InfoSignHandler isign;
@@ -32,19 +31,21 @@ public class History {
 	private long historylogtaskid;
 
 	private int daysToSaveHistory;
-	
+
 	private long lastTime;
 	private long timeCounter;
 	private boolean useHistory;
 	private boolean timeCounterAdded;
-	
+
 	private final int millisecondsInHour = 3600000;
-	//private final int millisecondsInHour = 600;
-	
+	// private final int millisecondsInHour = 600;
+
 	public History(HyperConomy hc) {
 		this.hc = hc;
 		useHistory = hc.getConf().getBoolean("enable-feature.price-history-storage");
-		if (!useHistory) {return;}
+		if (!useHistory) {
+			return;
+		}
 		em = hc.getDataManager();
 		isign = hc.getInfoSignHandler();
 		sw = hc.getSQLWrite();
@@ -54,11 +55,10 @@ public class History {
 		timeCounter = getTimeCounter();
 		startTimer();
 	}
-	
+
 	public boolean useHistory() {
 		return useHistory;
 	}
-	
 
 	public Long getTimeCounter() {
 		Long value = 0L;
@@ -80,14 +80,14 @@ public class History {
 	}
 
 	public void addSetting(String setting, String value) {
-		sw.addToQueue("INSERT INTO hyperconomy_settings (SETTING, VALUE, TIME) VALUES ('" + setting + "', '" + value + "', NOW() )");
+		sw.addToQueue("INSERT INTO hyperconomy_settings (SETTING, VALUE, TIME) VALUES ('" + setting + "', '" + value
+				+ "', NOW() )");
 	}
 
 	public void updateSetting(String setting, String value) {
 		sw.addToQueue("UPDATE hyperconomy_settings SET VALUE='" + value + "' WHERE SETTING = '" + setting + "'");
 	}
 
-	
 	private void startTimer() {
 		historylogtaskid = hc.getMC().runRepeatingTask(new Runnable() {
 			public void run() {
@@ -99,7 +99,8 @@ public class History {
 					writeHistoryValues();
 					hc.getMC().runTaskLater(new Runnable() {
 						public void run() {
-							if (isign != null) isign.updateSigns();
+							if (isign != null)
+								isign.updateSigns();
 						}
 					}, 1200L);
 				}
@@ -107,51 +108,54 @@ public class History {
 			}
 		}, 600L, 600L);
 	}
-	
 
-	
 	private void writeHistoryValues() {
 		ArrayList<TradeObject> objects = em.getTradeObjects();
 		ArrayList<String> statements = new ArrayList<String>();
 		for (TradeObject object : objects) {
-			statements.add("INSERT INTO hyperconomy_history (OBJECT, ECONOMY, TIME, PRICE) "
-					+ "VALUES ('"+object.getName()+"','"+object.getEconomy()+"', NOW() ,'"+object.getBuyPrice(1)+"')");
+			statements.add("INSERT INTO hyperconomy_history (OBJECT, ECONOMY, TIME, PRICE) " + "VALUES ('"
+					+ object.getName() + "','" + object.getEconomy() + "', NOW() ,'" + object.getBuyPrice(1) + "')");
 		}
 		if (hc.getSQLManager().useMySQL()) {
-			statements.add("DELETE FROM hyperconomy_history WHERE TIME < DATE_SUB(NOW(), INTERVAL " + daysToSaveHistory + " DAY)");
+			statements.add("DELETE FROM hyperconomy_history WHERE TIME < DATE_SUB(NOW(), INTERVAL " + daysToSaveHistory
+					+ " DAY)");
 		} else {
-			statements.add("DELETE FROM hyperconomy_history WHERE TIME < date('now','" + formatSQLiteTime(daysToSaveHistory * -1) + " day')");
+			statements.add("DELETE FROM hyperconomy_history WHERE TIME < date('now','"
+					+ formatSQLiteTime(daysToSaveHistory * -1) + " day')");
 		}
 		sw.addToQueue(statements);
 	}
 
-    
-    public void stopHistoryLog() {
-    	hc.getMC().cancelTask(historylogtaskid);
-    }
+	public void stopHistoryLog() {
+		hc.getMC().cancelTask(historylogtaskid);
+	}
 
 	public double getHistoricValue(String name, String economy, int count) {
 		try {
 			count -= 1;
-			QueryResult result = sr.select("SELECT PRICE FROM hyperconomy_history WHERE OBJECT = '"+name+"' AND ECONOMY = '"+economy+"' ORDER BY TIME DESC LIMIT "+count+",1");
+			QueryResult result = sr.select("SELECT PRICE FROM hyperconomy_history WHERE OBJECT = '" + name
+					+ "' AND ECONOMY = '" + economy + "' ORDER BY TIME DESC LIMIT " + count + ",1");
 			if (result.next()) {
 				return Double.parseDouble(result.getString("PRICE"));
 			}
 			result.close();
 			return -1.0;
 		} catch (Exception e) {
-			hc.gSDL().getErrorWriter().writeError(e, "getHistoricValue() passed arguments: name = '" + name + "', economy = '" + economy + "', count = '" + count + "'");
+			hc.gSDL().getErrorWriter().writeError(e, "getHistoricValue() passed arguments: name = '" + name
+					+ "', economy = '" + economy + "', count = '" + count + "'");
 			return -1.0;
 		}
 	}
 
 	/**
 	 * This function must be called from an asynchronous thread!
+	 * 
 	 * @param ho
 	 * @param timevalue
-	 * @return The percentage change in theoretical price for the given object and timevalue in hours
+	 * @return The percentage change in theoretical price for the given object and
+	 *         timevalue in hours
 	 */
-    
+
 	public synchronized String getPercentChange(TradeObject ho, int timevalue) {
 		if (ho == null || sr == null) {
 			hc.gSDL().getErrorWriter().writeError("getPercentChange passed null HyperObject or SQLRead");
@@ -159,24 +163,29 @@ public class History {
 		}
 		double percentChange = 0.0;
 		double historicvalue = getHistoricValue(ho.getName(), ho.getEconomy(), timevalue);
-		if (historicvalue == -1.0 || historicvalue == 0.0) return "?";
+		if (historicvalue == -1.0 || historicvalue == 0.0)
+			return "?";
 		double currentvalue = ho.getBuyPrice(1);
 		percentChange = ((currentvalue - historicvalue) / historicvalue) * 100.0;
 		percentChange = CommonFunctions.round(percentChange, 3);
 		return percentChange + "";
 	}
-	
-	//TODO improve performance
+
+	// TODO improve performance
 	/**
 	 * This function must be called from an asynchronous thread!
+	 * 
 	 * @param timevalue
 	 * @param economy
-	 * @return The percentage change in theoretical price for the given object and timevalue in hours
+	 * @return The percentage change in theoretical price for the given object and
+	 *         timevalue in hours
 	 */
 	public synchronized HashMap<TradeObject, String> getPercentChange(String economy, int timevalue) {
-		if (sr == null) return null;
+		if (sr == null)
+			return null;
 		HashMap<TradeObject, ArrayList<Double>> allValues = new HashMap<TradeObject, ArrayList<Double>>();
-		QueryResult result = sr.select("SELECT OBJECT, PRICE FROM hyperconomy_history WHERE ECONOMY = '" + economy + "' ORDER BY TIME DESC");
+		QueryResult result = sr.select(
+				"SELECT OBJECT, PRICE FROM hyperconomy_history WHERE ECONOMY = '" + economy + "' ORDER BY TIME DESC");
 		while (result.next()) {
 			TradeObject ho = em.getEconomy(economy).getTradeObject(result.getString("OBJECT"));
 			double price = result.getDouble("PRICE");
@@ -191,10 +200,10 @@ public class History {
 			}
 		}
 		result.close();
-		
-		ArrayList<TradeObject> hobjects =  em.getEconomy(economy).getTradeObjects();
+
+		ArrayList<TradeObject> hobjects = em.getEconomy(economy).getTradeObjects();
 		HashMap<TradeObject, String> relevantValues = new HashMap<TradeObject, String>();
-		for (TradeObject ho:hobjects) {
+		for (TradeObject ho : hobjects) {
 			if (allValues.containsKey(ho)) {
 				ArrayList<Double> historicValues = allValues.get(ho);
 				if (historicValues.size() >= timevalue) {
@@ -224,9 +233,7 @@ public class History {
 		}
 		return relevantValues;
 	}
-	 
-	
-	
+
 	public String formatSQLiteTime(int time) {
 		if (time < 0) {
 			return "-" + Math.abs(time);
@@ -236,5 +243,5 @@ public class History {
 			return "0";
 		}
 	}
-  	
+
 }

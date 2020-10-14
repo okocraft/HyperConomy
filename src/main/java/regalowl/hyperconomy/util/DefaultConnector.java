@@ -23,36 +23,45 @@ import regalowl.hyperconomy.minecraft.HSign;
 public class DefaultConnector implements MineCraftConnector {
 
 	protected HyperConomy hc;
-	//private ConcurrentHashMap<Long, BukkitTask> tasks = new ConcurrentHashMap<Long, BukkitTask>();
-	//private AtomicLong taskCounter = new AtomicLong();
-	
+	// private ConcurrentHashMap<Long, BukkitTask> tasks = new
+	// ConcurrentHashMap<Long, BukkitTask>();
+	// private AtomicLong taskCounter = new AtomicLong();
+
 	public DefaultConnector() {
 		this.hc = new HyperConomy(this);
 	}
-	
-	
+
 	@Override
 	public HyperConomy getHC() {
 		return hc;
 	}
+
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
 
 	@Override
-	public void disablePlugin() {}
+	public void disablePlugin() {
+	}
+
 	@Override
-	public void registerCommand(String command, HyperCommand hCommand) {}
+	public void registerCommand(String command, HyperCommand hCommand) {
+	}
+
 	@Override
-	public void unregisterAllListeners() {}
+	public void unregisterAllListeners() {
+	}
+
 	@Override
-	public void registerListeners() {}
+	public void registerListeners() {
+	}
 
 	@Override
 	public void runTask(Runnable r) {
 		r.run();
 	}
+
 	@Override
 	public void runTaskLater(Runnable r, Long delayTicks) {
 		// TODO Auto-generated method stub
@@ -67,15 +76,15 @@ public class DefaultConnector implements MineCraftConnector {
 	@Override
 	public void cancelTask(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void cancelAllTasks() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void logInfo(String message) {
 		// TODO Auto-generated method stub
@@ -84,7 +93,7 @@ public class DefaultConnector implements MineCraftConnector {
 	@Override
 	public void logSevere(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -98,19 +107,21 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void checkExternalEconomyRegistration() {}
+	public void checkExternalEconomyRegistration() {
+	}
 
 	@Override
-	public void unRegisterAsExternalEconomy() {}
+	public void unRegisterAsExternalEconomy() {
+	}
 
 	@Override
-	public void setupHEconomyProvider() {}
+	public void setupHEconomyProvider() {
+	}
 
 	@Override
 	public HEconomyProvider getEconomyProvider() {
 		return null;
 	}
-
 
 	@Override
 	public boolean isInCreativeMode(HyperPlayer hp) {
@@ -119,17 +130,17 @@ public class DefaultConnector implements MineCraftConnector {
 
 	@Override
 	public HLocation getLocation(HyperPlayer hp) {
-		return new HLocation("",0,0,0);
+		return new HLocation("", 0, 0, 0);
 	}
 
 	@Override
 	public HLocation getTargetLocation(HyperPlayer hp) {
-		return new HLocation("",0,0,0);
+		return new HLocation("", 0, 0, 0);
 	}
 
 	@Override
 	public HLocation getLocationBeforeTargetLocation(HyperPlayer hp) {
-		return new HLocation("",0,0,0);
+		return new HLocation("", 0, 0, 0);
 	}
 
 	@Override
@@ -138,12 +149,14 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void load(HLocation l) {}
+	public void load(HLocation l) {
+	}
 
 	@Override
 	public ArrayList<HyperPlayer> getOnlinePlayers() {
 		return new ArrayList<HyperPlayer>();
 	}
+
 	@Override
 	public ArrayList<String> getOnlinePlayerNames() {
 		return new ArrayList<String>();
@@ -165,13 +178,16 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void teleport(HyperPlayer hp, HLocation sl) {}
+	public void teleport(HyperPlayer hp, HLocation sl) {
+	}
 
 	@Override
-	public void sendMessage(HyperPlayer hp, String message) {}
+	public void sendMessage(HyperPlayer hp, String message) {
+	}
 
 	@Override
-	public void kickPlayer(HyperPlayer hp, String message) {}
+	public void kickPlayer(HyperPlayer hp, String message) {
+	}
 
 	@Override
 	public boolean isSneaking(HyperPlayer hp) {
@@ -209,10 +225,12 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void setLevel(HyperPlayer hp, int level) {}
+	public void setLevel(HyperPlayer hp, int level) {
+	}
 
 	@Override
-	public void setExp(HyperPlayer hp, float exp) {}
+	public void setExp(HyperPlayer hp, float exp) {
+	}
 
 	@Override
 	public String getName(HyperPlayer hp) {
@@ -220,12 +238,14 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void checkForNameChange(HyperPlayer hp) {}
+	public void checkForNameChange(HyperPlayer hp) {
+	}
 
 	@Override
 	public String applyColor(String text) {
 		return text;
 	}
+
 	@Override
 	public String removeColor(String text) {
 		return text;
@@ -242,7 +262,8 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void setInventory(HInventory inventory) {}
+	public void setInventory(HInventory inventory) {
+	}
 
 	@Override
 	public HItemStack getItem(HyperPlayer hp, int slot) {
@@ -255,7 +276,8 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void setItem(HyperPlayer hp, HItemStack item, int slot) {}
+	public void setItem(HyperPlayer hp, HItemStack item, int slot) {
+	}
 
 	@Override
 	public boolean conflictsWith(HEnchantment e1, HEnchantment e2) {
@@ -303,7 +325,8 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void setSign(HSign sign) {}
+	public void setSign(HSign sign) {
+	}
 
 	@Override
 	public HBlock getAttachedBlock(HSign sign) {
@@ -326,55 +349,53 @@ public class DefaultConnector implements MineCraftConnector {
 	}
 
 	@Override
-	public void removeItem(HItem item) {}
+	public void removeItem(HItem item) {
+	}
 
 	@Override
-	public void clearNearbyNonDisplayItems(HItem item, double radius) {}
+	public void clearNearbyNonDisplayItems(HItem item, double radius) {
+	}
 
 	@Override
-	public void zeroVelocity(HItem item) {}
+	public void zeroVelocity(HItem item) {
+	}
 
 	@Override
 	public HBlock getFirstNonAirBlockInColumn(HLocation location) {
 		return null;
 	}
+
 	@Override
 	public boolean canFall(HBlock block) {
 		return false;
 	}
-
 
 	@Override
 	public FrameShopHandler getFrameShopHandler() {
 		return null;
 	}
 
-
 	@Override
 	public String getVersion() {
 		return "";
 	}
-
 
 	@Override
 	public ServerConnectionType getServerConnectionType() {
 		return ServerConnectionType.NONE;
 	}
 
-
 	@Override
 	public void setItemLore(HInventory inventory, List<String> lore, int slot) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void openInventory(HInventory inventory, HyperPlayer player, String name) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public String getMinecraftItemName(HItemStack stack) {
@@ -382,51 +403,40 @@ public class DefaultConnector implements MineCraftConnector {
 		return null;
 	}
 
-
 	@Override
 	public void closeActiveInventory(HyperPlayer p) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void setItemQuantity(HyperPlayer hp, int amount, int slot) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void setItem(HLocation location, HItemStack item, int slot) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void setItemQuantity(HLocation location, int amount, int slot) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void setItemOnCursor(HyperPlayer p, HItemStack stack) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void setListenerState(boolean minimal) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-
-
-
 
 }

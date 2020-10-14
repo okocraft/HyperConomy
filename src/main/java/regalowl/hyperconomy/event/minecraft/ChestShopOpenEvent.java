@@ -8,7 +8,7 @@ public class ChestShopOpenEvent extends HyperEvent {
 
 	private HyperPlayer opener;
 	private ChestShop chestShop;
-	
+
 	public ChestShopOpenEvent(HyperPlayer clicker, ChestShop chestShop) {
 		this.opener = clicker;
 		this.chestShop = chestShop;
@@ -17,9 +17,9 @@ public class ChestShopOpenEvent extends HyperEvent {
 	public HyperPlayer getOpener() {
 		return opener;
 	}
+
 	public ChestShop getChestShop() {
 		return chestShop;
 	}
 
-	
 }

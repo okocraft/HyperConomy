@@ -1,7 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
-
 import regalowl.hyperconomy.DataManager;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -16,24 +14,22 @@ public class BaseCommand {
 	protected LanguageFile L;
 	protected DataManager dm;
 
-	
 	protected HyperPlayer hp;
 	protected boolean isPlayer;
 	protected String[] args;
 	protected CommandData data;
-	
+
 	public BaseCommand(HyperConomy hc, boolean requirePlayer) {
 		this.hc = hc;
 		this.L = hc.getLanguageFile();
 		this.dm = hc.getDataManager();
 		this.requirePlayer = requirePlayer;
 	}
-	
-	
+
 	protected HyperEconomy getEconomy() {
 		return hc.getDataManager().getEconomy(getEconomyName());
 	}
-	
+
 	protected String getEconomyName() {
 		if (isPlayer && hp != null) {
 			return hp.getEconomy();
@@ -42,7 +38,7 @@ public class BaseCommand {
 		}
 		return "default";
 	}
-	
+
 	protected boolean validate(CommandData data) {
 		this.data = data;
 		this.args = data.getArgs();
@@ -58,6 +54,5 @@ public class BaseCommand {
 		}
 		return true;
 	}
-	
 
 }

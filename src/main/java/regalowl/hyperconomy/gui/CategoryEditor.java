@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 
 public class CategoryEditor extends JFrame {
 
-
 	private static final long serialVersionUID = -7483650005071403119L;
 	private ObjectPanel economyPanel;
 	private TradeObject tradeObject;
@@ -48,54 +47,57 @@ public class CategoryEditor extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(24, 30, 244, 453);
 		contentPane.add(scrollPane_1);
-		
+
 		unselectedCategories = new JList<String>(unselectedModel);
 		scrollPane_1.setViewportView(unselectedCategories);
 		UnselectedMouseAdapter unselectedMouseAdapter = new UnselectedMouseAdapter();
 		unselectedCategories.addMouseListener(unselectedMouseAdapter);
 		unselectedCategories.addMouseMotionListener(unselectedMouseAdapter);
 		unselectedCategories.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(296, 30, 244, 453);
 		contentPane.add(scrollPane);
-		
+
 		selectedCategories = new JList<String>(selectedModel);
 		scrollPane.setViewportView(selectedCategories);
-		
+
 		JLabel availableCatLabel = new JLabel("Available Categories");
 		availableCatLabel.setBounds(24, 12, 244, 15);
 		contentPane.add(availableCatLabel);
-		
+
 		JLabel currentCatLabel = new JLabel("Object Categories");
 		currentCatLabel.setBounds(296, 12, 244, 15);
 		contentPane.add(currentCatLabel);
-		
+
 		JButton addNewCategoryButton = new JButton("Add New Category");
 		addNewCategoryButton.setBounds(164, 489, 244, 25);
 		contentPane.add(addNewCategoryButton);
 		addNewCategoryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				String text = newCategoryField.getText();
-				if (text == null || text == "") return;
-				if (unselectedModel.contains(text)) return;
-				if (selectedModel.contains(text)) return;
+				if (text == null || text == "")
+					return;
+				if (unselectedModel.contains(text))
+					return;
+				if (selectedModel.contains(text))
+					return;
 				selectedModel.addData(text);
 				tradeObject.addCategory(text);
 				economyPanel.loadCatgories();
 			}
 		});
-		
+
 		newCategoryField = new JTextField();
 		newCategoryField.setToolTipText("Type the new category here and press Add New Category.");
 		newCategoryField.setBounds(164, 519, 244, 25);
 		contentPane.add(newCategoryField);
 		newCategoryField.setColumns(10);
-		
+
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,7 +112,7 @@ public class CategoryEditor extends JFrame {
 		selectedCategories.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		refreshLists();
 	}
-	
+
 	private void refreshLists() {
 		unselectedModel.clear();
 		selectedModel.clear();
@@ -122,9 +124,8 @@ public class CategoryEditor extends JFrame {
 		selectedModel.addData(categories);
 		economyPanel.loadCatgories();
 	}
-	
-	
-    private class UnselectedMouseAdapter extends MouseInputAdapter { 
+
+	private class UnselectedMouseAdapter extends MouseInputAdapter {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isLeftMouseButton(e)) {
@@ -134,7 +135,8 @@ public class CategoryEditor extends JFrame {
 			}
 		}
 	}
-    private class SelectedMouseAdapter extends MouseInputAdapter { 
+
+	private class SelectedMouseAdapter extends MouseInputAdapter {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isLeftMouseButton(e)) {

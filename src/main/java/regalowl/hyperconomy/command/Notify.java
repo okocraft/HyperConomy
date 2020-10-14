@@ -2,11 +2,6 @@ package regalowl.hyperconomy.command;
 
 import java.util.ArrayList;
 
-
-
-
-
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -30,21 +25,18 @@ public class Notify extends BaseCommand implements HyperCommand, HyperEventListe
 	private ArrayList<String> notifyNames = new ArrayList<String>();
 	private boolean enabled;
 
-
-	
 	public String getNotifyString() {
 		return CommonFunctions.implode(notifyNames);
 	}
-	
+
 	public void saveNotifyNames() {
 		hc.getConf().set("shop.send-price-change-notifications-for", getNotifyString());
 	}
 
-	
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof TransactionEvent) {
-			TransactionEvent te = (TransactionEvent)event;
+			TransactionEvent te = (TransactionEvent) event;
 			if (te.getTransactionResponse().successful()) {
 				PlayerTransaction pt = te.getTransaction();
 				TransactionType tt = pt.getTransactionType();
@@ -52,19 +44,19 @@ public class Notify extends BaseCommand implements HyperCommand, HyperEventListe
 					if (pt.getHyperObject() != null) {
 						TradeObject ho = pt.getHyperObject();
 						if (notifyNames.contains(ho.getName())) {
-							String message = L.f(L.get("SQL_NOTIFICATION"), ho.getStock(), ho.getBuyPriceWithTax(1), ho.getDisplayName(), ho.getEconomy());
+							String message = L.f(L.get("SQL_NOTIFICATION"), ho.getStock(), ho.getBuyPriceWithTax(1),
+									ho.getDisplayName(), ho.getEconomy());
 							sendNotification(message);
 						}
 					}
 				}
 			}
 		}
-		
+
 	}
 
-
 	private void sendNotification(String message) {
-		for (HyperPlayer p:hc.getHyperPlayerManager().getOnlinePlayers()) {
+		for (HyperPlayer p : hc.getHyperPlayerManager().getOnlinePlayers()) {
 			if (p.hasPermission("hyperconomy.notify")) {
 				p.sendMessage(message);
 			}
@@ -73,7 +65,8 @@ public class Notify extends BaseCommand implements HyperCommand, HyperEventListe
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			HyperEconomy he = hc.getDataManager().getEconomy("default");
 			TradeObject ho = he.getTradeObject(args[0]);
@@ -83,7 +76,7 @@ public class Notify extends BaseCommand implements HyperCommand, HyperEventListe
 			}
 			if (args[0].equalsIgnoreCase("all")) {
 				notifyNames.clear();
-				for (String cName:he.getNames()) {
+				for (String cName : he.getNames()) {
 					notifyNames.add(cName);
 				}
 				saveNotifyNames();
@@ -115,9 +108,4 @@ public class Notify extends BaseCommand implements HyperCommand, HyperEventListe
 		return data;
 	}
 
-
-
-
-	
-	
 }

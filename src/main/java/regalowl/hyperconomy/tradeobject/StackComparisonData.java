@@ -16,8 +16,7 @@ public class StackComparisonData implements Serializable {
 	public int maxStackSize;
 	public int maxDurability;
 	public boolean isBlank;
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -31,23 +30,36 @@ public class StackComparisonData implements Serializable {
 		result = prime * result + maxStackSize;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		StackComparisonData other = (StackComparisonData) obj;
-		if (data != other.data) return false;
-		if (durability != other.durability) return false;
-		if (isBlank != other.isBlank) return false;
+		if (data != other.data)
+			return false;
+		if (durability != other.durability)
+			return false;
+		if (isBlank != other.isBlank)
+			return false;
 		if (itemMeta == null) {
-			if (other.itemMeta != null) return false;
-		} else if (!itemMeta.equals(other.itemMeta)) return false;
+			if (other.itemMeta != null)
+				return false;
+		} else if (!itemMeta.equals(other.itemMeta))
+			return false;
 		if (material == null) {
-			if (other.material != null) return false;
-		} else if (!material.equals(other.material)) return false;
-		if (maxDurability != other.maxDurability) return false;
-		if (maxStackSize != other.maxStackSize) return false;
+			if (other.material != null)
+				return false;
+		} else if (!material.equals(other.material))
+			return false;
+		if (maxDurability != other.maxDurability)
+			return false;
+		if (maxStackSize != other.maxStackSize)
+			return false;
 		return true;
 	}
 }

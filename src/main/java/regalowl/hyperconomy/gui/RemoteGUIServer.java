@@ -32,7 +32,6 @@ import regalowl.hyperconomy.event.HyperPlayerModificationEvent;
 import regalowl.hyperconomy.event.RequestGUIChangeEvent;
 import regalowl.hyperconomy.event.ShopModificationEvent;
 
-
 public class RemoteGUIServer implements HyperEventListener {
 
 	private HyperConomy hc;
@@ -43,8 +42,9 @@ public class RemoteGUIServer implements HyperEventListener {
 	private int remoteGUITimeout;
 	private int refreshRate;
 	private boolean runServer;
-	private boolean connected = false; //used differently depending on if server or client
-	private boolean currentlyUpdating = false;  //flags when receiving update in order to ignore modification events - both for server and client
+	private boolean connected = false; // used differently depending on if server or client
+	private boolean currentlyUpdating = false; // flags when receiving update in order to ignore modification events -
+												// both for server and client
 	private GUITransferObject serverSideChanges;
 	private GUITransferObject clientSideChanges;
 	private PeriodicGUIUpdater periodicUpdater;
@@ -53,16 +53,18 @@ public class RemoteGUIServer implements HyperEventListener {
 	private boolean guiSynchronized = false;
 	public boolean resetDisconnectTimer = false;
 	private final int disconnectTimerMilliseconds = 150000;
-	
+
 	public RemoteGUIServer(HyperConomy hc) {
 		this.hc = hc;
 		runServer = true;
 		remoteGUIEnabled = hc.getConf().getBoolean("remote-gui.enable");
-		if (!remoteGUIEnabled) return;
+		if (!remoteGUIEnabled)
+			return;
 		hc.getHyperEventHandler().registerListener(this);
 		isServer = hc.getConf().getBoolean("remote-gui.server");
 		listenPort = hc.getConf().getInt("remote-gui.listen-port");
-		remoteServerAddress = new RemoteAddress(hc.getConf().getString("remote-gui.remote-server-ip"), hc.getConf().getInt("remote-gui.remote-server-port"));
+		remoteServerAddress = new RemoteAddress(hc.getConf().getString("remote-gui.remote-server-ip"),
+				hc.getConf().getInt("remote-gui.remote-server-port"));
 		remoteGUITimeout = hc.getConf().getInt("remote-gui.connection-timeout-ms");
 		refreshRate = hc.getConf().getInt("remote-gui.refresh-rate-ms");
 		authKey = hc.getConf().getString("remote-gui.auth-key");
@@ -70,43 +72,50 @@ public class RemoteGUIServer implements HyperEventListener {
 		clientSideChanges = new GUITransferObject(GUITransferType.UPDATE_SERVER, authKey);
 		startServer();
 	}
-	
+
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof DataLoadEvent) {
 			DataLoadEvent devent = (DataLoadEvent) event;
-			if (!(devent.loadType == DataLoadType.COMPLETE)) return;
-			if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI) return;
-			if (isServer) return;
+			if (!(devent.loadType == DataLoadType.COMPLETE))
+				return;
+			if (hc.getMC().getServerConnectionType() != ServerConnectionType.GUI)
+				return;
+			if (isServer)
+				return;
 
-			
 			new Thread(new Runnable() {
 				public void run() {
 					try {
 						Socket socket = new Socket();
-						socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port), remoteGUITimeout);
-						//test connection
+						socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port),
+								remoteGUITimeout);
+						// test connection
 						ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 						out.writeObject(new GUITransferObject(GUITransferType.CONNECTION_TEST, authKey));
 						out.flush();
 						ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 						GUITransferObject response = (GUITransferObject) input.readObject();
 						if (response.getType().equals(GUITransferType.SUCCESS)) {
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.CONNECTED));
+							hc.getHyperEventHandler()
+									.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.CONNECTED));
 							socket.close();
 						} else if (response.getType().equals(GUITransferType.NOT_AUTHORIZED)) {
 							String message = "Your auth-key in your config.yml file is incorrect.  Make sure it matches your server's auth-key.";
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.INVALID_KEY, message));
+							hc.getHyperEventHandler().fireEventFromAsyncThread(
+									new RequestGUIChangeEvent(GUIChangeType.INVALID_KEY, message));
 							hc.getDebugMode().debugWriteMessage(message);
 							socket.close();
 							return;
 						} else {
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.INVALID_RESPONSE));
+							hc.getHyperEventHandler().fireEventFromAsyncThread(
+									new RequestGUIChangeEvent(GUIChangeType.INVALID_RESPONSE));
 							socket.close();
 							return;
 						}
 						socket = new Socket();
-						socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port), remoteGUITimeout);
+						socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port),
+								remoteGUITimeout);
 						out = new ObjectOutputStream(socket.getOutputStream());
 						out.writeObject(new GUITransferObject(GUITransferType.REQUEST_GUI_INITIALIZATION, authKey));
 						out.flush();
@@ -118,7 +127,8 @@ public class RemoteGUIServer implements HyperEventListener {
 							hc.getDataManager().setEconomies(response.getHyperEconomies());
 							currentlyUpdating = false;
 							guiSynchronized = true;
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SYNCHRONIZED));
+							hc.getHyperEventHandler()
+									.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SYNCHRONIZED));
 							response = new GUITransferObject(GUITransferType.SUCCESS, authKey);
 							out = new ObjectOutputStream(socket.getOutputStream());
 							out.writeObject(response);
@@ -126,25 +136,31 @@ public class RemoteGUIServer implements HyperEventListener {
 							socket.close();
 							periodicUpdater = new PeriodicGUIUpdater();
 							t.schedule(periodicUpdater, refreshRate, refreshRate);
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.LOADED));
+							hc.getHyperEventHandler()
+									.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.LOADED));
 							hc.getDebugMode().debugWriteMessage("GUI Initialization Succeeded");
 						} else {
-							hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.INVALID_RESPONSE));
-							hc.getDebugMode().debugWriteMessage("GUI Initialization Failed: Server returned invalid response.");
+							hc.getHyperEventHandler().fireEventFromAsyncThread(
+									new RequestGUIChangeEvent(GUIChangeType.INVALID_RESPONSE));
+							hc.getDebugMode()
+									.debugWriteMessage("GUI Initialization Failed: Server returned invalid response.");
 							socket.close();
 						}
-						
+
 					} catch (Exception e) {
 						String error = CommonFunctions.getErrorString(e);
-						hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.ERROR, error));
-						hc.getDebugMode().debugWriteMessage("GUI initialization error occurred when connecting to ip: " + remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
+						hc.getHyperEventHandler()
+								.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.ERROR, error));
+						hc.getDebugMode().debugWriteMessage("GUI initialization error occurred when connecting to ip: "
+								+ remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
 						hc.getDebugMode().debugWriteError(e);
 					}
 				}
 			}).start();
 		} else if (event instanceof TradeObjectModificationEvent) {
 			TradeObjectModificationEvent hevent = (TradeObjectModificationEvent) event;
-			if (!connected || currentlyUpdating) return;
+			if (!connected || currentlyUpdating)
+				return;
 			if (hevent.getTradeObjectModificationType() == TradeObjectModificationType.DELETED) {
 				if (isServer) {
 					serverSideChanges.addDeletedTradeObject(hevent.getTradeObject());
@@ -160,11 +176,13 @@ public class RemoteGUIServer implements HyperEventListener {
 			}
 			if (guiSynchronized) {
 				guiSynchronized = false;
-				hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
+				hc.getHyperEventHandler()
+						.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
 			}
 		} else if (event instanceof HyperEconomyCreationEvent) {
 			HyperEconomyCreationEvent hevent = (HyperEconomyCreationEvent) event;
-			if (!connected || currentlyUpdating) return;
+			if (!connected || currentlyUpdating)
+				return;
 			if (isServer) {
 				serverSideChanges.addEconomy(hevent.getHyperEconomy());
 			} else {
@@ -172,11 +190,13 @@ public class RemoteGUIServer implements HyperEventListener {
 			}
 			if (guiSynchronized) {
 				guiSynchronized = false;
-				hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
+				hc.getHyperEventHandler()
+						.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
 			}
 		} else if (event instanceof HyperEconomyDeletionEvent) {
 			HyperEconomyDeletionEvent hevent = (HyperEconomyDeletionEvent) event;
-			if (!connected || currentlyUpdating) return;
+			if (!connected || currentlyUpdating)
+				return;
 			if (isServer) {
 				serverSideChanges.addDeletedEconomy(hevent.getHyperEconomyName());
 			} else {
@@ -184,36 +204,38 @@ public class RemoteGUIServer implements HyperEventListener {
 			}
 			if (guiSynchronized) {
 				guiSynchronized = false;
-				hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
+				hc.getHyperEventHandler()
+						.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.NOT_SYNCHRONIZED));
 			}
 		} else if (event instanceof HyperPlayerModificationEvent) {
-			//HyperPlayerModificationEvent hevent = (HyperPlayerModificationEvent) event;
-			if (!connected || !isServer) return;
+			// HyperPlayerModificationEvent hevent = (HyperPlayerModificationEvent) event;
+			if (!connected || !isServer)
+				return;
 		} else if (event instanceof HyperBankModificationEvent) {
-			//HyperBankModificationEvent hevent = (HyperBankModificationEvent) event;
-			if (!connected || !isServer) return;
+			// HyperBankModificationEvent hevent = (HyperBankModificationEvent) event;
+			if (!connected || !isServer)
+				return;
 		} else if (event instanceof ShopModificationEvent) {
-			//ShopModificationEvent hevent = (ShopModificationEvent) event;
-			if (!connected || !isServer) return;
+			// ShopModificationEvent hevent = (ShopModificationEvent) event;
+			if (!connected || !isServer)
+				return;
 		} else if (event instanceof DisableEvent) {
-			//DisableEvent hevent = (DisableEvent) event;
+			// DisableEvent hevent = (DisableEvent) event;
 			runServer = false;
-			//remoteUpdater.cancel();
+			// remoteUpdater.cancel();
 		}
 	}
 
-	
-	
-	
-
-	//updates the GUI with changes that occurred on the remote server, and sends changes to remote server made by the GUI
+	// updates the GUI with changes that occurred on the remote server, and sends
+	// changes to remote server made by the GUI
 	private class PeriodicGUIUpdater extends TimerTask {
 		@Override
 		public void run() {
 			try {
-				//get changes from server
+				// get changes from server
 				Socket socket = new Socket();
-				socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port), remoteGUITimeout);
+				socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port),
+						remoteGUITimeout);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				out.writeObject(new GUITransferObject(GUITransferType.REQUEST_UPDATE_GUI, authKey));
 				out.flush();
@@ -222,7 +244,7 @@ public class RemoteGUIServer implements HyperEventListener {
 				if (response.getType().equals(GUITransferType.UPDATE_GUI)) {
 					currentlyUpdating = true;
 					processHyperEconomiesGUI(response.getHyperEconomies());
-					processHyperObjectsGUI(response.getHyperObjects()); 
+					processHyperObjectsGUI(response.getHyperObjects());
 					processDeletedTradeObjectsGUI(response.getDeletedTradeObjects());
 					processDeletedHyperEconomiesGUI(response.getDeletedEconomies());
 					currentlyUpdating = false;
@@ -231,15 +253,17 @@ public class RemoteGUIServer implements HyperEventListener {
 					out.writeObject(response);
 					out.flush();
 				} else if (response.getType().equals(GUITransferType.NOTHING_TO_UPDATE)) {
-					
+
 				} else {
-					hc.getDebugMode().debugWriteMessage("GUI Periodic Update Failed: Server returned invalid response.");
+					hc.getDebugMode()
+							.debugWriteMessage("GUI Periodic Update Failed: Server returned invalid response.");
 				}
 				socket.close();
-				//send local GUI made changes to server
+				// send local GUI made changes to server
 				if (!clientSideChanges.isEmpty()) {
 					socket = new Socket();
-					socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port), remoteGUITimeout);
+					socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port),
+							remoteGUITimeout);
 					out = new ObjectOutputStream(socket.getOutputStream());
 					out.writeObject(clientSideChanges);
 					out.flush();
@@ -248,44 +272,53 @@ public class RemoteGUIServer implements HyperEventListener {
 					if (response.getType().equals(GUITransferType.SUCCESS)) {
 						clientSideChanges.clear();
 						guiSynchronized = true;
-						hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SYNCHRONIZED));
+						hc.getHyperEventHandler()
+								.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SYNCHRONIZED));
 					} else {
-						hc.getDebugMode().debugWriteMessage("GUI Server Update Failed: Server returned invalid response.");
+						hc.getDebugMode()
+								.debugWriteMessage("GUI Server Update Failed: Server returned invalid response.");
 					}
 				}
 				socket.close();
 			} catch (Exception e) {
-				hc.getDebugMode().debugWriteMessage("GUI Periodic Update error occurred when connecting to ip: " + remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
+				hc.getDebugMode().debugWriteMessage("GUI Periodic Update error occurred when connecting to ip: "
+						+ remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
 				hc.getDebugMode().debugWriteError(e);
 			}
 		}
 	}
-	
 
-	
 	private void processHyperEconomiesGUI(ArrayList<HyperEconomy> economies) {
-		for (HyperEconomy he:economies) {
-			if (he == null || he.getName() == null || he.getName().equalsIgnoreCase("")) continue;
+		for (HyperEconomy he : economies) {
+			if (he == null || he.getName() == null || he.getName().equalsIgnoreCase(""))
+				continue;
 			he.setHyperConomy(hc);
 			hc.getDataManager().addEconomy(he);
 			he.save();
 			hc.getDebugMode().debugWriteMessage("Economy added server side: " + he.getName());
-			hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_ECONOMY, "Economy added on remote server: " + he.getName()));
+			hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(
+					GUIChangeType.SERVER_CHANGE_ECONOMY, "Economy added on remote server: " + he.getName()));
 		}
 	}
+
 	private void processDeletedHyperEconomiesGUI(ArrayList<String> economies) {
-		for (String he:economies) {
-			if (he == null || he.equalsIgnoreCase("") || !hc.getDataManager().economyExists(he)) continue;
+		for (String he : economies) {
+			if (he == null || he.equalsIgnoreCase("") || !hc.getDataManager().economyExists(he))
+				continue;
 			hc.getDataManager().getEconomyIB(he).delete();
 			hc.getDebugMode().debugWriteMessage("Economy deleted server side: " + he);
-			hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_ECONOMY, "Economy deleted on remote server: " + he));
+			hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(
+					GUIChangeType.SERVER_CHANGE_ECONOMY, "Economy deleted on remote server: " + he));
 		}
 	}
+
 	private void processHyperObjectsGUI(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
-			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase("")) continue;
+		for (TradeObject ho : objects) {
+			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase(""))
+				continue;
 			HyperEconomy he = hc.getDataManager().getEconomyIB(ho.getEconomy());
-			if (he == null) continue;
+			if (he == null)
+				continue;
 			ho.setHyperConomy(hc);
 			if (ho.isShopObject()) {
 				PlayerShop ps = ho.getShopObjectShop();
@@ -294,7 +327,9 @@ public class RemoteGUIServer implements HyperEventListener {
 					ps.updateHyperObject(ho);
 					ho.save();
 					hc.getDebugMode().debugWriteMessage("Shop object changed server side: " + ho.getDisplayName());
-					hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT, "Shop object modified on remote server: " + ho.getDisplayName()));
+					hc.getHyperEventHandler()
+							.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT,
+									"Shop object modified on remote server: " + ho.getDisplayName()));
 				}
 			} else {
 				ho.setHyperConomy(hc);
@@ -302,15 +337,20 @@ public class RemoteGUIServer implements HyperEventListener {
 				he.addObject(ho);
 				ho.save();
 				hc.getDebugMode().debugWriteMessage("Regular trade object changed server side: " + ho.getDisplayName());
-				hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT, "Trade object modified on remote server: " + ho.getDisplayName()));
+				hc.getHyperEventHandler()
+						.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT,
+								"Trade object modified on remote server: " + ho.getDisplayName()));
 			}
 		}
 	}
+
 	private void processDeletedTradeObjectsGUI(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
-			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase("")) continue;
+		for (TradeObject ho : objects) {
+			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase(""))
+				continue;
 			HyperEconomy he = hc.getDataManager().getEconomyIB(ho.getEconomy());
-			if (he == null) continue;
+			if (he == null)
+				continue;
 			ho.setHyperConomy(hc);
 			if (ho.isShopObject()) {
 				PlayerShop ps = ho.getShopObjectShop();
@@ -319,7 +359,9 @@ public class RemoteGUIServer implements HyperEventListener {
 					ps.updateHyperObject(ho);
 					ho.delete();
 					hc.getDebugMode().debugWriteMessage("Shop object deleted server side: " + ho.getDisplayName());
-					hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT, "Shop object deleted on remote server: " + ho.getDisplayName()));
+					hc.getHyperEventHandler()
+							.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT,
+									"Shop object deleted on remote server: " + ho.getDisplayName()));
 				}
 			} else {
 				ho.setHyperConomy(hc);
@@ -327,33 +369,40 @@ public class RemoteGUIServer implements HyperEventListener {
 				he.addObject(ho);
 				ho.delete();
 				hc.getDebugMode().debugWriteMessage("Regular object deleted server side: " + ho.getDisplayName());
-				hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT, "Trade object deleted on remote server: " + ho.getDisplayName()));
+				hc.getHyperEventHandler()
+						.fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.SERVER_CHANGE_OBJECT,
+								"Trade object deleted on remote server: " + ho.getDisplayName()));
 			}
 		}
 	}
-	
-	
+
 	private void processHyperEconomiesServer(ArrayList<HyperEconomy> economies) {
-		for (HyperEconomy he:economies) {
-			if (he == null || he.getName() == null || he.getName().equalsIgnoreCase("")) continue;
+		for (HyperEconomy he : economies) {
+			if (he == null || he.getName() == null || he.getName().equalsIgnoreCase(""))
+				continue;
 			he.setHyperConomy(hc);
 			hc.getDataManager().addEconomy(he);
 			he.save();
 			hc.getDebugMode().debugWriteMessage("Economy added via GUI: " + he.getName());
 		}
 	}
+
 	private void processDeletedHyperEconomiesServer(ArrayList<String> economies) {
-		for (String he:economies) {
-			if (he == null || he.equalsIgnoreCase("") || !hc.getDataManager().economyExists(he)) continue;
+		for (String he : economies) {
+			if (he == null || he.equalsIgnoreCase("") || !hc.getDataManager().economyExists(he))
+				continue;
 			hc.getDataManager().getEconomyIB(he).delete();
 			hc.getDebugMode().debugWriteMessage("Economy deleted via GUI: " + he);
 		}
 	}
+
 	private void processHyperObjectsServer(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
-			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase("")) continue;
+		for (TradeObject ho : objects) {
+			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase(""))
+				continue;
 			HyperEconomy he = hc.getDataManager().getEconomyIB(ho.getEconomy());
-			if (he == null) continue;
+			if (he == null)
+				continue;
 			ho.setHyperConomy(hc);
 			if (ho.isShopObject()) {
 				PlayerShop ps = ho.getShopObjectShop();
@@ -372,11 +421,14 @@ public class RemoteGUIServer implements HyperEventListener {
 			}
 		}
 	}
+
 	private void processDeletedTradeObjectsServer(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
-			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase("")) continue;
+		for (TradeObject ho : objects) {
+			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase(""))
+				continue;
 			HyperEconomy he = hc.getDataManager().getEconomyIB(ho.getEconomy());
-			if (he == null) continue;
+			if (he == null)
+				continue;
 			ho.setHyperConomy(hc);
 			if (ho.isShopObject()) {
 				PlayerShop ps = ho.getShopObjectShop();
@@ -395,11 +447,11 @@ public class RemoteGUIServer implements HyperEventListener {
 			}
 		}
 	}
-	
-	
+
 	private class RemoteAddress {
 		String ip;
 		int port;
+
 		public RemoteAddress(String ip, int port) {
 			this.ip = ip;
 			this.port = port;
@@ -409,7 +461,7 @@ public class RemoteGUIServer implements HyperEventListener {
 	public void disable() {
 		runServer = false;
 	}
-	
+
 	private void startServer() {
 		hc.getDebugMode().debugWriteMessage("GUI Server started on port: " + listenPort);
 		new Thread(new Runnable() {
@@ -423,11 +475,12 @@ public class RemoteGUIServer implements HyperEventListener {
 						socket = serverSocket.accept();
 						ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 						incomingTransfer = (GUITransferObject) input.readObject();
-						
+
 						GUITransferObject response = null;
-						
+
 						if (!incomingTransfer.getAuthKey().equals(authKey)) {
-							hc.getDebugMode().debugWriteMessage("Invalid Authorization Key Provided: " + incomingTransfer.getAuthKey() + " from IP: " + socket.getRemoteSocketAddress());
+							hc.getDebugMode().debugWriteMessage("Invalid Authorization Key Provided: "
+									+ incomingTransfer.getAuthKey() + " from IP: " + socket.getRemoteSocketAddress());
 							response = new GUITransferObject(GUITransferType.NOT_AUTHORIZED, "");
 							ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 							out.writeObject(response);
@@ -439,7 +492,7 @@ public class RemoteGUIServer implements HyperEventListener {
 						resetDisconnectTimer = true;
 						if (incomingTransfer.getType() == GUITransferType.REQUEST_GUI_INITIALIZATION) {
 							response = new GUITransferObject(GUITransferType.GUI_INITIALIZATION, authKey);
-							for (HyperEconomy he:hc.getDataManager().getEconomies()) {
+							for (HyperEconomy he : hc.getDataManager().getEconomies()) {
 								response.addEconomy(he);
 							}
 							ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -449,7 +502,8 @@ public class RemoteGUIServer implements HyperEventListener {
 							response = (GUITransferObject) input.readObject();
 							if (response.getType().equals(GUITransferType.SUCCESS)) {
 								connected = true;
-								//if no activity for 5 minutes disconnects GUI and stops accumulating server side changes to prevent memory leak
+								// if no activity for 5 minutes disconnects GUI and stops accumulating server
+								// side changes to prevent memory leak
 								startDisconnectTimer();
 							}
 						} else if (incomingTransfer.getType() == GUITransferType.REQUEST_UPDATE_GUI) {
@@ -464,14 +518,14 @@ public class RemoteGUIServer implements HyperEventListener {
 								response = (GUITransferObject) input.readObject();
 								if (response.getType().equals(GUITransferType.SUCCESS)) {
 									serverSideChanges.clear();
-									guiSynchronized = true;							
+									guiSynchronized = true;
 								}
 							}
 
 						} else if (incomingTransfer.getType() == GUITransferType.UPDATE_SERVER) {
 							currentlyUpdating = true;
 							processHyperEconomiesServer(incomingTransfer.getHyperEconomies());
-							processHyperObjectsServer(incomingTransfer.getHyperObjects()); 
+							processHyperObjectsServer(incomingTransfer.getHyperObjects());
 							processDeletedTradeObjectsServer(incomingTransfer.getDeletedTradeObjects());
 							processDeletedHyperEconomiesServer(incomingTransfer.getDeletedEconomies());
 							currentlyUpdating = false;
@@ -499,26 +553,31 @@ public class RemoteGUIServer implements HyperEventListener {
 					} catch (BindException be) {
 						runServer = false;
 						hc.getDebugMode().debugWriteError(be);
-						hc.getDebugMode().debugWriteMessage("Remote GUI disabled.  Port already in use by something else.  Check your config.");
+						hc.getDebugMode().debugWriteMessage(
+								"Remote GUI disabled.  Port already in use by something else.  Check your config.");
 					} catch (Exception e) {
 						try {
 							hc.getDebugMode().debugWriteError(e);
-							if (socket != null) socket.close();
-							if (serverSocket != null) serverSocket.close();
-						} catch (IOException e1) {}
+							if (socket != null)
+								socket.close();
+							if (serverSocket != null)
+								serverSocket.close();
+						} catch (IOException e1) {
+						}
 					}
 				}
 			}
 		}).start();
 	}
-	
+
 	public void startDisconnectTimer() {
 		t.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				if (resetDisconnectTimer) {
 					resetDisconnectTimer = false;
-					startDisconnectTimer(); //runs until GUI sends disconnect request or 5 minutes passes with no connection from GUI
+					startDisconnectTimer(); // runs until GUI sends disconnect request or 5 minutes passes with no
+											// connection from GUI
 				} else {
 					connected = false;
 					serverSideChanges.clear();
@@ -527,18 +586,17 @@ public class RemoteGUIServer implements HyperEventListener {
 		}, disconnectTimerMilliseconds);
 	}
 
-
-
 	public boolean connected() {
 		return connected;
 	}
-	
+
 	public boolean enabled() {
 		return remoteGUIEnabled;
 	}
 
 	public void disconnect() {
-		if (isServer) return;
+		if (isServer)
+			return;
 		try {
 			Socket socket = new Socket();
 			socket.connect(new InetSocketAddress(remoteServerAddress.ip, remoteServerAddress.port), 5000);
@@ -555,15 +613,10 @@ public class RemoteGUIServer implements HyperEventListener {
 		} catch (Exception e) {
 			String error = CommonFunctions.getErrorString(e);
 			hc.getHyperEventHandler().fireEventFromAsyncThread(new RequestGUIChangeEvent(GUIChangeType.ERROR, error));
-			hc.getDebugMode().debugWriteMessage("Disconnect error occurred when connecting to ip: " + remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
+			hc.getDebugMode().debugWriteMessage("Disconnect error occurred when connecting to ip: "
+					+ remoteServerAddress.ip + " and port: " + remoteServerAddress.port);
 			hc.getDebugMode().debugWriteError(e);
 		}
 	}
 
-
-
-
-
-	
 }
-

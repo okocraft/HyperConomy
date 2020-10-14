@@ -1,27 +1,25 @@
 package regalowl.hyperconomy.command;
 
-
 import java.util.ArrayList;
 
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.util.Backup;
 
 public class Hceconomy extends BaseCommand implements HyperCommand {
-	
-	
+
 	public Hceconomy(HyperConomy hc) {
 		super(hc, false);
 	}
 
-
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (args.length == 0) {
 			data.addResponse(L.get("HCECONOMY_INVALID"));
 			return data;
 		}
-		
+
 		if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c")) {
 			try {
 				if (dm.economyExists(args[1])) {

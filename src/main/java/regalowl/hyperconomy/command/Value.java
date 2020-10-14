@@ -1,13 +1,11 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.tradeobject.EnchantmentClass;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
-
 
 public class Value extends BaseCommand implements HyperCommand {
 
@@ -17,11 +15,13 @@ public class Value extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			HyperEconomy he = getEconomy();
 			boolean requireShop = hc.getConf().getBoolean("shop.limit-info-commands-to-shops");
-			if (hp != null && requireShop && !dm.getHyperShopManager().inAnyShop(hp) && !hp.hasPermission("hyperconomy.admin")) {
+			if (hp != null && requireShop && !dm.getHyperShopManager().inAnyShop(hp)
+					&& !hp.hasPermission("hyperconomy.admin")) {
 				data.addResponse(L.get("REQUIRE_SHOP_FOR_INFO"));
 				return data;
 			}
@@ -42,7 +42,8 @@ public class Value extends BaseCommand implements HyperCommand {
 					data.addResponse(L.get("VALUE_INVALID"));
 					return data;
 				}
-				if (amount > 10000) amount = 10000;
+				if (amount > 10000)
+					amount = 10000;
 			}
 			EnchantmentClass eClass = EnchantmentClass.DIAMOND;
 			if (ho.getType() == TradeObjectType.ENCHANTMENT && args.length > 1) {
@@ -94,11 +95,13 @@ public class Value extends BaseCommand implements HyperCommand {
 				}
 			}
 
-
 			data.addResponse(L.get("LINE_BREAK"));
-			data.addResponse(L.f(L.get("CAN_BE_SOLD_FOR"), amount, CommonFunctions.twoDecimals(val), ho.getDisplayName()));
-			data.addResponse(L.f(L.get("CAN_BE_PURCHASED_FOR"), amount, CommonFunctions.twoDecimals(cost), ho.getDisplayName()));
-			data.addResponse(L.f(L.get("GLOBAL_SHOP_CURRENTLY_HAS"), CommonFunctions.twoDecimals(ho.getStock()), ho.getDisplayName()));
+			data.addResponse(
+					L.f(L.get("CAN_BE_SOLD_FOR"), amount, CommonFunctions.twoDecimals(val), ho.getDisplayName()));
+			data.addResponse(
+					L.f(L.get("CAN_BE_PURCHASED_FOR"), amount, CommonFunctions.twoDecimals(cost), ho.getDisplayName()));
+			data.addResponse(L.f(L.get("GLOBAL_SHOP_CURRENTLY_HAS"), CommonFunctions.twoDecimals(ho.getStock()),
+					ho.getDisplayName()));
 			data.addResponse(L.get("LINE_BREAK"));
 
 		} catch (Exception e) {

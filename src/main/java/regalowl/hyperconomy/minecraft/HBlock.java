@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import regalowl.hyperconomy.HyperConomy;
 
-
-
 public class HBlock implements Serializable {
 
 	private static final long serialVersionUID = 6789704788932270058L;
 	private transient HyperConomy hc;
 	private HLocation location;
-	
-	
+
 	public HBlock(HyperConomy hc, HLocation location) {
 		this.hc = hc;
 		this.location = new HLocation(location);
@@ -22,38 +19,39 @@ public class HBlock implements Serializable {
 	public HLocation getLocation() {
 		return new HLocation(location);
 	}
-	
+
 	public boolean isChest() {
 		return hc.getMC().isChest(location);
 	}
-	
+
 	public boolean isInfoSign() {
 		return hc.getMC().isInfoSign(location);
 	}
-	
+
 	public boolean isTransactionSign() {
 		return hc.getMC().isTransactionSign(location);
 	}
-	
+
 	public boolean canHoldChestShopSign() {
 		return hc.getMC().canHoldChestShopSign(location);
 	}
-	
+
 	public HBlock getFirstNonAirBlockBelow() {
 		return hc.getMC().getFirstNonAirBlockInColumn(location);
 	}
-	
+
 	public boolean canFall() {
 		return hc.getMC().canFall(this);
 	}
-	
+
 	public boolean isLoaded() {
 		return hc.getMC().isLoaded(location);
 	}
+
 	public void load() {
 		hc.getMC().load(location);
 	}
-	
+
 	public HBlock[] getSurroundingBlocks() {
 		HBlock[] blocks = new HBlock[6];
 		HLocation l1 = new HLocation(location);
@@ -69,7 +67,7 @@ public class HBlock implements Serializable {
 		blocks[5] = nsew[3];
 		return blocks;
 	}
-	
+
 	public HBlock[] getNorthSouthEastWestBlocks() {
 		HBlock[] blocks = new HBlock[4];
 		HLocation l1 = new HLocation(location);
@@ -111,5 +109,5 @@ public class HBlock implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

@@ -1,8 +1,8 @@
 package regalowl.hyperconomy.shop;
 
 public enum ChestShopType {
-	BUY,SELL,TRADE;
-	
+	BUY, SELL, TRADE;
+
 	public static ChestShopType fromString(String s) {
 		if (s.equalsIgnoreCase("[Trade]") || s.equalsIgnoreCase("Trade")) {
 			return TRADE;

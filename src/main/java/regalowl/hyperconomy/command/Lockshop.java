@@ -1,7 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.util.HyperLock;
 
@@ -11,10 +9,10 @@ public class Lockshop extends BaseCommand implements HyperCommand {
 		super(hc, false);
 	}
 
-
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperLock hl = hc.getHyperLock();
 		try {
 			if (hl.fullLock()) {

@@ -1,17 +1,15 @@
 package regalowl.hyperconomy.tradeobject;
 
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.inventory.HEnchantment;
 
-
 public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObject {
-
 
 	private static final long serialVersionUID = -213806188136759445L;
 
-	public ShopTradeEnchant(HyperConomy hc, String playerShop, TradeObject ho, double stock, double buyPrice, double sellPrice, int maxStock, TradeObjectStatus status, boolean useEconomyStock) {
+	public ShopTradeEnchant(HyperConomy hc, String playerShop, TradeObject ho, double stock, double buyPrice,
+			double sellPrice, int maxStock, TradeObjectStatus status, boolean useEconomyStock) {
 		super(hc, playerShop, ho, stock, buyPrice, sellPrice, maxStock, status, useEconomyStock);
 	}
 
@@ -19,6 +17,7 @@ public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObjec
 	public String getEnchantmentName() {
 		return getParentTradeObject().getEnchantmentName();
 	}
+
 	@Override
 	public double getBuyPrice(EnchantmentClass enchantClass) {
 		if (buyPrice != 0.0) {
@@ -27,6 +26,7 @@ public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObjec
 			return getParentTradeObject().getBuyPrice(enchantClass);
 		}
 	}
+
 	@Override
 	public double getSellPrice(EnchantmentClass enchantClass) {
 		if (sellPrice != 0.0) {
@@ -35,6 +35,7 @@ public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObjec
 			return getParentTradeObject().getSellPrice(enchantClass);
 		}
 	}
+
 	@Override
 	public double getSellPrice(EnchantmentClass enchantClass, HyperPlayer hp) {
 		if (sellPrice != 0.0) {
@@ -43,15 +44,17 @@ public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObjec
 			return getParentTradeObject().getSellPrice(enchantClass, hp);
 		}
 	}
-	
+
 	@Override
 	public double getBuyPrice(double amount) {
 		return getBuyPrice(EnchantmentClass.DIAMOND) * amount;
 	}
+
 	@Override
 	public double getSellPrice(double amount) {
 		return getSellPrice(EnchantmentClass.DIAMOND) * amount;
 	}
+
 	@Override
 	public double getSellPrice(double amount, HyperPlayer hp) {
 		return getSellPrice(EnchantmentClass.DIAMOND, hp) * amount;
@@ -71,9 +74,5 @@ public class ShopTradeEnchant extends BasicShopTradeObject implements TradeObjec
 	public boolean matchesEnchantment(HEnchantment enchant) {
 		return getParentTradeObject().matchesEnchantment(enchant);
 	}
-
-
-
-
 
 }

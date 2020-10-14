@@ -11,7 +11,7 @@ public class Backup {
 
 	private transient HyperConomy hc;
 	private String destinationPath;
-	
+
 	public Backup(HyperConomy hc) {
 		this.hc = hc;
 		FileTools ft = hc.getFileTools();
@@ -29,7 +29,8 @@ public class Backup {
 		ft.makeFolder(destinationPath);
 		for (int i = 0; i < backupFiles.size(); i++) {
 			if (ft.fileExists(spath + File.separator + backupFiles.get(i))) {
-				ft.copyFile(spath + File.separator + backupFiles.get(i), destinationPath + File.separator + backupFiles.get(i));
+				ft.copyFile(spath + File.separator + backupFiles.get(i),
+						destinationPath + File.separator + backupFiles.get(i));
 			}
 		}
 
@@ -40,11 +41,12 @@ public class Backup {
 		String languagePath = destinationPath + File.separator + "Languages";
 		ft.makeFolder(languagePath);
 		for (int i = 0; i < backupFiles.size(); i++) {
-			ft.copyFile(spath + File.separator + backupFiles.get(i), languagePath + File.separator + backupFiles.get(i));
+			ft.copyFile(spath + File.separator + backupFiles.get(i),
+					languagePath + File.separator + backupFiles.get(i));
 		}
 		new Thread(new BackupTask()).start();
 	}
-	
+
 	private class BackupTask implements Runnable {
 		@Override
 		public void run() {
@@ -52,14 +54,15 @@ public class Backup {
 			FileTools ft = hc.getFileTools();
 			String folderPath = destinationPath + File.separator + "SQL_Tables";
 			ft.makeFolder(folderPath);
-			for (String table:tables) {
-				if (table.equalsIgnoreCase("history")) {continue;}
+			for (String table : tables) {
+				if (table.equalsIgnoreCase("history")) {
+					continue;
+				}
 				QueryResult data = hc.getSQLRead().select("SELECT * FROM hyperconomy_" + table);
 				String writePath = folderPath + File.separator + table + ".csv";
 				hc.getFileTools().writeCSV(data, writePath);
 			}
 		}
 	}
-	
-	
+
 }

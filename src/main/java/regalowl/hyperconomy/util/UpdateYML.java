@@ -1,22 +1,18 @@
 package regalowl.hyperconomy.util;
 
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import regalowl.simpledatalib.file.FileConfiguration;
 import regalowl.hyperconomy.HyperConomy;
 
-
 public class UpdateYML {
-	
-	
+
 	public UpdateYML(HyperConomy hc) {
 		FileConfiguration cfg = hc.getConf();
 
-		//remove when unnecessary for upgrades
+		// remove when unnecessary for upgrades
 		cfg.setDefault("shop.default-server-shop-account", cfg.getString("config.global-shop-account"));
-		
 
 		cfg.setDefault("enable-feature.shops", true);
 		cfg.setDefault("enable-feature.item-displays", true);
@@ -34,28 +30,24 @@ public class UpdateYML {
 		cfg.setDefault("enable-feature.debug-mode", false);
 		cfg.setDefault("enable-feature.uuid-support", true);
 		cfg.setDefault("enable-feature.time-effects", false);
-		
-		
+
 		cfg.setDefault("economy-plugin.use-external", true);
 		cfg.setDefault("economy-plugin.hook-internal-economy-into-vault", false);
 		cfg.setDefault("economy-plugin.starting-player-account-balance", 0);
-		
 
 		cfg.setDefault("sql.use-mysql", false);
 		cfg.setDefault("sql.log-sql-statements", false);
 		cfg.setDefault("sql.mysql-connection.username", "default_username");
 		cfg.setDefault("sql.mysql-connection.port", 3306);
-		cfg.setDefault("sql.mysql-connection.password", "default_password");		
-		cfg.setDefault("sql.mysql-connection.host", "localhost");		
+		cfg.setDefault("sql.mysql-connection.password", "default_password");
+		cfg.setDefault("sql.mysql-connection.host", "localhost");
 		cfg.setDefault("sql.mysql-connection.database", "minecraft");
 		cfg.setDefault("sql.mysql-connection.usessl", "false");
 		cfg.setDefault("bank.max-ownerships-per-player", 3);
 
-		
 		cfg.setDefault("language", "english");
-		cfg.setDefault("intervals.shop-check", 6);		
+		cfg.setDefault("intervals.shop-check", 6);
 		cfg.setDefault("intervals.save", 24000);
-
 
 		cfg.setDefault("tax.account", "hyperconomy");
 		cfg.setDefault("tax.purchase", 3);
@@ -67,8 +59,7 @@ public class UpdateYML {
 		cfg.setDefault("tax.dynamic.money-floor", 0);
 		cfg.setDefault("tax.dynamic.money-cap", 1000000);
 		cfg.setDefault("tax.dynamic.max-tax-percent", 100);
-		
-		
+
 		cfg.setDefault("shop.default-server-shop-account", "hyperconomy");
 		cfg.setDefault("shop.default-server-shop-account-initial-balance", 20000000);
 		cfg.setDefault("shop.display-shop-exit-message", true);
@@ -85,12 +76,10 @@ public class UpdateYML {
 		cfg.setDefault("shop.require-transaction-signs-to-be-in-shop", false);
 		cfg.setDefault("shop.send-price-change-notifications-for", "diamond,diamondblock,");
 
-		
 		cfg.setDefault("history.days-to-save", 7);
 
-		
 		cfg.setDefault("enchantment.classvalue.wood", .1);
-		cfg.setDefault("enchantment.classvalue.leather", .1);		
+		cfg.setDefault("enchantment.classvalue.leather", .1);
 		cfg.setDefault("enchantment.classvalue.stone", .15);
 		cfg.setDefault("enchantment.classvalue.chainmail", .2);
 		cfg.setDefault("enchantment.classvalue.iron", .25);
@@ -98,18 +87,17 @@ public class UpdateYML {
 		cfg.setDefault("enchantment.classvalue.diamond", 1);
 		cfg.setDefault("enchantment.classvalue.bow", .25);
 		cfg.setDefault("enchantment.classvalue.book", 1);
-		
 
 		cfg.setDefault("multi-server.enable", false);
-		cfg.setDefault("multi-server.remote-server-ip-addresses", "192.168.1.1,3313;192.168.1.1,3314;192.168.1.2,3313;");
+		cfg.setDefault("multi-server.remote-server-ip-addresses",
+				"192.168.1.1,3313;192.168.1.1,3314;192.168.1.2,3313;");
 		cfg.setDefault("multi-server.port", 3313);
-		cfg.setDefault("multi-server.update-interval", 500);	
+		cfg.setDefault("multi-server.update-interval", 500);
 		cfg.setDefault("multi-server.connection-timeout-ms", 2000);
 		cfg.setDefault("multi-server.sync-shops", true);
 		cfg.setDefault("multi-server.sync-trade-objects", true);
 		cfg.setDefault("multi-server.sync-accounts", true);
-		
-		
+
 		cfg.setDefault("remote-gui.enable", false);
 		cfg.setDefault("remote-gui.server", false);
 		cfg.setDefault("remote-gui.remote-server-ip", "192.168.1.1");
@@ -122,15 +110,13 @@ public class UpdateYML {
 			String authKey = new BigInteger(130, random).toString(32);
 			cfg.set("remote-gui.auth-key", authKey);
 		}
-		
-		
+
 		cfg.setDefault("updater.enabled", true);
 		cfg.setDefault("updater.notify-in-game", true);
 		cfg.setDefault("updater.notify-for.dev-builds", true);
 		cfg.setDefault("updater.notify-for.beta-builds", true);
 		cfg.setDefault("updater.notify-for.recommended-builds", true);
-		
-		
+
 		cfg.setDefault("web-page.enable", false);
 		cfg.setDefault("web-page.port", 7777);
 		cfg.setDefault("web-page.background-color", "8FA685");
@@ -145,8 +131,7 @@ public class UpdateYML {
 		cfg.setDefault("web-page.font", "verdana");
 		cfg.setDefault("web-page.enable-web-api", false);
 		cfg.setDefault("web-page.web-api-path", "API");
-		
-		
+
 		cfg.setDefault("chest-shop.limit-chest-shops", true);
 		cfg.setDefault("chest-shop.max-per-player", 5);
 	}

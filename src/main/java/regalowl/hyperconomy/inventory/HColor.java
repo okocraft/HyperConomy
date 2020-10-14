@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.inventory;
 
-
 import java.util.HashMap;
 
 import regalowl.simpledatalib.CommonFunctions;
@@ -10,7 +9,7 @@ public class HColor {
 	private int red;
 	private int green;
 	private int blue;
- 
+
 	public HColor(int red, int green, int blue) {
 		this.red = red;
 		this.green = green;
@@ -18,37 +17,37 @@ public class HColor {
 	}
 
 	public String serialize() {
-		HashMap<String,String> data = new HashMap<String,String>();
-		data.put("red", red+"");
-		data.put("green", green+"");
-		data.put("blue", blue+"");
+		HashMap<String, String> data = new HashMap<String, String>();
+		data.put("red", red + "");
+		data.put("green", green + "");
+		data.put("blue", blue + "");
 		return CommonFunctions.implodeMap(data);
 	}
-	
+
 	public HColor(String serialized) {
-		HashMap<String,String> data = CommonFunctions.explodeMap(serialized);
+		HashMap<String, String> data = CommonFunctions.explodeMap(serialized);
 		this.red = Integer.parseInt(data.get("red"));
 		this.green = Integer.parseInt(data.get("green"));
 		this.blue = Integer.parseInt(data.get("blue"));
-    }
-	
+	}
+
 	public HColor(HColor c) {
 		this.red = c.red;
 		this.green = c.green;
 		this.blue = c.blue;
-    }
-	
+	}
 
 	public int getRed() {
 		return red;
 	}
+
 	public int getGreen() {
 		return green;
 	}
+
 	public int getBlue() {
 		return blue;
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -77,6 +76,5 @@ public class HColor {
 			return false;
 		return true;
 	}
-
 
 }

@@ -1,5 +1,4 @@
 package regalowl.hyperconomy.display;
 
-
-
-public interface FrameShop {}
+public interface FrameShop {
+}

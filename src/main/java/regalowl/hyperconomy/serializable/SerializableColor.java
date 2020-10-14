@@ -7,51 +7,53 @@ import java.io.Serializable;
 import org.bukkit.Color;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-
-
 public class SerializableColor extends SerializableObject implements Serializable {
-	
+
 	private static final long serialVersionUID = 1194773802989404854L;
 
 	private int red;
 	private int green;
 	private int blue;
- 
+
 	public SerializableColor(Color c) {
-        this.red = c.getRed();
-        this.green = c.getGreen();
-        this.blue = c.getBlue();
-    }
+		this.red = c.getRed();
+		this.green = c.getGreen();
+		this.blue = c.getBlue();
+	}
 
 	public SerializableColor(String base64String) {
-    	try {
+		try {
 			byte[] data = Base64Coder.decode(base64String);
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o = ois.readObject();
 			ois.close();
-			if (!(o instanceof SerializableColor)) {return;}
-			SerializableColor sc = (SerializableColor)o;
-	        this.red = sc.getRed();
-	        this.green = sc.getGreen();
-	        this.blue = sc.getBlue();
-    	} catch (Exception e) {
-    		
-    	}
-    }
-	
+			if (!(o instanceof SerializableColor)) {
+				return;
+			}
+			SerializableColor sc = (SerializableColor) o;
+			this.red = sc.getRed();
+			this.green = sc.getGreen();
+			this.blue = sc.getBlue();
+		} catch (Exception e) {
+
+		}
+	}
+
 	public Color getColor() {
 		return Color.fromRGB(red, green, blue);
 	}
+
 	public int getRed() {
 		return red;
 	}
+
 	public int getGreen() {
 		return red;
 	}
+
 	public int getBlue() {
 		return red;
 	}
-	
 
 	@Override
 	public int hashCode() {

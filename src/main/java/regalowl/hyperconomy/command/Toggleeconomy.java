@@ -2,11 +2,7 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-
-
-
 public class Toggleeconomy extends BaseCommand implements HyperCommand {
-
 
 	public Toggleeconomy(HyperConomy hc) {
 		super(hc, false);
@@ -14,7 +10,8 @@ public class Toggleeconomy extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (hc.getConf().getBoolean("economy-plugin.use-external")) {
 				hc.getConf().set("economy-plugin.use-external", false);

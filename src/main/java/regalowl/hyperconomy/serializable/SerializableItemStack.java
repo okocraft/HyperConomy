@@ -19,77 +19,78 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
- 
-
 public class SerializableItemStack extends SerializableObject implements Serializable {
 
 	private static final long serialVersionUID = 8634824379403255552L;
 	private String material;
-    private short durability;
-    private byte data;
-    private SerializableItemMeta itemMeta;
-  
- 
-    @SuppressWarnings("deprecation")
+	private short durability;
+	private byte data;
+	private SerializableItemMeta itemMeta;
+
+	@SuppressWarnings("deprecation")
 	public SerializableItemStack(ItemStack item) {
-        this.material = item.getType().toString();
-        this.durability = item.getDurability();
-        this.data = item.getData().getData(); 
-        if (item.hasItemMeta()) {
-        	ItemMeta im = item.getItemMeta();
-        	if (im instanceof EnchantmentStorageMeta) {
-        		itemMeta = new SerializableEnchantmentStorageMeta(item.getItemMeta());
-        	} else if (im instanceof BookMeta) {
-        		itemMeta = new SerializableBookMeta(item.getItemMeta());
-        	} else if (im instanceof FireworkEffectMeta) {
-        		itemMeta = new SerializableFireworkEffectMeta(item.getItemMeta());
-        	} else if (im instanceof FireworkMeta) {
-        		itemMeta = new SerializableFireworkMeta(item.getItemMeta());
-        	} else if (im instanceof LeatherArmorMeta) {
-        		itemMeta = new SerializableLeatherArmorMeta(item.getItemMeta());
-        	} else if (im instanceof PotionMeta) {
-        		itemMeta = new SerializablePotionMeta(item.getItemMeta());
-        	} else if (im instanceof SkullMeta) {
-        		itemMeta = new SerializableSkullMeta(item.getItemMeta());
-        	} else if (im instanceof MapMeta) {
-        		itemMeta = new SerializableMapMeta(item.getItemMeta());
-        	} else {
-        		itemMeta = new SerializableItemMeta(item.getItemMeta());
-        	}
-        }
-    }
+		this.material = item.getType().toString();
+		this.durability = item.getDurability();
+		this.data = item.getData().getData();
+		if (item.hasItemMeta()) {
+			ItemMeta im = item.getItemMeta();
+			if (im instanceof EnchantmentStorageMeta) {
+				itemMeta = new SerializableEnchantmentStorageMeta(item.getItemMeta());
+			} else if (im instanceof BookMeta) {
+				itemMeta = new SerializableBookMeta(item.getItemMeta());
+			} else if (im instanceof FireworkEffectMeta) {
+				itemMeta = new SerializableFireworkEffectMeta(item.getItemMeta());
+			} else if (im instanceof FireworkMeta) {
+				itemMeta = new SerializableFireworkMeta(item.getItemMeta());
+			} else if (im instanceof LeatherArmorMeta) {
+				itemMeta = new SerializableLeatherArmorMeta(item.getItemMeta());
+			} else if (im instanceof PotionMeta) {
+				itemMeta = new SerializablePotionMeta(item.getItemMeta());
+			} else if (im instanceof SkullMeta) {
+				itemMeta = new SerializableSkullMeta(item.getItemMeta());
+			} else if (im instanceof MapMeta) {
+				itemMeta = new SerializableMapMeta(item.getItemMeta());
+			} else {
+				itemMeta = new SerializableItemMeta(item.getItemMeta());
+			}
+		}
+	}
 
 	public SerializableItemStack(String base64String) {
-    	try {
+		try {
 			byte[] data = Base64Coder.decode(base64String);
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o = ois.readObject();
 			ois.close();
-			if (!(o instanceof SerializableItemStack)) {return;}
-			SerializableItemStack sis = (SerializableItemStack)o;
-	        this.material = sis.getMaterial();
-	        this.durability = sis.getDurability();
-	        this.data = sis.getData();
-	        this.itemMeta = sis.getItemMeta();
-    	} catch (Exception e) {
-    	}
-    }
- 
-    @SuppressWarnings("deprecation")
+			if (!(o instanceof SerializableItemStack)) {
+				return;
+			}
+			SerializableItemStack sis = (SerializableItemStack) o;
+			this.material = sis.getMaterial();
+			this.durability = sis.getDurability();
+			this.data = sis.getData();
+			this.itemMeta = sis.getItemMeta();
+		} catch (Exception e) {
+		}
+	}
+
+	@SuppressWarnings("deprecation")
 	public ItemStack getItem() {
-    	if (material == null || material == "") return null;
-    	Material m = Material.matchMaterial(material);
-    	if (m == null) return null;
-        ItemStack item = new ItemStack(m);
-        item.setAmount(1);
-        item.setDurability(durability);
-        if (itemMeta != null) {
-        	item.setItemMeta(itemMeta.getItemMeta());
-        }
-        item.getData().setData(data);
-        return item;
-    }
-    
+		if (material == null || material == "")
+			return null;
+		Material m = Material.matchMaterial(material);
+		if (m == null)
+			return null;
+		ItemStack item = new ItemStack(m);
+		item.setAmount(1);
+		item.setDurability(durability);
+		if (itemMeta != null) {
+			item.setItemMeta(itemMeta.getItemMeta());
+		}
+		item.getData().setData(data);
+		return item;
+	}
+
 	public void displayInfo(Player p, ChatColor color1, ChatColor color2) {
 		p.sendMessage(color1 + "Material: " + color2 + material);
 		p.sendMessage(color1 + "Durability: " + color2 + durability);
@@ -102,7 +103,7 @@ public class SerializableItemStack extends SerializableObject implements Seriali
 	public String getMaterial() {
 		return material;
 	}
-	
+
 	public Material getMaterialEnum() {
 		return Material.matchMaterial(material);
 	}
@@ -119,7 +120,6 @@ public class SerializableItemStack extends SerializableObject implements Seriali
 		return itemMeta;
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,7 +158,7 @@ public class SerializableItemStack extends SerializableObject implements Seriali
 			return false;
 		return true;
 	}
-	
+
 	public boolean considerDamage() {
 		Material m = Material.matchMaterial(material);
 		boolean ignoreDamage = true;

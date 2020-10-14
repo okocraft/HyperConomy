@@ -5,14 +5,14 @@ import regalowl.hyperconomy.account.HyperPlayer;
 
 public class Makeaccount extends BaseCommand implements HyperCommand {
 
-
 	public Makeaccount(HyperConomy hc) {
 		super(hc, false);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 1) {
 				String account = args[0];

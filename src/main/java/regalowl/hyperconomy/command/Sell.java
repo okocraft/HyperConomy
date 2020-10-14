@@ -10,16 +10,15 @@ import regalowl.hyperconomy.transaction.TransactionResponse;
 import regalowl.hyperconomy.transaction.TransactionType;
 
 public class Sell extends BaseCommand implements HyperCommand {
-	
 
 	public Sell(HyperConomy hc) {
 		super(hc, true);
 	}
 
-
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 0) {
 				data.addResponse(L.get("SELL_INVALID"));
@@ -45,7 +44,8 @@ public class Sell extends BaseCommand implements HyperCommand {
 				} else {
 					try {
 						amount = Integer.parseInt(args[1]);
-						if (amount > 10000) amount = 10000;
+						if (amount > 10000)
+							amount = 10000;
 					} catch (Exception e) {
 						data.addResponse(L.get("SELL_INVALID"));
 						return data;
@@ -59,9 +59,10 @@ public class Sell extends BaseCommand implements HyperCommand {
 			pt.setObeyShops(true);
 			pt.setHyperObject(ho);
 			pt.setAmount(amount);
-			if (s != null) pt.setTradePartner(s.getOwner());
+			if (s != null)
+				pt.setTradePartner(s.getOwner());
 			TransactionResponse response = hp.processTransaction(pt);
-			response.sendMessages(); 
+			response.sendMessages();
 		} catch (Exception e) {
 			hc.gSDL().getErrorWriter().writeError(e);
 		}

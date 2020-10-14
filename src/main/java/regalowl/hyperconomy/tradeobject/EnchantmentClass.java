@@ -7,7 +7,8 @@ public enum EnchantmentClass {
 	WOOD, LEATHER, STONE, CHAINMAIL, IRON, GOLD, DIAMOND, BOW, BOOK, NONE;
 
 	public static EnchantmentClass fromString(String type) {
-		if (type == null) return EnchantmentClass.NONE;
+		if (type == null)
+			return EnchantmentClass.NONE;
 		type = type.toLowerCase();
 		if (type.contains("wood")) {
 			return EnchantmentClass.WOOD;
@@ -31,11 +32,11 @@ public enum EnchantmentClass {
 			return EnchantmentClass.NONE;
 		}
 	}
-	
+
 	public static EnchantmentClass fromItem(HItemStack item) {
 		return fromString(item.getMaterial());
 	}
-	
+
 	public static double getClassValue(HyperConomy hc, EnchantmentClass eclass) {
 		try {
 			if (eclass.equals(EnchantmentClass.LEATHER)) {

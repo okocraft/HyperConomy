@@ -1,10 +1,10 @@
 package regalowl.hyperconomy.timeeffects;
 
-
 public enum TimeEffectType {
 
-	INCREASE_STOCK, DECREASE_STOCK, BALANCE_STOCK, INCREASE_BALANCE, DECREASE_BALANCE, BALANCE_BALANCE, RANDOM_STOCK, RANDOM_BALANCE, NONE;
-	
+	INCREASE_STOCK, DECREASE_STOCK, BALANCE_STOCK, INCREASE_BALANCE, DECREASE_BALANCE, BALANCE_BALANCE, RANDOM_STOCK,
+	RANDOM_BALANCE, NONE;
+
 	public static TimeEffectType fromString(String type) {
 		if (type == null) {
 			return TimeEffectType.NONE;
@@ -30,16 +30,19 @@ public enum TimeEffectType {
 			return TimeEffectType.NONE;
 		}
 	}
-	
+
 	public static boolean isTimeEffectType(String type) {
 		TimeEffectType t = fromString(type);
-		if (t == TimeEffectType.NONE) return false;
-		if (type.toUpperCase().equalsIgnoreCase(t.toString())) return true;
+		if (t == TimeEffectType.NONE)
+			return false;
+		if (type.toUpperCase().equalsIgnoreCase(t.toString()))
+			return true;
 		return false;
 	}
-	
+
 	public static boolean isTradeObjectType(TimeEffectType type) {
-		if (type == TimeEffectType.INCREASE_STOCK || type == TimeEffectType.DECREASE_STOCK || type == TimeEffectType.BALANCE_STOCK || type == TimeEffectType.RANDOM_STOCK) {
+		if (type == TimeEffectType.INCREASE_STOCK || type == TimeEffectType.DECREASE_STOCK
+				|| type == TimeEffectType.BALANCE_STOCK || type == TimeEffectType.RANDOM_STOCK) {
 			return true;
 		}
 		return false;

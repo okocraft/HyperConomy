@@ -14,7 +14,6 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 
 public class DataEditor extends JFrame {
 
-
 	private static final long serialVersionUID = 595777527534644481L;
 	private JFrame dataEditor;
 	private JPanel contentPane;
@@ -35,18 +34,18 @@ public class DataEditor extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 12, 474, 451);
 		contentPane.add(scrollPane);
-		
+
 		dataTextArea = new JTextArea();
 		dataTextArea.setLineWrap(true);
 		dataTextArea.setWrapStyleWord(true);
-		if (tradeObject != null) dataTextArea.setText(tradeObject.getData());
+		if (tradeObject != null)
+			dataTextArea.setText(tradeObject.getData());
 		scrollPane.setViewportView(dataTextArea);
 
-		
 		JButton saveButton = new JButton("Save");
 		saveButton.setBounds(185, 475, 117, 25);
 		contentPane.add(saveButton);

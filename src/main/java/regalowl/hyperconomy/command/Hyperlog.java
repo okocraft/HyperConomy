@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
 import java.util.ArrayList;
 
 import regalowl.simpledatalib.sql.QueryResult;
@@ -12,14 +11,15 @@ public class Hyperlog extends BaseCommand implements HyperCommand {
 
 	private String statement;
 	private ArrayList<String> result;
-	
+
 	public Hyperlog(HyperConomy hc) {
 		super(hc, false);
 	}
-	
+
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		LanguageFile L = hc.getLanguageFile();
 		try {
 			if (args.length % 2 != 0 || args.length == 0) {
@@ -57,7 +57,7 @@ public class Hyperlog extends BaseCommand implements HyperCommand {
 					} else {
 						statement += " TIME > date('now','" + formatSQLiteTime(quantity * -1) + " minute')";
 					}
-					
+
 				} else if (type.equalsIgnoreCase("before") || type.equalsIgnoreCase("b")) {
 					String increment = value.substring(value.length() - 1, value.length());
 					Integer quantity = Integer.parseInt(value.substring(0, value.length() - 1));
@@ -110,34 +110,34 @@ public class Hyperlog extends BaseCommand implements HyperCommand {
 
 			statement += " ORDER BY TIME DESC";
 			new Thread(new Runnable() {
-	    		public void run() {
-	    			result = getHyperLog(statement);
-	    			hc.getMC().runTask(new Runnable() {
-	    	    		public void run() {
-	    	    			int m = result.size();
-	    	    			if (m > 100) {
-	    	    				m = 100;
-	    	    			}
-	    	    			hp.sendMessage(hc.getLanguageFile().get("LINE_BREAK"));
-	    	    			for (String message:result) {
-	    	    				hp.sendMessage(message);
-	    	    			}
-	    	    			if (result.size() == 0) {
-	    	    				hp.sendMessage(hc.getLanguageFile().get("HYPERLOG_NORESULT"));
-	    	    			}
-	    	    		}
-	    	    	});
-	    		}
-	    	}).start();
+				public void run() {
+					result = getHyperLog(statement);
+					hc.getMC().runTask(new Runnable() {
+						public void run() {
+							int m = result.size();
+							if (m > 100) {
+								m = 100;
+							}
+							hp.sendMessage(hc.getLanguageFile().get("LINE_BREAK"));
+							for (String message : result) {
+								hp.sendMessage(message);
+							}
+							if (result.size() == 0) {
+								hp.sendMessage(hc.getLanguageFile().get("HYPERLOG_NORESULT"));
+							}
+						}
+					});
+				}
+			}).start();
 		} catch (Exception e) {
 			data.addResponse(L.get("HYPERLOG_INVALID"));
 		}
 		return data;
 	}
-	
 
 	/**
 	 * This function must be called from an asynchronous thread!
+	 * 
 	 * @param statement
 	 * @return a display of the selected HyperLog entry
 	 */
@@ -161,16 +161,18 @@ public class Hyperlog extends BaseCommand implements HyperCommand {
 			time = time.substring(0, time.indexOf(" "));
 			time = time.substring(time.indexOf("-") + 1, time.length());
 			if (action.equalsIgnoreCase("purchase")) {
-				entry = "[" + "&c" + time + "&f" + "]" + "&e" + store + "&f" + "->" + "&b" + customer + "&f" + "[" + "&9" + amount + " " + "&9" + object + "&f" + "]" + "[" + "&a" + L.fC(money) + "&f" + "]";
+				entry = "[" + "&c" + time + "&f" + "]" + "&e" + store + "&f" + "->" + "&b" + customer + "&f" + "["
+						+ "&9" + amount + " " + "&9" + object + "&f" + "]" + "[" + "&a" + L.fC(money) + "&f" + "]";
 			} else if (action.equalsIgnoreCase("sale")) {
-				entry = "[" + "&c" + time + "&f" + "]" + "&b" + customer + "&f" + "->" + "&e" + store + "&f" + "[" + "&9" + amount + " " + "&9" + object + "&f" + "]" + "[" + "&a" + L.fC(money) + "&f" + "]";
+				entry = "[" + "&c" + time + "&f" + "]" + "&b" + customer + "&f" + "->" + "&e" + store + "&f" + "["
+						+ "&9" + amount + " " + "&9" + object + "&f" + "]" + "[" + "&a" + L.fC(money) + "&f" + "]";
 			}
 			entries.add(entry);
 		}
 		result.close();
 		return entries;
 	}
-	
+
 	public String formatSQLiteTime(int time) {
 		if (time < 0) {
 			return "-" + Math.abs(time);
@@ -180,7 +182,5 @@ public class Hyperlog extends BaseCommand implements HyperCommand {
 			return "0";
 		}
 	}
-
-
 
 }

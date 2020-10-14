@@ -3,9 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.simpledatalib.file.FileConfiguration;
 
-
 public class Taxsettings extends BaseCommand implements HyperCommand {
-
 
 	public Taxsettings(HyperConomy hc) {
 		super(hc, false);
@@ -13,7 +11,8 @@ public class Taxsettings extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			FileConfiguration conf = hc.getConf();
 			Double purchasetaxpercent = conf.getDouble("tax.purchase");

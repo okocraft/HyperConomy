@@ -1,20 +1,18 @@
 package regalowl.hyperconomy.inventory;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import regalowl.simpledatalib.CommonFunctions;
 
- 
-
 public class HFireworkMeta extends HItemMeta {
-	
+
 	private ArrayList<HFireworkEffect> effects = new ArrayList<HFireworkEffect>();
 	private int power;
 
-	
-	public HFireworkMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments, ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, ArrayList<HFireworkEffect> effects, int power) {
+	public HFireworkMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments,
+			ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, ArrayList<HFireworkEffect> effects,
+			int power) {
 		super(displayName, lore, enchantments, itemFlags, unbreakable, repairCost);
 		this.effects = effects;
 		this.power = power;
@@ -22,42 +20,43 @@ public class HFireworkMeta extends HItemMeta {
 
 	public HFireworkMeta(String serialized) {
 		super(serialized);
-		HashMap<String,String> data = CommonFunctions.explodeMap(serialized);
+		HashMap<String, String> data = CommonFunctions.explodeMap(serialized);
 		ArrayList<String> stringEffects = CommonFunctions.explode(data.get("effects"));
-		for (String ef:stringEffects) {
+		for (String ef : stringEffects) {
 			effects.add(new HFireworkEffect(ef));
 		}
 		this.power = Integer.parseInt(data.get("power"));
-    }
-	
+	}
+
 	public HFireworkMeta(HFireworkMeta meta) {
 		super(meta);
-		for (HFireworkEffect fe:meta.effects) {
+		for (HFireworkEffect fe : meta.effects) {
 			this.effects.add(new HFireworkEffect(fe));
 		}
 		this.power = meta.power;
-    }
+	}
 
 	@Override
 	public String serialize() {
-		HashMap<String,String> data = super.getMap();
+		HashMap<String, String> data = super.getMap();
 		ArrayList<String> stringEffects = new ArrayList<String>();
-		for (HFireworkEffect hfe:effects) {
+		for (HFireworkEffect hfe : effects) {
 			stringEffects.add(hfe.serialize());
 		}
 		data.put("effects", CommonFunctions.implode(stringEffects));
-		data.put("power", power+"");
+		data.put("power", power + "");
 		return CommonFunctions.implodeMap(data);
 	}
-	
+
 	@Override
 	public HItemMetaType getType() {
 		return HItemMetaType.FIREWORK;
 	}
-	
+
 	public ArrayList<HFireworkEffect> getEffects() {
 		return effects;
 	}
+
 	public int getPower() {
 		return power;
 	}

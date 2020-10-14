@@ -23,7 +23,6 @@ import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 import regalowl.hyperconomy.util.History;
 
-
 public class ShopPage extends HttpServlet implements HyperEventListener {
 
 	private static final long serialVersionUID = 699465359999143309L;
@@ -33,8 +32,7 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 	private Shop s;
 	private String page = "Loading...  Please wait.  The page will refresh automatically.";
 	private ArrayList<TradeObject> modifiedSinceLastUpdate = new ArrayList<TradeObject>();
-	
-	
+
 	private HashMap<TradeObject, String> hour = null;
 	private HashMap<TradeObject, String> sixHours = null;
 	private HashMap<TradeObject, String> day = null;
@@ -50,10 +48,9 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 		hc.getHyperEventHandler().registerListener(this);
 		page = buildLoadPage();
 	}
-	
-	
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setIntHeader("Refresh", 10);
@@ -61,18 +58,18 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 		updatePage();
 	}
 
-	
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof TradeObjectModificationEvent) {
-			TradeObjectModificationEvent toe = (TradeObjectModificationEvent)event;
+			TradeObjectModificationEvent toe = (TradeObjectModificationEvent) event;
 			modifiedSinceLastUpdate.add(toe.getTradeObject());
 		}
 	}
-	
+
 	public void updatePage() {
-		if (!initialLoad && modifiedSinceLastUpdate.size() == 0) return;
-		
+		if (!initialLoad && modifiedSinceLastUpdate.size() == 0)
+			return;
+
 		new Thread(new Runnable() {
 			public void run() {
 				page = buildPage(s.getEconomy());
@@ -83,8 +80,10 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 	private String buildPage(String economy) {
 		try {
 			String page = "";
-			if (!hc.loaded()) return page;
-			if (s == null) return "";
+			if (!hc.loaded())
+				return page;
+			if (s == null)
+				return "";
 			PlayerShop ps = null;
 			if (s instanceof PlayerShop) {
 				ps = (PlayerShop) s;
@@ -96,7 +95,6 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 			ArrayList<TradeObject> objects = s.getTradeableObjects();
 			Collections.sort(objects);
 
-
 			if (useHistory) {
 				if (initialLoad) {
 					hour = hist.getPercentChange(economy, 1);
@@ -106,7 +104,7 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 					week = hist.getPercentChange(economy, 168);
 					initialLoad = false;
 				} else {
-					for (TradeObject to:modifiedSinceLastUpdate) {
+					for (TradeObject to : modifiedSinceLastUpdate) {
 						hour.put(to, hist.getPercentChange(to, 1));
 						sixHours.put(to, hist.getPercentChange(to, 6));
 						day.put(to, hist.getPercentChange(to, 24));
@@ -121,11 +119,15 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 			page += "<script type='text/javascript'>\n";
 			page += "</script>\n";
 			page += "<style>\n";
-			page += "* {font-family:" + hcw.getFont() + ";font-size:" + hcw.getFontSize() + "px;color:" + hcw.getFontColor() + ";}\n";
+			page += "* {font-family:" + hcw.getFont() + ";font-size:" + hcw.getFontSize() + "px;color:"
+					+ hcw.getFontColor() + ";}\n";
 			page += "body {background:" + hcw.getBackgroundColor() + ";}\n";
-			page += "td {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getTableDataColor() + ";}\n";
-			page += "td.red {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getDecreaseColor() + ";}\n";
-			page += "td.green {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getIncreaseColor() + ";}\n";
+			page += "td {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+					+ hcw.getTableDataColor() + ";}\n";
+			page += "td.red {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+					+ hcw.getDecreaseColor() + ";}\n";
+			page += "td.green {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+					+ hcw.getIncreaseColor() + ";}\n";
 			page += "th {border:1px solid " + hcw.getBorderColor() + ";padding:3px;cursor:pointer;}\n";
 			page += "th.header {background:" + hcw.getHeaderColor() + ";}\n";
 			page += "tr:hover {background:" + hcw.getHighlightColor() + ";}\n";
@@ -328,11 +330,15 @@ public class ShopPage extends HttpServlet implements HyperEventListener {
 		page += "<script type='text/javascript'>\n";
 		page += "</script>\n";
 		page += "<style>\n";
-		page += "* {font-family:" + hcw.getFont() + ";font-size:" + hcw.getFontSize() + "px;color:" + hcw.getFontColor() + ";}\n";
+		page += "* {font-family:" + hcw.getFont() + ";font-size:" + hcw.getFontSize() + "px;color:" + hcw.getFontColor()
+				+ ";}\n";
 		page += "body {background:" + hcw.getBackgroundColor() + ";}\n";
-		page += "td {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getTableDataColor() + ";}\n";
-		page += "td.red {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getDecreaseColor() + ";}\n";
-		page += "td.green {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:" + hcw.getIncreaseColor() + ";}\n";
+		page += "td {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+				+ hcw.getTableDataColor() + ";}\n";
+		page += "td.red {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+				+ hcw.getDecreaseColor() + ";}\n";
+		page += "td.green {vertical-align:top;border:1px solid " + hcw.getBorderColor() + ";background:"
+				+ hcw.getIncreaseColor() + ";}\n";
 		page += "th {border:1px solid " + hcw.getBorderColor() + ";padding:3px;cursor:pointer;}\n";
 		page += "th.header {background:" + hcw.getHeaderColor() + ";}\n";
 		page += "tr:hover {background:" + hcw.getHighlightColor() + ";}\n";

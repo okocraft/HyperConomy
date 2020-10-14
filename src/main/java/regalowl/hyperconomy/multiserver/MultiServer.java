@@ -29,7 +29,6 @@ import regalowl.hyperconomy.shop.PlayerShop;
 import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-
 public class MultiServer implements HyperEventListener {
 
 	private HyperConomy hc;
@@ -44,18 +43,20 @@ public class MultiServer implements HyperEventListener {
 	private MultiServerTransferObject sendObject;
 	private RemoteUpdater remoteUpdater;
 	private Timer t = new Timer();
-	
+
 	public MultiServer(HyperConomy hc) {
 		this.hc = hc;
 		if (hc.getConf().getBoolean("multi-server.enable")) {
 			try {
-				ArrayList<String> ips = CommonFunctions.explode(hc.getConf().getString("multi-server.remote-server-ip-addresses"), ";");
-				for (String ip:ips) {
+				ArrayList<String> ips = CommonFunctions
+						.explode(hc.getConf().getString("multi-server.remote-server-ip-addresses"), ";");
+				for (String ip : ips) {
 					ArrayList<String> ipport = CommonFunctions.explode(ip, ",");
-					addresses.add(new RemoteAddress(ipport.get(0),Integer.parseInt(ipport.get(1))));
+					addresses.add(new RemoteAddress(ipport.get(0), Integer.parseInt(ipport.get(1))));
 				}
 			} catch (Exception e) {
-				hc.getMC().logSevere("[HyperConomy]'remote-server-ip-addresses' entry in config.yml is invalid.  Regenerate the config or check the wiki for more info.");
+				hc.getMC().logSevere(
+						"[HyperConomy]'remote-server-ip-addresses' entry in config.yml is invalid.  Regenerate the config or check the wiki for more info.");
 				return;
 			}
 			listenPort = hc.getConf().getInt("multi-server.port");
@@ -72,10 +73,11 @@ public class MultiServer implements HyperEventListener {
 			t.schedule(remoteUpdater, updateInterval, updateInterval);
 		}
 	}
-	
+
 	private class RemoteAddress {
 		private String ip;
 		private int port;
+
 		public RemoteAddress(String ip, int port) {
 			this.ip = ip;
 			this.port = port;
@@ -85,7 +87,7 @@ public class MultiServer implements HyperEventListener {
 	public void disable() {
 		runServer = false;
 	}
-	
+
 	private void receiveUpdate() {
 		new Thread(new Runnable() {
 			public void run() {
@@ -105,16 +107,20 @@ public class MultiServer implements HyperEventListener {
 							processBanks(transferObject.getBanks());
 						}
 						ObjectOutputStream out = new ObjectOutputStream(sClientSocket.getOutputStream());
-						out.writeObject(new MultiServerTransferObject(MultiServerTransferType.MULTI_SERVER_UPDATE_SUCCESSFUL));
+						out.writeObject(
+								new MultiServerTransferObject(MultiServerTransferType.MULTI_SERVER_UPDATE_SUCCESSFUL));
 						out.flush();
 						sClientSocket.close();
 						serverSocket.close();
 					} catch (Exception e) {
 						try {
-							//hc.getDebugMode().debugWriteError(e);
-							if (sClientSocket != null) sClientSocket.close();
-							if (serverSocket != null) serverSocket.close();
-						} catch (IOException e1) {}
+							// hc.getDebugMode().debugWriteError(e);
+							if (sClientSocket != null)
+								sClientSocket.close();
+							if (serverSocket != null)
+								serverSocket.close();
+						} catch (IOException e1) {
+						}
 					}
 				}
 			}
@@ -122,58 +128,71 @@ public class MultiServer implements HyperEventListener {
 	}
 
 	private void processHyperObjects(ArrayList<TradeObject> objects) {
-		if (!syncObjects) return;
-		for (TradeObject ho:objects) {
-			//System.out.println("Received: " + ho.getDisplayName());
-			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase("")) continue;
+		if (!syncObjects)
+			return;
+		for (TradeObject ho : objects) {
+			// System.out.println("Received: " + ho.getDisplayName());
+			if (ho == null || ho.getEconomy() == null || ho.getEconomy().equalsIgnoreCase(""))
+				continue;
 			HyperEconomy he = hc.getDataManager().getEconomyIB(ho.getEconomy());
-			if (he == null) continue;
+			if (he == null)
+				continue;
 			ho.setHyperConomy(hc);
 			if (ho.isShopObject()) {
 				PlayerShop ps = ho.getShopObjectShop();
-				if (ps != null) ps.updateHyperObject(ho);
+				if (ps != null)
+					ps.updateHyperObject(ho);
 			} else {
 				he.removeObject(ho.getName());
 				he.addObject(ho);
 			}
 		}
 	}
-	
+
 	private void processShops(ArrayList<Shop> objects) {
-		if (!syncShops) return;
+		if (!syncShops)
+			return;
 		HyperShopManager hsm = hc.getHyperShopManager();
-		for (Shop s:objects) {
-			//System.out.println("Received: " + s.getDisplayName());
-			if (s == null || s.getName() == null || s.getName().equalsIgnoreCase("")) continue;
-			if (hsm.shopExists(s.getName())) hsm.removeShop(s.getName());
+		for (Shop s : objects) {
+			// System.out.println("Received: " + s.getDisplayName());
+			if (s == null || s.getName() == null || s.getName().equalsIgnoreCase(""))
+				continue;
+			if (hsm.shopExists(s.getName()))
+				hsm.removeShop(s.getName());
 			s.setHyperConomy(hc);
 			hsm.addShop(s);
 		}
 	}
-	
+
 	private void processHyperPlayers(ArrayList<HyperPlayer> objects) {
-		if (!syncAccounts) return;
+		if (!syncAccounts)
+			return;
 		HyperPlayerManager hpm = hc.getHyperPlayerManager();
-		for (HyperPlayer hp:objects) {
-			//System.out.println("Received: " + hp.getName());
-			if (hp == null || hp.getName() == null || hp.getName().equalsIgnoreCase("")) continue;
-			if (hpm.hyperPlayerExists(hp.getName())) hpm.removeHyperPlayer(hpm.getHyperPlayer(hp.getName()));
+		for (HyperPlayer hp : objects) {
+			// System.out.println("Received: " + hp.getName());
+			if (hp == null || hp.getName() == null || hp.getName().equalsIgnoreCase(""))
+				continue;
+			if (hpm.hyperPlayerExists(hp.getName()))
+				hpm.removeHyperPlayer(hpm.getHyperPlayer(hp.getName()));
 			hp.setHyperConomy(hc);
 			hpm.addHyperPlayer(hp);
 		}
 	}
-	
+
 	private void processBanks(ArrayList<HyperBank> objects) {
-		if (!syncAccounts) return;
+		if (!syncAccounts)
+			return;
 		HyperBankManager hbm = hc.getHyperBankManager();
-		for (HyperBank hb:objects) {
-			if (hb == null || hb.getName() == null || hb.getName().equalsIgnoreCase("")) continue;
-			if (hbm.hasBank(hb.getName())) hbm.removeHyperBank(hb.getName());
+		for (HyperBank hb : objects) {
+			if (hb == null || hb.getName() == null || hb.getName().equalsIgnoreCase(""))
+				continue;
+			if (hbm.hasBank(hb.getName()))
+				hbm.removeHyperBank(hb.getName());
 			hb.setHyperConomy(hc);
 			hbm.addHyperBank(hb);
 		}
 	}
-	
+
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof TradeObjectModificationEvent) {
@@ -189,21 +208,19 @@ public class MultiServer implements HyperEventListener {
 			ShopModificationEvent hevent = (ShopModificationEvent) event;
 			sendObject.addShop(hevent.getShop());
 		} else if (event instanceof DisableEvent) {
-			//DisableEvent hevent = (DisableEvent) event;
+			// DisableEvent hevent = (DisableEvent) event;
 			runServer = false;
 			remoteUpdater.cancel();
 		}
-		
+
 	}
-	
-	
-	
 
 	private class RemoteUpdater extends TimerTask {
 		@Override
 		public void run() {
-			if (sendObject.isEmpty()) return;
-			for (RemoteAddress ra:addresses) {
+			if (sendObject.isEmpty())
+				return;
+			for (RemoteAddress ra : addresses) {
 				try {
 					Socket clientSocket = new Socket();
 					clientSocket.connect(new InetSocketAddress(ra.ip, ra.port), timeout);
@@ -218,8 +235,9 @@ public class MultiServer implements HyperEventListener {
 					}
 					clientSocket.close();
 				} catch (Exception e) {
-					//hc.getDebugMode().debugWriteMessage("The error below occurred when connecting to ip: " + ra.ip + " and port: " + ra.port);
-					//hc.getDebugMode().debugWriteError(e);
+					// hc.getDebugMode().debugWriteMessage("The error below occurred when connecting
+					// to ip: " + ra.ip + " and port: " + ra.port);
+					// hc.getDebugMode().debugWriteError(e);
 					continue;
 				}
 			}
@@ -227,12 +245,4 @@ public class MultiServer implements HyperEventListener {
 		}
 	}
 
-
-
-
-
-
-
-	
 }
-

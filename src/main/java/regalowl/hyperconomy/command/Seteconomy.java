@@ -2,8 +2,6 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-
-
 public class Seteconomy extends BaseCommand implements HyperCommand {
 
 	public Seteconomy(HyperConomy hc) {
@@ -12,7 +10,8 @@ public class Seteconomy extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 1) {
 				String economy = args[0];

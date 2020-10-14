@@ -2,14 +2,10 @@ package regalowl.hyperconomy.command;
 
 import java.io.File;
 
-
-
 import regalowl.simpledatalib.file.FileTools;
 import regalowl.hyperconomy.HyperConomy;
 
 public class Setlanguage extends BaseCommand implements HyperCommand {
-
-
 
 	public Setlanguage(HyperConomy hc) {
 		super(hc, false);
@@ -17,7 +13,8 @@ public class Setlanguage extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		FileTools ft = hc.getFileTools();
 		String folderpath = hc.getSimpleDataLib().getStoragePath() + File.separator + "Languages";
 		ft.makeFolder(folderpath);
@@ -51,6 +48,5 @@ public class Setlanguage extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-	
-	
+
 }

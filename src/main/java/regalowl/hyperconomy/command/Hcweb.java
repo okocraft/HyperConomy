@@ -1,12 +1,9 @@
 
-
 package regalowl.hyperconomy.command;
-
 
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.webpage.HyperConomy_Web;
 import regalowl.hyperconomy.webpage.WebHandler;
-
 
 public class Hcweb extends BaseCommand implements HyperCommand {
 
@@ -16,7 +13,8 @@ public class Hcweb extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperConomy_Web hcw = hc.getHyperConomyWeb();
 		WebHandler wh = hcw.getWebHandler();
 		try {
@@ -82,16 +80,16 @@ public class Hcweb extends BaseCommand implements HyperCommand {
 				hc.getConf().set("web-page.background-color", "8FA685");
 				hc.getConf().set("web-page.font-color", "F2F2F2");
 				hc.getConf().set("web-page.border-color", "091926");
-	    		hc.getConf().set("web-page.increase-value-color", "C8D9B0");
-	    		hc.getConf().set("web-page.decrease-value-color", "F2B2A8");
-	    		hc.getConf().set("web-page.highlight-row-color", "8FA685");
-	    		hc.getConf().set("web-page.header-color", "091926");
-	    		hc.getConf().set("web-page.table-data-color", "314A59");
-	    		hc.getConf().set("web-page.font-size", 12);
-	    		hc.getConf().set("web-page.font", "verdana");
-	    		hc.getConf().set("web-page.port", 7777);
+				hc.getConf().set("web-page.increase-value-color", "C8D9B0");
+				hc.getConf().set("web-page.decrease-value-color", "F2B2A8");
+				hc.getConf().set("web-page.highlight-row-color", "8FA685");
+				hc.getConf().set("web-page.header-color", "091926");
+				hc.getConf().set("web-page.table-data-color", "314A59");
+				hc.getConf().set("web-page.font-size", 12);
+				hc.getConf().set("web-page.font", "verdana");
+				hc.getConf().set("web-page.port", 7777);
 				hcw.restart();
-	    		data.addResponse(L.get("WEB_PAGE_SET"));
+				data.addResponse(L.get("WEB_PAGE_SET"));
 			} else if (args[0].equalsIgnoreCase("status")) {
 				if (!hcw.enabled()) {
 					data.addResponse(L.get("SERVER_DISABLED"));
@@ -99,13 +97,13 @@ public class Hcweb extends BaseCommand implements HyperCommand {
 					data.addResponse(L.get("SERVER_NULL"));
 				} else if (wh.getServer().isStopping()) {
 					data.addResponse(L.get("SERVER_STOPPING"));
-				} else  if (wh.getServer().isStarting()) {
+				} else if (wh.getServer().isStarting()) {
 					data.addResponse(L.get("SERVER_STARTING"));
-				} else  if (wh.getServer().isFailed()) {
+				} else if (wh.getServer().isFailed()) {
 					data.addResponse(L.get("SERVER_FAILED"));
-				} else  if (wh.getServer().isStopped()) {
+				} else if (wh.getServer().isStopped()) {
 					data.addResponse(L.get("SERVER_STOPPPED"));
-				} else  if (wh.getServer().isRunning()) {
+				} else if (wh.getServer().isRunning()) {
 					data.addResponse(L.get("SERVER_RUNNING"));
 				}
 			} else {
@@ -117,8 +115,6 @@ public class Hcweb extends BaseCommand implements HyperCommand {
 			data.addResponse(L.get("HCWEB_INVALID"));
 			return data;
 		}
-		
 
 	}
 }
-

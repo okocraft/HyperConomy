@@ -1,17 +1,13 @@
 package regalowl.hyperconomy.webpage;
 
-
-
 import regalowl.simpledatalib.file.FileConfiguration;
 import regalowl.hyperconomy.HyperConomy;
-
 
 public class HyperConomy_Web {
 
 	private HyperConomy hc;
 	private WebHandler wh;
-	
-	
+
 	private boolean enabled;
 	private String backgroundColor;
 	private String fontColor;
@@ -24,11 +20,10 @@ public class HyperConomy_Web {
 	private String font;
 	private int fontSize;
 	private int port;
-	
+
 	private String webAPIPath;
 	private boolean useWebAPI;
 
-	
 	public HyperConomy_Web(HyperConomy hc) {
 		this.hc = hc;
 		buildData();
@@ -39,12 +34,12 @@ public class HyperConomy_Web {
 		buildData();
 	}
 
-	
 	private void buildData() {
 		this.enabled = false;
 		FileConfiguration config = hc.getConf();
 		boolean enable = config.getBoolean("web-page.enable");
-		if (!enable) return;
+		if (!enable)
+			return;
 		this.enabled = true;
 		backgroundColor = "#" + config.getString("web-page.background-color");
 		fontColor = "#" + config.getString("web-page.font-color");
@@ -60,8 +55,10 @@ public class HyperConomy_Web {
 		port = config.getInt("web-page.port");
 		webAPIPath = config.getString("web-page.web-api-path");
 		useWebAPI = config.getBoolean("web-page.enable-web-api");
-		if (wh == null) wh = new WebHandler(this);
-		if (!wh.serverStarted()) wh.startServer();
+		if (wh == null)
+			wh = new WebHandler(this);
+		if (!wh.serverStarted())
+			wh.startServer();
 	}
 
 	public void disable() {
@@ -70,8 +67,6 @@ public class HyperConomy_Web {
 			wh = null;
 		}
 	}
-
-
 
 	public WebHandler getWebHandler() {
 		return wh;
@@ -116,23 +111,23 @@ public class HyperConomy_Web {
 	public int getFontSize() {
 		return fontSize;
 	}
-	
+
 	public int getPort() {
 		return port;
 	}
-	
+
 	public boolean useWebAPI() {
 		return useWebAPI;
 	}
-	
+
 	public String getWebAPIPath() {
 		return webAPIPath;
 	}
-	
+
 	public HyperConomy getHC() {
 		return hc;
 	}
-	
+
 	public boolean enabled() {
 		return enabled;
 	}

@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.webpage;
 
-
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,15 +29,14 @@ public class WebHandler implements HyperEventListener {
 		hc.getHyperEventHandler().registerListener(this);
 		serverStarted.set(false);
 	}
-	
 
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof ShopCreationEvent) {
-			ShopCreationEvent hevent = (ShopCreationEvent)event;
+			ShopCreationEvent hevent = (ShopCreationEvent) event;
 			addShop(hevent.getShop());
 		}
-		
+
 	}
 
 	public void startServer() {
@@ -51,7 +49,8 @@ public class WebHandler implements HyperEventListener {
 					context.setContextPath("/");
 					server.setHandler(context);
 					if (hcw.useWebAPI()) {
-						context.addServlet(new ServletHolder(new HyperWebAPI(hc, hcw.getWebAPIPath())), "/"+hcw.getWebAPIPath()+"/*");
+						context.addServlet(new ServletHolder(new HyperWebAPI(hc, hcw.getWebAPIPath())),
+								"/" + hcw.getWebAPIPath() + "/*");
 					}
 					context.addServlet(new ServletHolder(new MainPage(hcw)), "/");
 					for (Shop s : hc.getHyperShopManager().getShops()) {
@@ -70,11 +69,11 @@ public class WebHandler implements HyperEventListener {
 			}).start();
 			hc.getMC().logInfo("[HyperConomy_Web]Web server enabled.  Running on port " + hcw.getPort() + ".");
 		} catch (Exception e) {
-			hc.gSDL().getErrorWriter().writeError(e);;
+			hc.gSDL().getErrorWriter().writeError(e);
+			;
 		}
 	}
-	
-	
+
 	public void addShop(Shop shop) {
 		s = shop;
 		new Thread(new Runnable() {
@@ -85,8 +84,6 @@ public class WebHandler implements HyperEventListener {
 			}
 		}).start();
 	}
-	
-	
 
 	public void endServer() {
 		if (context != null) {
@@ -110,17 +107,13 @@ public class WebHandler implements HyperEventListener {
 			}
 		}
 	}
-	
+
 	public Server getServer() {
 		return server;
 	}
-	
+
 	public boolean serverStarted() {
 		return serverStarted.get();
 	}
-
-
-
-
 
 }

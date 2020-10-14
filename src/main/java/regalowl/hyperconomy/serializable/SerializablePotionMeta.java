@@ -13,9 +13,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-
- 
-
 public class SerializablePotionMeta extends SerializableItemMeta implements Serializable {
 
 	private static final long serialVersionUID = 7131977924010280498L;
@@ -24,45 +21,45 @@ public class SerializablePotionMeta extends SerializableItemMeta implements Seri
 	public SerializablePotionMeta(ItemMeta im) {
 		super(im);
 		if (im instanceof PotionMeta) {
-			PotionMeta pm = (PotionMeta)im;
-			for (PotionEffect pe:pm.getCustomEffects()) {
+			PotionMeta pm = (PotionMeta) im;
+			for (PotionEffect pe : pm.getCustomEffects()) {
 				potionEffects.add(new SerializablePotionEffect(pe));
 			}
 		}
-    }
+	}
 
 	public SerializablePotionMeta(String base64String) {
 		super(base64String);
-    	try {
+		try {
 			byte[] data = Base64Coder.decode(base64String);
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o = ois.readObject();
 			ois.close();
-			if (!(o instanceof SerializablePotionMeta)) {return;}
-			SerializablePotionMeta spm = (SerializablePotionMeta)o;
+			if (!(o instanceof SerializablePotionMeta)) {
+				return;
+			}
+			SerializablePotionMeta spm = (SerializablePotionMeta) o;
 			this.potionEffects = spm.getPotionEffects();
-    	} catch (Exception e) {
-    		
-    	}
-    }
-	
-	
+		} catch (Exception e) {
+
+		}
+	}
+
 	@Override
 	public ItemMeta getItemMeta() {
 		ItemStack s = new ItemStack(Material.POTION);
-		PotionMeta pm = (PotionMeta)s.getItemMeta();
+		PotionMeta pm = (PotionMeta) s.getItemMeta();
 		pm.setDisplayName(displayName);
 		pm.setLore(lore);
-		for (SerializableEnchantment se:enchantments) {
+		for (SerializableEnchantment se : enchantments) {
 			pm.addEnchant(se.getEnchantment(), se.getLvl(), true);
 		}
-		for (SerializablePotionEffect spe:potionEffects) {
+		for (SerializablePotionEffect spe : potionEffects) {
 			pm.addCustomEffect(spe.getPotionEffect(), true);
 		}
 		return pm;
 	}
-	
-	
+
 	public List<SerializablePotionEffect> getPotionEffects() {
 		return potionEffects;
 	}
@@ -91,8 +88,5 @@ public class SerializablePotionMeta extends SerializableItemMeta implements Seri
 			return false;
 		return true;
 	}
-
-	
-	
 
 }

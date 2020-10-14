@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -14,7 +13,8 @@ public class Objectsettings extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		TradeObject ho = null;
 		if (args.length == 0) {
 			HyperEconomy he = hp.getHyperEconomy();
@@ -34,7 +34,8 @@ public class Objectsettings extends BaseCommand implements HyperCommand {
 			data.addResponse(L.get("ITEMSETTINGS_INVALID"));
 			return data;
 		}
-		int itemsBeforeDynamicPricing = (int) ((ho.getMedian() * ho.getValue()) / ho.getStartPrice() - ho.getTotalStock());
+		int itemsBeforeDynamicPricing = (int) ((ho.getMedian() * ho.getValue()) / ho.getStartPrice()
+				- ho.getTotalStock());
 		data.addResponse(L.get("LINE_BREAK"));
 		data.addResponse(L.f(L.get("SETTINGS_NAME"), ho.getName()));
 		data.addResponse(L.f(L.get("SETTINGS_DISPLAY"), ho.getDisplayName()));

@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.tradeobject;
 
-
 public enum TradeObjectType {
 	ITEM, ENCHANTMENT, EXPERIENCE;
 
@@ -18,7 +17,7 @@ public enum TradeObjectType {
 			return null;
 		}
 	}
-	
+
 	public static String getString(TradeObjectType type) {
 		switch (type) {
 			case ITEM:

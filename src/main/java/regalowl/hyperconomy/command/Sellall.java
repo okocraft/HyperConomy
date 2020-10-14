@@ -1,8 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
-
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.account.HyperAccount;
@@ -15,20 +12,16 @@ import regalowl.hyperconomy.transaction.PlayerTransaction;
 import regalowl.hyperconomy.transaction.TransactionResponse;
 import regalowl.hyperconomy.transaction.TransactionType;
 
-
-
 public class Sellall extends BaseCommand implements HyperCommand {
-	
+
 	public Sellall(HyperConomy hc) {
 		super(hc, true);
 	}
 
-
-
-
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (dm.getHyperShopManager().inAnyShop(hp)) {
 			Shop s = dm.getHyperShopManager().getShop(hp);
 			if (hp.hasSellPermission(dm.getHyperShopManager().getShop(hp))) {
@@ -57,21 +50,20 @@ public class Sellall extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-	
-	
-	
-	
-	
-	
+
 	public TransactionResponse sellAll(HyperPlayer trader, HyperAccount tradePartner) {
 		HInventory inventory = trader.getInventory();
 		HyperEconomy he = trader.getHyperEconomy();
 		TransactionResponse totalResponse = new TransactionResponse(hc, trader);
 		for (int slot = 0; slot < inventory.getSize(); slot++) {
-			if (inventory.getItem(slot).isBlank()) {continue;}
+			if (inventory.getItem(slot).isBlank()) {
+				continue;
+			}
 			HItemStack stack = inventory.getItem(slot);
 			TradeObject ho = he.getTradeObject(stack, dm.getHyperShopManager().getShop(trader));
-			if (ho == null) {continue;}
+			if (ho == null) {
+				continue;
+			}
 			int amount = inventory.count(ho.getItem());
 			PlayerTransaction pt = new PlayerTransaction(TransactionType.SELL);
 			pt.setObeyShops(true);
@@ -80,28 +72,15 @@ public class Sellall extends BaseCommand implements HyperCommand {
 			pt.setAmount(amount);
 			TransactionResponse response = trader.processTransaction(pt);
 			if (response.successful()) {
-				totalResponse.addSuccess(response.getMessage(), response.getPrice(), response.getSuccessfulObjects().get(0));
+				totalResponse.addSuccess(response.getMessage(), response.getPrice(),
+						response.getSuccessfulObjects().get(0));
 			} else {
 				totalResponse.addFailed(response.getMessage(), response.getFailedObjects().get(0));
 			}
-			if (amount > inventory.getItem(slot).getMaxStackSize()) inventory = trader.getInventory();
+			if (amount > inventory.getItem(slot).getMaxStackSize())
+				inventory = trader.getInventory();
 		}
 		return totalResponse;
 	}
 
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
 }

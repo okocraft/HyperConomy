@@ -3,12 +3,6 @@ package regalowl.hyperconomy.command;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-
-
-
-
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -22,15 +16,15 @@ import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
 public class Browseshop extends BaseCommand implements HyperCommand {
-	
 
 	public Browseshop(HyperConomy hc) {
 		super(hc, false);
 	}
-	
+
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperEconomy he = getEconomy();
 		HyperShopManager hsm = hc.getHyperShopManager();
 		ArrayList<String> aargs = new ArrayList<String>();
@@ -39,12 +33,12 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 		}
 		try {
 			boolean requireShop = hc.getConf().getBoolean("shop.limit-info-commands-to-shops");
-    		if (hp != null) {
-    			if ((requireShop && !hsm.inAnyShop(hp)) && !hp.hasPermission("hyperconomy.admin")) {
-    				data.addResponse(L.get("REQUIRE_SHOP_FOR_INFO"));
-    				return data;
-    			}			
-    		}
+			if (hp != null) {
+				if ((requireShop && !hsm.inAnyShop(hp)) && !hp.hasPermission("hyperconomy.admin")) {
+					data.addResponse(L.get("REQUIRE_SHOP_FOR_INFO"));
+					return data;
+				}
+			}
 			if (aargs.size() > 3) {
 				data.addResponse(L.get("BROWSE_SHOP_INVALID"));
 				return data;
@@ -78,18 +72,18 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 				data.addResponse(L.get("BROWSE_SHOP_INVALID"));
 				return data;
 			}
-    		Shop shop = null;
-    		if (hp != null) {
-    			if (!hsm.inAnyShop(hp)) {
-    				shop = null;
-    			} else {
-    				shop = hsm.getShop(hp);
-    			}		
-    		}
+			Shop shop = null;
+			if (hp != null) {
+				if (!hsm.inAnyShop(hp)) {
+					shop = null;
+				} else {
+					shop = hsm.getShop(hp);
+				}
+			}
 			ArrayList<String> names = he.getNames();
 			ArrayList<String> rnames = new ArrayList<String>();
 			int i = 0;
-			while(i < names.size()) {
+			while (i < names.size()) {
 				String cname = names.get(i);
 				TradeObject ho = he.getTradeObject(cname);
 				String displayName = ho.getDisplayName();
@@ -97,7 +91,7 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 					if (ho.nameStartsWith(input)) {
 						if (shop == null || !shop.isBanned(cname)) {
 							if (shop instanceof PlayerShop) {
-								PlayerShop ps = (PlayerShop)shop;
+								PlayerShop ps = (PlayerShop) shop;
 								TradeObject pso = ps.getPlayerShopObject(ho);
 								if (pso != null) {
 									if (pso.getShopObjectStatus() == TradeObjectStatus.NONE) {
@@ -117,7 +111,7 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 					if (ho.nameContains(input)) {
 						if (shop == null || !shop.isBanned(cname)) {
 							if (shop instanceof PlayerShop) {
-								PlayerShop ps = (PlayerShop)shop;
+								PlayerShop ps = (PlayerShop) shop;
 								TradeObject pso = ps.getPlayerShopObject(ho);
 								if (pso != null) {
 									if (pso.getShopObjectStatus() == TradeObjectStatus.NONE) {
@@ -140,18 +134,18 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 			int numberpage = page * 10;
 			int count = 0;
 			int rsize = rnames.size();
-			double maxpages = rsize/10;
+			double maxpages = rsize / 10;
 			maxpages = Math.ceil(maxpages);
-			int maxpi = (int)maxpages + 1;
+			int maxpi = (int) maxpages + 1;
 			data.addResponse("&c" + L.get("PAGE") + " &f" + "(" + "&c" + page + "&f/" + "&c" + maxpi + "&f)");
 			while (count < numberpage) {
 				if (count > ((page * 10) - 11)) {
 					if (count < rsize) {
 						String iname = rnames.get(count);
-			            Double cost = 0.0;
-			            double stock = 0;
-			            TradeObject ho = he.getTradeObject(iname, hsm.getShop(hp));
-			            if (ho.getType() == TradeObjectType.ITEM) {
+						Double cost = 0.0;
+						double stock = 0;
+						TradeObject ho = he.getTradeObject(iname, hsm.getShop(hp));
+						if (ho.getType() == TradeObjectType.ITEM) {
 							cost = ho.getBuyPrice(1);
 							double taxpaid = ho.getPurchaseTax(cost);
 							cost = CommonFunctions.twoDecimals(cost + taxpaid);
@@ -161,21 +155,24 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 							cost = cost + ho.getPurchaseTax(cost);
 							stock = CommonFunctions.twoDecimals(he.getTradeObject(iname, hsm.getShop(hp)).getStock());
 						} else {
-							BasicTradeObject hi = (BasicTradeObject)ho;
+							BasicTradeObject hi = (BasicTradeObject) ho;
 							cost = hi.getBuyPrice(1);
 							double taxpaid = ho.getPurchaseTax(cost);
 							cost = CommonFunctions.twoDecimals(cost + taxpaid);
 							stock = CommonFunctions.twoDecimals(he.getTradeObject(iname, hsm.getShop(hp)).getStock());
 						}
-			            if (ho.isShopObject()) {
-			            	data.addResponse("&b" + iname + " &9[&a" + stock + " &9" + L.get("AVAILABLE") + "; &a" + L.fC(cost) + " &9" + L.get("EACH") + "; (&e" + ho.getShopObjectStatus().toString()+ "&9)]");
-			            } else {
-			            	data.addResponse("&b" + iname + " &9[&a" + stock + " &9" + L.get("AVAILABLE") + "; &a" + L.fC(cost) + " &9" + L.get("EACH") + "]");
-			            }			
+						if (ho.isShopObject()) {
+							data.addResponse("&b" + iname + " &9[&a" + stock + " &9" + L.get("AVAILABLE") + "; &a"
+									+ L.fC(cost) + " &9" + L.get("EACH") + "; (&e" + ho.getShopObjectStatus().toString()
+									+ "&9)]");
+						} else {
+							data.addResponse("&b" + iname + " &9[&a" + stock + " &9" + L.get("AVAILABLE") + "; &a"
+									+ L.fC(cost) + " &9" + L.get("EACH") + "]");
+						}
 					} else {
 						data.addResponse(L.get("REACHED_END"));
 						return data;
-					}			
+					}
 				}
 				count++;
 			}
@@ -184,7 +181,5 @@ public class Browseshop extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-
-
 
 }

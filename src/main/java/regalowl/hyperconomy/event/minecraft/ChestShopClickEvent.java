@@ -18,8 +18,9 @@ public class ChestShopClickEvent extends HyperEvent {
 	private HItemStack invItem;
 	private int cursorQuantity;
 	private HItemStack cursorItem;
-	
-	public ChestShopClickEvent(HyperPlayer clicker, ChestShop chestShop, int clickedSlot, String action, int invQuantity, HItemStack invItem, int cursorQuantity, HItemStack cursorItem) {
+
+	public ChestShopClickEvent(HyperPlayer clicker, ChestShop chestShop, int clickedSlot, String action,
+			int invQuantity, HItemStack invItem, int cursorQuantity, HItemStack cursorItem) {
 		this.clicker = clicker;
 		this.chestShop = chestShop;
 		this.clickedSlot = clickedSlot;
@@ -33,18 +34,23 @@ public class ChestShopClickEvent extends HyperEvent {
 	public HyperPlayer getClicker() {
 		return clicker;
 	}
+
 	public ChestShop getChestShop() {
 		return chestShop;
 	}
+
 	public int getClickedSlot() {
 		return clickedSlot;
 	}
- 	public boolean isShiftClick() {
+
+	public boolean isShiftClick() {
 		return isShiftClick;
 	}
+
 	public boolean isLeftClick() {
 		return isLeftClick;
 	}
+
 	public boolean isRightClick() {
 		return isRightClick;
 	}
@@ -60,26 +66,25 @@ public class ChestShopClickEvent extends HyperEvent {
 	public void setRightClick() {
 		this.isRightClick = true;
 	}
-	
+
 	public String getAction() {
 		return action;
 	}
-	
+
 	public int getInvQuantity() {
 		return invQuantity;
 	}
-	
+
 	public HItemStack getInvItem() {
 		return invItem;
 	}
-	
+
 	public int getCursorQuantity() {
 		return cursorQuantity;
 	}
-	
+
 	public HItemStack getCursorItem() {
 		return cursorItem;
 	}
 
-	
 }

@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
-
-
 import regalowl.simpledatalib.file.FileTools;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
@@ -18,7 +16,8 @@ public class Importbalance extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (!hc.getMC().useExternalEconomy()) {
 			data.addResponse(L.get("MUST_USE_EXTERNAL_ECONOMY"));
 			return data;
@@ -46,7 +45,7 @@ public class Importbalance extends BaseCommand implements HyperCommand {
 			} catch (Exception e) {
 				continue;
 			}
-			if (hp == null ||hp.getName() == null || hp.getName() == "") {
+			if (hp == null || hp.getName() == null || hp.getName() == "") {
 				continue;
 			}
 			if (hc.getMC().getEconomyProvider().hasAccount(hp.getName())) {
@@ -55,7 +54,8 @@ public class Importbalance extends BaseCommand implements HyperCommand {
 			}
 			importedPlayers.add(hp.getName());
 		}
-		//data.addResponse("[" + hc.getCommonFunctions().implode(importedPlayers, ",") + "]");
+		// data.addResponse("[" + hc.getCommonFunctions().implode(importedPlayers, ",")
+		// + "]");
 		data.addResponse(L.get("PLAYERS_IMPORTED"));
 		hc.getHyperPlayerManager().purgeDeadAccounts();
 		return data;

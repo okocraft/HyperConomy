@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.simpledatalib.CommonFunctions;
- 
 
 public class HBookMeta extends HItemMeta {
 
@@ -13,38 +12,39 @@ public class HBookMeta extends HItemMeta {
 	private ArrayList<String> pages;
 	private String title;
 
-	public HBookMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments, ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, String author, ArrayList<String> pages, String title) {
+	public HBookMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments,
+			ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, String author, ArrayList<String> pages,
+			String title) {
 		super(displayName, lore, enchantments, itemFlags, unbreakable, repairCost);
 		this.author = author;
 		this.pages = pages;
 		this.title = title;
 	}
-	
 
 	public HBookMeta(String serialized) {
 		super(serialized);
-		HashMap<String,String> data = CommonFunctions.explodeMap(serialized);
+		HashMap<String, String> data = CommonFunctions.explodeMap(serialized);
 		this.author = data.get("author");
 		this.pages = CommonFunctions.explode(data.get("pages"));
 		this.title = data.get("title");
-    }
-	
+	}
+
 	public HBookMeta(HBookMeta meta) {
 		super(meta);
 		this.author = meta.author;
 		this.pages = new ArrayList<String>(meta.pages);
 		this.title = meta.title;
-    }
-	
+	}
+
 	@Override
 	public String serialize() {
-		HashMap<String,String> data = super.getMap();
+		HashMap<String, String> data = super.getMap();
 		data.put("author", author);
 		data.put("pages", CommonFunctions.implode(pages));
 		data.put("title", title);
 		return CommonFunctions.implodeMap(data);
 	}
-	
+
 	@Override
 	public ArrayList<String> displayInfo(HyperPlayer p, String color1, String color2) {
 		ArrayList<String> info = super.displayInfo(p, color1, color2);
@@ -53,25 +53,24 @@ public class HBookMeta extends HItemMeta {
 		info.add(color1 + "Page Count: " + color2 + pages.size());
 		return info;
 	}
-	
+
 	@Override
 	public HItemMetaType getType() {
 		return HItemMetaType.BOOK;
 	}
-	
 
 	public ArrayList<String> getPages() {
 		return pages;
 	}
-	
+
 	public String getAuthor() {
 		return author;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

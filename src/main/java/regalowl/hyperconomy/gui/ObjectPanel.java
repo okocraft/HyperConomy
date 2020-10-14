@@ -1,7 +1,5 @@
 package regalowl.hyperconomy.gui;
 
-
-
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -43,9 +41,7 @@ import javax.swing.JComboBox;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-
 public class ObjectPanel extends JFrame implements HyperEventListener {
-
 
 	private static final long serialVersionUID = 6133250795371176846L;
 	private HyperConomy hc;
@@ -82,7 +78,6 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 	private JButton editCompositesButton;
 	private JTextField versionData;
 
-
 	/**
 	 * Create the application.
 	 */
@@ -107,17 +102,17 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
-		
+
 		categoryComboBox = new JComboBox<String>();
 		categoryComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!loadingCategories) loadObjects();
+				if (!loadingCategories)
+					loadObjects();
 			}
 		});
 		categoryComboBox.setToolTipText("Select a category.");
 		categoryComboBox.setBounds(12, 12, 405, 24);
 		getContentPane().add(categoryComboBox);
-
 
 		tradeObjectList = new QuickListModel<String>();
 		objectListScrollPane = new JScrollPane();
@@ -130,7 +125,8 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		listObjectSelector.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
+				if (to == null)
+					return;
 				fieldsUpdating = true;
 				nameData.setText(to.getName());
 				stockData.setText(to.getStock() + "");
@@ -153,18 +149,19 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 
 		listObjectSelector.setSelectedIndex(0);
 		listObjectSelector.setVisibleRowCount(10);
-		
+
 		settingsPanel = new JPanel();
 		settingsPanel.setBackground(new Color(248, 248, 255));
 		settingsPanel.setBounds(429, 12, 521, 451);
 		getContentPane().add(settingsPanel);
 		GridBagLayout gbl_settingsPanel = new GridBagLayout();
-		gbl_settingsPanel.columnWidths = new int[]{38, 32, 12, 0};
-		gbl_settingsPanel.rowHeights = new int[]{0, 19, 19, 19, 19, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_settingsPanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_settingsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_settingsPanel.columnWidths = new int[] { 38, 32, 12, 0 };
+		gbl_settingsPanel.rowHeights = new int[] { 0, 19, 19, 19, 19, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_settingsPanel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_settingsPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		settingsPanel.setLayout(gbl_settingsPanel);
-		
+
 		nameLabel = new JLabel("Name");
 		GridBagConstraints gbc_nameLabel = new GridBagConstraints();
 		gbc_nameLabel.gridwidth = 2;
@@ -173,7 +170,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_nameLabel.gridx = 0;
 		gbc_nameLabel.gridy = 0;
 		settingsPanel.add(nameLabel, gbc_nameLabel);
-		
+
 		nameData = new JTextField();
 		GridBagConstraints gbc_nameData = new GridBagConstraints();
 		gbc_nameData.insets = new Insets(0, 0, 5, 0);
@@ -182,7 +179,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_nameData.gridy = 0;
 		settingsPanel.add(nameData, gbc_nameData);
 		nameData.setColumns(10);
-		
+
 		displayNameLabel = new JLabel("Display Name");
 		GridBagConstraints gbc_displayNameLabel = new GridBagConstraints();
 		gbc_displayNameLabel.anchor = GridBagConstraints.EAST;
@@ -191,7 +188,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_displayNameLabel.gridx = 0;
 		gbc_displayNameLabel.gridy = 1;
 		settingsPanel.add(displayNameLabel, gbc_displayNameLabel);
-		
+
 		displayNameData = new JTextField();
 		GridBagConstraints gbc_displayNameData = new GridBagConstraints();
 		gbc_displayNameData.fill = GridBagConstraints.BOTH;
@@ -200,7 +197,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_displayNameData.gridy = 1;
 		settingsPanel.add(displayNameData, gbc_displayNameData);
 		displayNameData.setColumns(10);
-		
+
 		aliasesLabel = new JLabel("Aliases");
 		GridBagConstraints gbc_aliasesLabel = new GridBagConstraints();
 		gbc_aliasesLabel.anchor = GridBagConstraints.EAST;
@@ -209,7 +206,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_aliasesLabel.gridx = 0;
 		gbc_aliasesLabel.gridy = 2;
 		settingsPanel.add(aliasesLabel, gbc_aliasesLabel);
-		
+
 		aliasesData = new JTextField();
 		GridBagConstraints gbc_aliasesData = new GridBagConstraints();
 		gbc_aliasesData.fill = GridBagConstraints.BOTH;
@@ -219,7 +216,6 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		settingsPanel.add(aliasesData, gbc_aliasesData);
 		aliasesData.setColumns(10);
 
-		
 		JLabel stockLabel = new JLabel("Stock");
 		GridBagConstraints gbc_stockLabel = new GridBagConstraints();
 		gbc_stockLabel.anchor = GridBagConstraints.EAST;
@@ -228,9 +224,8 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_stockLabel.gridx = 0;
 		gbc_stockLabel.gridy = 3;
 		settingsPanel.add(stockLabel, gbc_stockLabel);
-		//Font font = new Font("Verdana", Font.PLAIN, 9);
+		// Font font = new Font("Verdana", Font.PLAIN, 9);
 
-		
 		stockData = new JTextField();
 		GridBagConstraints gbc_stockData = new GridBagConstraints();
 		gbc_stockData.fill = GridBagConstraints.BOTH;
@@ -258,7 +253,6 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		settingsPanel.add(valueData, gbc_valueData);
 		valueData.setColumns(10);
 
-
 		JLabel medianLabel = new JLabel("Median");
 		GridBagConstraints gbc_medianLabel = new GridBagConstraints();
 		gbc_medianLabel.anchor = GridBagConstraints.EAST;
@@ -277,7 +271,6 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		settingsPanel.add(medianData, gbc_medianData);
 		medianData.setColumns(10);
 
-		
 		JLabel staticPriceLabel = new JLabel("Static Price");
 		GridBagConstraints gbc_staticPriceLabel = new GridBagConstraints();
 		gbc_staticPriceLabel.anchor = GridBagConstraints.EAST;
@@ -286,7 +279,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_staticPriceLabel.gridx = 0;
 		gbc_staticPriceLabel.gridy = 6;
 		settingsPanel.add(staticPriceLabel, gbc_staticPriceLabel);
-		
+
 		staticPriceData = new JTextField();
 		GridBagConstraints gbc_staticPriceData = new GridBagConstraints();
 		gbc_staticPriceData.fill = GridBagConstraints.BOTH;
@@ -296,7 +289,6 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		settingsPanel.add(staticPriceData, gbc_staticPriceData);
 		staticPriceData.setColumns(10);
 
-		
 		JLabel startPriceLabel = new JLabel("Start Price");
 		GridBagConstraints gbc_startPriceLabel = new GridBagConstraints();
 		gbc_startPriceLabel.anchor = GridBagConstraints.EAST;
@@ -305,7 +297,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_startPriceLabel.gridx = 0;
 		gbc_startPriceLabel.gridy = 7;
 		settingsPanel.add(startPriceLabel, gbc_startPriceLabel);
-		
+
 		startPriceData = new JTextField();
 		GridBagConstraints gbc_startPriceData = new GridBagConstraints();
 		gbc_startPriceData.fill = GridBagConstraints.BOTH;
@@ -314,7 +306,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_startPriceData.gridy = 7;
 		settingsPanel.add(startPriceData, gbc_startPriceData);
 		startPriceData.setColumns(10);
-		
+
 		JLabel ceilingLabel = new JLabel("Ceiling");
 		GridBagConstraints gbc_ceilingLabel = new GridBagConstraints();
 		gbc_ceilingLabel.anchor = GridBagConstraints.EAST;
@@ -323,7 +315,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_ceilingLabel.gridx = 0;
 		gbc_ceilingLabel.gridy = 8;
 		settingsPanel.add(ceilingLabel, gbc_ceilingLabel);
-		
+
 		ceilingData = new JTextField();
 		GridBagConstraints gbc_ceilingData = new GridBagConstraints();
 		gbc_ceilingData.fill = GridBagConstraints.BOTH;
@@ -332,7 +324,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_ceilingData.gridy = 8;
 		settingsPanel.add(ceilingData, gbc_ceilingData);
 		ceilingData.setColumns(10);
-		
+
 		JLabel floorLabel = new JLabel("Floor");
 		GridBagConstraints gbc_floorLabel = new GridBagConstraints();
 		gbc_floorLabel.anchor = GridBagConstraints.EAST;
@@ -341,7 +333,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_floorLabel.gridx = 0;
 		gbc_floorLabel.gridy = 9;
 		settingsPanel.add(floorLabel, gbc_floorLabel);
-		
+
 		floorData = new JTextField();
 		GridBagConstraints gbc_floorData = new GridBagConstraints();
 		gbc_floorData.fill = GridBagConstraints.BOTH;
@@ -350,7 +342,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_floorData.gridy = 9;
 		settingsPanel.add(floorData, gbc_floorData);
 		floorData.setColumns(10);
-		
+
 		JLabel objectTypeLabel = new JLabel("Object Type");
 		GridBagConstraints gbc_objectTypeLabel = new GridBagConstraints();
 		gbc_objectTypeLabel.gridwidth = 2;
@@ -359,7 +351,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_objectTypeLabel.gridx = 0;
 		gbc_objectTypeLabel.gridy = 10;
 		settingsPanel.add(objectTypeLabel, gbc_objectTypeLabel);
-		
+
 		objectTypeComboBox = new JComboBox<String>();
 		GridBagConstraints gbc_objectTypeComboBox = new GridBagConstraints();
 		gbc_objectTypeComboBox.insets = new Insets(0, 0, 5, 0);
@@ -369,20 +361,21 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		settingsPanel.add(objectTypeComboBox, gbc_objectTypeComboBox);
 		objectTypeComboBox.setToolTipText("Select a an object type.");
 		objectTypeComboBox.removeAllItems();
-		for (TradeObjectType type:TradeObjectType.values()) {
+		for (TradeObjectType type : TradeObjectType.values()) {
 			objectTypeComboBox.addItem(type.toString());
 		}
-		
+
 		editCategoriesButton = new JButton("Edit Categories");
 		editCategoriesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
+				if (to == null)
+					return;
 				CategoryEditor frame = new CategoryEditor(to, economyPanel);
 				frame.setVisible(true);
 			}
 		});
-		
+
 		JLabel versionLabel = new JLabel("Version");
 		GridBagConstraints gbc_versionLabel = new GridBagConstraints();
 		gbc_versionLabel.gridwidth = 2;
@@ -392,7 +385,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_versionLabel.gridx = 0;
 		gbc_versionLabel.gridy = 11;
 		settingsPanel.add(versionLabel, gbc_versionLabel);
-		
+
 		versionData = new JTextField();
 		GridBagConstraints gbc_objectVersion = new GridBagConstraints();
 		gbc_objectVersion.insets = new Insets(0, 0, 5, 0);
@@ -401,32 +394,31 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_objectVersion.gridy = 11;
 		settingsPanel.add(versionData, gbc_objectVersion);
 		versionData.setColumns(10);
-		
-		
+
 		initialPricingToggle = new JToggleButton("Initial Pricing");
-		
-				GridBagConstraints gbc_initialPricingToggle = new GridBagConstraints();
-				gbc_initialPricingToggle.fill = GridBagConstraints.BOTH;
-				gbc_initialPricingToggle.insets = new Insets(0, 0, 5, 0);
-				gbc_initialPricingToggle.gridx = 2;
-				gbc_initialPricingToggle.gridy = 12;
-				settingsPanel.add(initialPricingToggle, gbc_initialPricingToggle);
-		
+
+		GridBagConstraints gbc_initialPricingToggle = new GridBagConstraints();
+		gbc_initialPricingToggle.fill = GridBagConstraints.BOTH;
+		gbc_initialPricingToggle.insets = new Insets(0, 0, 5, 0);
+		gbc_initialPricingToggle.gridx = 2;
+		gbc_initialPricingToggle.gridy = 12;
+		settingsPanel.add(initialPricingToggle, gbc_initialPricingToggle);
+
 		staticPricingToggle = new JToggleButton("Static Pricing");
-		
-				GridBagConstraints gbc_staticPricingToggle = new GridBagConstraints();
-				gbc_staticPricingToggle.fill = GridBagConstraints.BOTH;
-				gbc_staticPricingToggle.insets = new Insets(0, 0, 5, 0);
-				gbc_staticPricingToggle.gridx = 2;
-				gbc_staticPricingToggle.gridy = 13;
-				settingsPanel.add(staticPricingToggle, gbc_staticPricingToggle);
+
+		GridBagConstraints gbc_staticPricingToggle = new GridBagConstraints();
+		gbc_staticPricingToggle.fill = GridBagConstraints.BOTH;
+		gbc_staticPricingToggle.insets = new Insets(0, 0, 5, 0);
+		gbc_staticPricingToggle.gridx = 2;
+		gbc_staticPricingToggle.gridy = 13;
+		settingsPanel.add(staticPricingToggle, gbc_staticPricingToggle);
 		GridBagConstraints gbc_editCategoriesButton = new GridBagConstraints();
 		gbc_editCategoriesButton.insets = new Insets(0, 0, 5, 0);
 		gbc_editCategoriesButton.fill = GridBagConstraints.BOTH;
 		gbc_editCategoriesButton.gridx = 2;
 		gbc_editCategoriesButton.gridy = 14;
 		settingsPanel.add(editCategoriesButton, gbc_editCategoriesButton);
-		
+
 		editCompositesButton = new JButton("Edit Composites Data");
 		GridBagConstraints gbc_editCompositesButton = new GridBagConstraints();
 		gbc_editCompositesButton.fill = GridBagConstraints.BOTH;
@@ -437,12 +429,13 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		editCompositesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
+				if (to == null)
+					return;
 				CompositeDataEditor frame = new CompositeDataEditor(to);
 				frame.setVisible(true);
 			}
 		});
-		
+
 		btnEditObjectData = new JButton("Edit Object Data");
 		GridBagConstraints gbc_btnEditObjectData = new GridBagConstraints();
 		gbc_btnEditObjectData.fill = GridBagConstraints.BOTH;
@@ -452,23 +445,24 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		btnEditObjectData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
+				if (to == null)
+					return;
 				DataEditor frame = new DataEditor(to);
 				frame.setVisible(true);
 			}
 		});
-		
+
 		JPanel pricePanel = new JPanel();
 		pricePanel.setBackground(new Color(248, 248, 255));
 		pricePanel.setBounds(12, 475, 938, 80);
 		getContentPane().add(pricePanel);
 		GridBagLayout gbl_pricePanel = new GridBagLayout();
-		gbl_pricePanel.columnWidths = new int[]{415, 121, -328, 0};
-		gbl_pricePanel.rowHeights = new int[]{15, 0, 0, 0};
-		gbl_pricePanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pricePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pricePanel.columnWidths = new int[] { 415, 121, -328, 0 };
+		gbl_pricePanel.rowHeights = new int[] { 15, 0, 0, 0 };
+		gbl_pricePanel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_pricePanel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		pricePanel.setLayout(gbl_pricePanel);
-		
+
 		JLabel purchasePriceLabel = new JLabel("Purchase Price");
 		purchasePriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_purchasePriceLabel = new GridBagConstraints();
@@ -477,7 +471,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_purchasePriceLabel.gridx = 1;
 		gbc_purchasePriceLabel.gridy = 0;
 		pricePanel.add(purchasePriceLabel, gbc_purchasePriceLabel);
-		
+
 		purchasePriceField = new JTextField();
 		purchasePriceField.setBackground(new Color(250, 250, 210));
 		purchasePriceField.setEditable(false);
@@ -488,7 +482,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_purchasePriceField.gridy = 0;
 		pricePanel.add(purchasePriceField, gbc_purchasePriceField);
 		purchasePriceField.setColumns(10);
-		
+
 		JLabel sellPriceLabel = new JLabel("Sell Price");
 		GridBagConstraints gbc_sellPriceLabel = new GridBagConstraints();
 		gbc_sellPriceLabel.anchor = GridBagConstraints.EAST;
@@ -496,7 +490,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_sellPriceLabel.gridx = 1;
 		gbc_sellPriceLabel.gridy = 1;
 		pricePanel.add(sellPriceLabel, gbc_sellPriceLabel);
-		
+
 		sellPriceField = new JTextField();
 		sellPriceField.setBackground(new Color(250, 250, 210));
 		sellPriceField.setEditable(false);
@@ -507,7 +501,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		gbc_sellPriceField.gridy = 1;
 		pricePanel.add(sellPriceField, gbc_sellPriceField);
 		sellPriceField.setColumns(10);
-		
+
 		JButton saveButton = new JButton("Save Changes");
 		saveButton.setForeground(Color.WHITE);
 		GridBagConstraints gbc_saveButton = new GridBagConstraints();
@@ -520,64 +514,75 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		saveButton.setBackground(new Color(0, 51, 0));
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				if (fieldsUpdating) return;
+				if (fieldsUpdating)
+					return;
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
+				if (to == null)
+					return;
 				to.setName(nameData.getText());
 				to.setName(nameData.getText());
 				to.setDisplayName(displayNameData.getText());
 				try {
 					to.setAliases(CommonFunctions.explode(aliasesData.getText()));
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The aliases must be a comma separated string.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The aliases must be a comma separated string.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(stockData.getText());
 					to.setStock(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The stock must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The stock must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(valueData.getText());
 					to.setValue(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The value must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(medianData.getText());
 					to.setMedian(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The median must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The median must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(staticPriceData.getText());
 					to.setStaticPrice(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The static price must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The static price must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(startPriceData.getText());
 					to.setStartPrice(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The start price must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The start price must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(ceilingData.getText());
 					to.setCeiling(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The ceiling value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The ceiling value must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(floorData.getText());
 					to.setFloor(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The floor value must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The floor value must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				try {
 					double value = Double.parseDouble(versionData.getText());
 					to.setVersion(value);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "The version must be numeric.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The version must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				to.setType(TradeObjectType.fromString(objectTypeComboBox.getSelectedItem().toString()));
 				to.setUseInitialPricing(initialPricingToggle.isSelected());
@@ -587,7 +592,7 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 				listObjectSelector.setSelectedValue(to, true);
 			}
 		});
-		
+
 		JButton deleteButton = new JButton("Delete Object");
 		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
 		gbc_deleteButton.fill = GridBagConstraints.BOTH;
@@ -596,18 +601,18 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		pricePanel.add(deleteButton, gbc_deleteButton);
 		deleteButton.setForeground(new Color(255, 250, 250));
 		deleteButton.setBackground(new Color(220, 20, 60));
-		
+
 		JPanel addNewPanel = new JPanel();
 		addNewPanel.setBounds(12, 399, 405, 64);
 		getContentPane().add(addNewPanel);
 		GridBagLayout gbl_addNewPanel = new GridBagLayout();
-		gbl_addNewPanel.columnWidths = new int[]{0, 0};
-		gbl_addNewPanel.rowHeights = new int[]{0, 0, 0};
-		gbl_addNewPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_addNewPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_addNewPanel.columnWidths = new int[] { 0, 0 };
+		gbl_addNewPanel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_addNewPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_addNewPanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		addNewPanel.setLayout(gbl_addNewPanel);
 		addNewPanel.setBackground(new Color(248, 248, 255));
-		
+
 		JButton addObjectButton = new JButton("Add New Item");
 		GridBagConstraints gbc_addObjectButton = new GridBagConstraints();
 		gbc_addObjectButton.insets = new Insets(0, 0, 5, 0);
@@ -620,19 +625,21 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 				String newName = newItemNameField.getText();
 				String aliases = newName.replace("_", "");
 				if (he.objectTest(newName) || he.objectTest(aliases)) {
-					JOptionPane.showMessageDialog(null, "A trade object with that name already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "A trade object with that name already exists.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
 
-				TradeObject to = new ComponentTradeItem(hc, null, newName, he.getName(), newName, aliases, "", "item", 1, "false", 2, 0, 10000, "true", 2, 1000000000,0, 1000000000, "", 0, "", 1);
-				//boolean success = new Additem(hc).addItem(to, he.getName());
+				TradeObject to = new ComponentTradeItem(hc, null, newName, he.getName(), newName, aliases, "", "item",
+						1, "false", 2, 0, 10000, "true", 2, 1000000000, 0, 1000000000, "", 0, "", 1);
+				// boolean success = new Additem(hc).addItem(to, he.getName());
 				to.save();
-				//if (!success) JOptionPane.showMessageDialog(null, "Adding item failed.  Try a different name.", "Error", JOptionPane.ERROR_MESSAGE);
+				// if (!success) JOptionPane.showMessageDialog(null, "Adding item failed. Try a
+				// different name.", "Error", JOptionPane.ERROR_MESSAGE);
 				loadObjects();
 			}
 		});
-		
+
 		newItemNameField = new JTextField();
 		GridBagConstraints gbc_newItemNameField = new GridBagConstraints();
 		gbc_newItemNameField.fill = GridBagConstraints.BOTH;
@@ -642,25 +649,28 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		newItemNameField.setColumns(10);
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				if (fieldsUpdating) return;
+				if (fieldsUpdating)
+					return;
 				TradeObject to = getSelectedObject();
-				if (to == null) return;
-		        if (JOptionPane.showConfirmDialog(getContentPane(), "Are you sure you want to delete this object?", "Object Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
-		        	return;
-		        }
+				if (to == null)
+					return;
+				if (JOptionPane.showConfirmDialog(getContentPane(), "Are you sure you want to delete this object?",
+						"Object Deletion", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
+					return;
+				}
 				to.delete();
 				loadObjects();
 			}
 		});
 
-
-		
 	}
-	
+
 	public void loadCatgories() {
 		loadingCategories = true;
 		int selected = categoryComboBox.getSelectedIndex();
-		if (selected < 0) selected = 0;
+		if (selected < 0)
+			selected = 0;
 		categoryComboBox.removeAllItems();
 		ArrayList<String> categories = hc.getDataManager().getCategories();
 		Collections.sort(categories);
@@ -668,13 +678,13 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		categoryComboBox.addItem("uncategorized");
 		categoryComboBox.addItem("composite items");
 		categoryComboBox.addItem("component items");
-		for (String cat:categories) {
+		for (String cat : categories) {
 			categoryComboBox.addItem(cat);
 		}
 		categoryComboBox.setSelectedIndex(selected);
 		loadingCategories = false;
 	}
-	
+
 	private void loadObjects() {
 		String category = categoryComboBox.getSelectedItem().toString();
 		tradeObjectList.clear();
@@ -682,57 +692,61 @@ public class ObjectPanel extends JFrame implements HyperEventListener {
 		Collections.sort(tObjects);
 		ArrayList<String> names = new ArrayList<String>();
 		if (category.equals("all")) {
-			for (TradeObject t:tObjects) {
+			for (TradeObject t : tObjects) {
 				names.add(t.getDisplayName());
 			}
 		} else if (category.equals("uncategorized")) {
-			for (TradeObject t:tObjects) {
-				if (t.getCategories().size() == 0) names.add(t.getDisplayName());
+			for (TradeObject t : tObjects) {
+				if (t.getCategories().size() == 0)
+					names.add(t.getDisplayName());
 			}
 		} else if (category.equals("composite items")) {
-			for (TradeObject t:tObjects) {
-				if (t.isCompositeObject()) names.add(t.getDisplayName());
+			for (TradeObject t : tObjects) {
+				if (t.isCompositeObject())
+					names.add(t.getDisplayName());
 			}
 		} else if (category.equals("component items")) {
-			for (TradeObject t:tObjects) {
-				if (!t.isCompositeObject()) names.add(t.getDisplayName());
+			for (TradeObject t : tObjects) {
+				if (!t.isCompositeObject())
+					names.add(t.getDisplayName());
 			}
 		} else {
-			for (TradeObject t:tObjects) {
-				if (t.inCategory(category)) names.add(t.getDisplayName());
+			for (TradeObject t : tObjects) {
+				if (t.inCategory(category))
+					names.add(t.getDisplayName());
 			}
 		}
 		tradeObjectList.addData(names);
 	}
-	
+
 	private TradeObject getSelectedObject() {
 		if (hc != null && hc.loaded()) {
 			return he.getTradeObject(listObjectSelector.getSelectedValue());
 		}
 		return null;
 	}
-	
+
 	private void updatePrice(TradeObject to) {
-		sellPriceField.setText(CommonFunctions.twoDecimals(to.getSellPrice(1))+"");
-		purchasePriceField.setText(CommonFunctions.twoDecimals(to.getBuyPrice(1))+"");
+		sellPriceField.setText(CommonFunctions.twoDecimals(to.getSellPrice(1)) + "");
+		purchasePriceField.setText(CommonFunctions.twoDecimals(to.getBuyPrice(1)) + "");
 	}
-	
+
 	public void displayInfoBox(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
+
 	public void displayErrorBox(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
 	}
-	
 
 	@Override
 	public void handleHyperEvent(HyperEvent event) {
 		if (event instanceof RequestGUIChangeEvent) {
-			RequestGUIChangeEvent hevent = (RequestGUIChangeEvent)event;
+			RequestGUIChangeEvent hevent = (RequestGUIChangeEvent) event;
 			if (hevent.getType() == GUIChangeType.SERVER_CHANGE_OBJECT) {
 				loadObjects();
 			}
 		}
-		
+
 	}
 }

@@ -2,12 +2,6 @@ package regalowl.hyperconomy.display;
 
 import java.util.HashMap;
 
-
-
-
-
-
-
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -34,12 +28,13 @@ public class InfoSign {
 	private String line2;
 	private String line3;
 	private String line4;
-	
+
 	private int timeValueHours;
 	private int timeValue;
 	private String increment;
 
-	InfoSign(HyperConomy hc, HLocation signLoc, SignType type, String objectName, double multiplier, String economy, EnchantmentClass enchantClass) {
+	InfoSign(HyperConomy hc, HLocation signLoc, SignType type, String objectName, double multiplier, String economy,
+			EnchantmentClass enchantClass) {
 		this.multiplier = multiplier;
 		if (enchantClass == null) {
 			this.enchantClass = EnchantmentClass.DIAMOND;
@@ -79,8 +74,8 @@ public class InfoSign {
 		line4 = s.getLine(3);
 	}
 
-	
-	InfoSign(HyperConomy hc, HLocation signLoc, SignType type, String objectName, double multiplier, String economy, EnchantmentClass enchantClass, String[] lines) {
+	InfoSign(HyperConomy hc, HLocation signLoc, SignType type, String objectName, double multiplier, String economy,
+			EnchantmentClass enchantClass, String[] lines) {
 		this.multiplier = multiplier;
 		if (enchantClass == null) {
 			this.enchantClass = EnchantmentClass.DIAMOND;
@@ -113,15 +108,15 @@ public class InfoSign {
 		}
 		line3 = lines[2];
 		line4 = lines[3];
-		HashMap<String,String> values = new HashMap<String,String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		values.put("WORLD", loc.getWorld());
-		values.put("X", loc.getBlockX()+"");
-		values.put("Y", loc.getBlockY()+"");
-		values.put("Z", loc.getBlockZ()+"");
+		values.put("X", loc.getBlockX() + "");
+		values.put("Y", loc.getBlockY() + "");
+		values.put("Z", loc.getBlockZ() + "");
 		values.put("HYPEROBJECT", objectName);
 		values.put("TYPE", type.toString());
-		values.put("MULTIPLIER", multiplier+"");
-		values.put("ECONOMY", economy+"");
+		values.put("MULTIPLIER", multiplier + "");
+		values.put("ECONOMY", economy + "");
 		values.put("ECLASS", enchantClass.toString());
 		hc.getSQLWrite().performInsert("hyperconomy_info_signs", values);
 		if (getSign() == null) {
@@ -129,9 +124,6 @@ public class InfoSign {
 			return;
 		}
 	}
-	
-
-
 
 	public int getX() {
 		return loc.getBlockX();
@@ -160,7 +152,7 @@ public class InfoSign {
 	public String getObjectName() {
 		return objectName;
 	}
-	
+
 	public TradeObject getTradeObject() {
 		return to;
 	}
@@ -177,7 +169,6 @@ public class InfoSign {
 		return enchantClass;
 	}
 
-
 	public void update() {
 		try {
 			switch (type) {
@@ -190,11 +181,13 @@ public class InfoSign {
 					} else if (to.getType() == TradeObjectType.ITEM) {
 						double pcost = to.getBuyPrice(1);
 						line3 = "&f" + "Buy:";
-						line4 = "&a" + L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
+						line4 = "&a"
+								+ L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
 					} else {
 						double pcost = to.getBuyPrice(1);
 						line3 = "&f" + "Buy:";
-						line4 = "&a" + L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
+						line4 = "&a"
+								+ L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
 					}
 					break;
 				case SELL:
@@ -257,10 +250,12 @@ public class InfoSign {
 					break;
 				case HISTORY:
 					String timeIncrement = hc.getMC().removeColor(line4);
-					if (timeIncrement.contains("(")) timeIncrement = timeIncrement.substring(0, timeIncrement.indexOf("("));
+					if (timeIncrement.contains("("))
+						timeIncrement = timeIncrement.substring(0, timeIncrement.indexOf("("));
 					timeIncrement = timeIncrement.toUpperCase().replaceAll("[^A-Z]", "");
 					String timeValueString = hc.getMC().removeColor(line4);
-					if (timeValueString.contains("(")) timeValueString = timeValueString.substring(0, timeValueString.indexOf("("));
+					if (timeValueString.contains("("))
+						timeValueString = timeValueString.substring(0, timeValueString.indexOf("("));
 					timeValueString = timeValueString.toUpperCase().replaceAll("[^0-9]", "");
 					int timeValue = Integer.parseInt(timeValueString);
 					int timeValueHours = timeValue;
@@ -283,11 +278,13 @@ public class InfoSign {
 						line4 = "&a" + "" + L.fCS(taxpaid);
 					} else if (to.getType() == TradeObjectType.ITEM) {
 						line3 = "&f" + "Tax:";
-						line4 = "&a" + L.fCS(CommonFunctions.twoDecimals(to.getPurchaseTax(to.getBuyPrice(1) * multiplier)));
+						line4 = "&a"
+								+ L.fCS(CommonFunctions.twoDecimals(to.getPurchaseTax(to.getBuyPrice(1) * multiplier)));
 					} else {
-						BasicTradeObject bo = (BasicTradeObject)to;
+						BasicTradeObject bo = (BasicTradeObject) to;
 						line3 = "&f" + "Tax:";
-						line4 = "&a" + L.fCS(CommonFunctions.twoDecimals(bo.getPurchaseTax(bo.getBuyPrice(1) * multiplier)));
+						line4 = "&a"
+								+ L.fCS(CommonFunctions.twoDecimals(bo.getPurchaseTax(bo.getBuyPrice(1) * multiplier)));
 					}
 					break;
 				case SB:
@@ -300,13 +297,15 @@ public class InfoSign {
 						line3 = "&f" + "S:" + "&a" + L.fCS(value);
 					} else if (to.getType() == TradeObjectType.ITEM) {
 						double pcost = to.getBuyPrice(1);
-						line4 = "&f" + "B:" + "&a" + L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
+						line4 = "&f" + "B:" + "&a"
+								+ L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
 						double value = to.getSellPrice(1);
 						value = CommonFunctions.twoDecimals((value - to.getSalesTaxEstimate(value)) * multiplier);
 						line3 = "&f" + "S:" + "&a" + L.fCS(value);
 					} else {
 						double pcost = to.getBuyPrice(1);
-						line4 = "&f" + "B:" + "&a" + L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
+						line4 = "&f" + "B:" + "&a"
+								+ L.fCS(CommonFunctions.twoDecimals((pcost + to.getPurchaseTax(pcost)) * multiplier));
 						double value = to.getSellPrice(1);
 						value = CommonFunctions.twoDecimals((value - to.getSalesTaxEstimate(value)) * multiplier);
 						line3 = "&f" + "S:" + "&a" + L.fCS(value);
@@ -362,7 +361,6 @@ public class InfoSign {
 			hc.gSDL().getErrorWriter().writeError(e);
 		}
 	}
-	
 
 	private String getcolorCode(String percentchange) {
 		String colorcode = "&1";
@@ -378,34 +376,29 @@ public class InfoSign {
 		}
 		return colorcode;
 	}
-	
-	
+
 	public void deleteSign() {
 		hc.getInfoSignHandler().removeSign(this);
-		HashMap<String,String> conditions = new HashMap<String,String>();
+		HashMap<String, String> conditions = new HashMap<String, String>();
 		conditions.put("WORLD", loc.getWorld());
-		conditions.put("X", loc.getBlockX()+"");
-		conditions.put("Y", loc.getBlockY()+"");
-		conditions.put("Z", loc.getBlockZ()+"");
+		conditions.put("X", loc.getBlockX() + "");
+		conditions.put("Y", loc.getBlockY() + "");
+		conditions.put("Z", loc.getBlockZ() + "");
 		hc.getSQLWrite().performDelete("hyperconomy_info_signs", conditions);
 	}
-	
+
 	/*
-	public boolean isValid() {
-		Sign s = getSign();
-		if (s != null) {
-			return true;
-		}
-		return false;
-	}
-	*/
-	
+	 * public boolean isValid() { Sign s = getSign(); if (s != null) { return true;
+	 * } return false; }
+	 */
+
 	public HSign getSign() {
-		if (loc == null) return null;
+		if (loc == null)
+			return null;
 		HBlock sb = new HBlock(hc, loc);
-		if (!sb.isLoaded()) sb.load();
+		if (!sb.isLoaded())
+			sb.load();
 		return hc.getMC().getSign(loc);
 	}
-	
-	
+
 }

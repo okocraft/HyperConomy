@@ -44,7 +44,7 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 		this.bc = this.mc.getBukkitCommon();
 		this.hc = mc.getHC();
 		em = hc.getDataManager();
-		Bukkit.getPluginManager().registerEvents(this, (BukkitConnector)hc.getMC());
+		Bukkit.getPluginManager().registerEvents(this, (BukkitConnector) hc.getMC());
 		load();
 	}
 
@@ -68,7 +68,8 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 								economy = s.getEconomy();
 							}
 							TradeObject ho = em.getEconomy(economy).getTradeObject(dbData.getString("HYPEROBJECT"), s);
-							BukkitFrameShop fs = new BukkitFrameShop(hc, (short) (int) dbData.getInt("ID"), l, ho, s, dbData.getInt("TRADE_AMOUNT"));
+							BukkitFrameShop fs = new BukkitFrameShop(hc, (short) (int) dbData.getInt("ID"), l, ho, s,
+									dbData.getInt("TRADE_AMOUNT"));
 							frameShops.put(l, fs);
 
 						}
@@ -90,7 +91,8 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 	}
 
 	public boolean frameShopExists(HLocation l) {
-		if (getFrameShop(l) != null) return true;
+		if (getFrameShop(l) != null)
+			return true;
 		return false;
 	}
 
@@ -109,10 +111,10 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 		frameShops.put(loc, fs);
 	}
 
-
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
-		if (event.isCancelled()) return;
+		if (event.isCancelled())
+			return;
 		Entity entity = event.getEntity();
 		LanguageFile L = hc.getLanguageFile();
 		if (event.getDamager() instanceof Player) {
@@ -124,7 +126,7 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 						event.setCancelled(true);
 						return;
 					}
-					BukkitFrameShop fs = (BukkitFrameShop)getFrameShop(bc.getLocation(entity.getLocation()));
+					BukkitFrameShop fs = (BukkitFrameShop) getFrameShop(bc.getLocation(entity.getLocation()));
 					HyperPlayer hp = mc.getBukkitCommon().getPlayer(p);
 					Shop s = fs.getShop();
 					PlayerShop ps = null;
@@ -149,12 +151,13 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 			}
 		}
 	}
-	
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
-		if (event.isCancelled()) return;
-		if (!event.getEventName().equals("PlayerInteractEntityEvent")) return; //temp fix
+		if (event.isCancelled())
+			return;
+		if (!event.getEventName().equals("PlayerInteractEntityEvent"))
+			return; // temp fix
 		Entity entity = event.getRightClicked();
 		LanguageFile L = hc.getLanguageFile();
 		if (entity instanceof ItemFrame) {
@@ -170,7 +173,7 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 						return;
 					}
 					HyperPlayer hp = mc.getBukkitCommon().getPlayer(p);
-					BukkitFrameShop fs = (BukkitFrameShop)getFrameShop(hl);
+					BukkitFrameShop fs = (BukkitFrameShop) getFrameShop(hl);
 					if (p.hasPermission("hyperconomy.buy")) {
 						fs.buy(hp);
 					} else {
@@ -180,23 +183,25 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPlaceEvent(BlockPlaceEvent event) {
 		HLocation placeLocation = bc.getLocation(event.getBlock().getLocation());
 		placeLocation.convertToBlockLocation();
-		for (BukkitFrameShop fs:frameShops.values()) {
+		for (BukkitFrameShop fs : frameShops.values()) {
 			if (fs.getLocation().equals(placeLocation)) {
 				event.setCancelled(true);
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockBreakEvent(BlockBreakEvent event) {
-		for (BukkitFrameShop fs:frameShops.values()) {
+		for (BukkitFrameShop fs : frameShops.values()) {
 			Block attached = fs.getAttachedBlock();
-			if (attached == null) {continue;}
+			if (attached == null) {
+				continue;
+			}
 			if (attached.equals(event.getBlock())) {
 				event.setCancelled(true);
 			}
@@ -205,10 +210,10 @@ public class BukkitFrameShopHandler implements Listener, FrameShopHandler {
 
 	@Override
 	public void removeFrameShops(TradeObject to) {
-		for (BukkitFrameShop fs:frameShops.values()) {
-			if (fs.getTradeObject().equals(to)) fs.delete();
+		for (BukkitFrameShop fs : frameShops.values()) {
+			if (fs.getTradeObject().equals(to))
+				fs.delete();
 		}
 	}
-	
 
 }

@@ -1,6 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.shop.Shop;
@@ -10,7 +9,6 @@ import regalowl.hyperconomy.transaction.PlayerTransaction;
 import regalowl.hyperconomy.transaction.TransactionResponse;
 import regalowl.hyperconomy.transaction.TransactionType;
 
-
 public class Buy extends BaseCommand implements HyperCommand {
 
 	public Buy(HyperConomy hc) {
@@ -19,7 +17,8 @@ public class Buy extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperEconomy he = hp.getHyperEconomy();
 		try {
 			if (args.length == 0) {
@@ -37,7 +36,8 @@ public class Buy extends BaseCommand implements HyperCommand {
 				if (args[1].equalsIgnoreCase("max")) {
 					if (ho.getType() == TradeObjectType.ITEM) {
 						amount = hp.getInventory().getAvailableSpace(ho.getItem());
-						if (amount > ho.getStock()) amount = (int)Math.floor(ho.getStock());
+						if (amount > ho.getStock())
+							amount = (int) Math.floor(ho.getStock());
 					} else if (ho.getType() == TradeObjectType.EXPERIENCE) {
 						amount = (int) ho.getStock();
 					} else if (ho.getType() == TradeObjectType.ENCHANTMENT) {
@@ -46,7 +46,8 @@ public class Buy extends BaseCommand implements HyperCommand {
 				} else {
 					try {
 						amount = Integer.parseInt(args[1]);
-						if (amount > 10000) amount = 10000;
+						if (amount > 10000)
+							amount = 10000;
 					} catch (Exception e) {
 						data.addResponse(L.get("BUY_INVALID"));
 						return data;
@@ -57,7 +58,8 @@ public class Buy extends BaseCommand implements HyperCommand {
 			pt.setObeyShops(true);
 			pt.setHyperObject(ho);
 			pt.setAmount(amount);
-			if (s != null) pt.setTradePartner(s.getOwner());
+			if (s != null)
+				pt.setTradePartner(s.getOwner());
 			TransactionResponse response = hp.processTransaction(pt);
 			response.sendMessages();
 		} catch (Exception e) {

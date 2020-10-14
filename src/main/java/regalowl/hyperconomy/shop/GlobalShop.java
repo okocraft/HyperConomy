@@ -13,9 +13,8 @@ import regalowl.hyperconomy.event.ShopModificationEvent;
 import regalowl.hyperconomy.minecraft.HLocation;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
+public class GlobalShop implements Shop, Comparable<Shop> {
 
-public class GlobalShop implements Shop, Comparable<Shop>{
-	
 	private transient HyperConomy hc;
 	private static final long serialVersionUID = -4886663609354167778L;
 	private String name;
@@ -25,42 +24,43 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 	private ArrayList<String> availableObjects = new ArrayList<String>();
 	private boolean deleted;
 
-	
 	public GlobalShop(HyperConomy hc, String name, String economy, HyperAccount owner, String banned_objects) {
 		this.hc = hc;
 		this.deleted = false;
 		this.name = name;
 		this.economy = economy;
-		if (owner instanceof HyperBank) ownerIsBank = true;
+		if (owner instanceof HyperBank)
+			ownerIsBank = true;
 		this.owner = owner.getName();
 		HyperEconomy he = getHyperEconomy();
 		availableObjects.clear();
-		for (TradeObject ho:he.getTradeObjects()) {
+		for (TradeObject ho : he.getTradeObjects()) {
 			availableObjects.add(ho.getName());
 		}
 		ArrayList<String> unavailable = CommonFunctions.explode(banned_objects);
 		for (String objectName : unavailable) {
 			TradeObject ho = hc.getDataManager().getEconomy(economy).getTradeObject(objectName);
-			if (ho == null) continue;
+			if (ho == null)
+				continue;
 			availableObjects.remove(ho.getName());
 		}
 	}
-	
-	
+
 	public GlobalShop(HyperConomy hc, String shopName, String economy, HyperAccount owner) {
 		this.hc = hc;
 		this.deleted = false;
 		this.name = shopName;
 		this.economy = economy;
-		if (owner instanceof HyperBank) ownerIsBank = true;
+		if (owner instanceof HyperBank)
+			ownerIsBank = true;
 		this.owner = owner.getName();
-		HashMap<String,String> values = new HashMap<String,String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		values.put("NAME", name);
 		values.put("ECONOMY", economy);
 		if (ownerIsBank) {
-			values.put("OWNER", "BANK:"+owner.getName());
+			values.put("OWNER", "BANK:" + owner.getName());
 		} else {
-			values.put("OWNER", "PLAYER:"+owner.getName());
+			values.put("OWNER", "PLAYER:" + owner.getName());
 		}
 		values.put("WORLD", "none");
 		values.put("P1X", "0");
@@ -76,19 +76,18 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 		hc.getSQLWrite().performInsert("hyperconomy_shops", values);
 		availableObjects.clear();
 		HyperEconomy he = getHyperEconomy();
-		for (TradeObject ho:he.getTradeObjects()) {
-			if (ho == null) continue;
+		for (TradeObject ho : he.getTradeObjects()) {
+			if (ho == null)
+				continue;
 			availableObjects.add(ho.getName());
 		}
 	}
-	
-	
-	
+
 	@Override
 	public void setHyperConomy(HyperConomy hc) {
 		this.hc = hc;
 	}
-	
+
 	@Override
 	public int compareTo(Shop s) {
 		return name.compareTo(s.getName());
@@ -96,66 +95,70 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 
 	@Override
 	public void setName(String name) {
-		HashMap<String,String> conditions = new HashMap<String,String>();
-		HashMap<String,String> values = new HashMap<String,String>();
+		HashMap<String, String> conditions = new HashMap<String, String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		conditions.put("NAME", this.name);
 		values.put("NAME", name);
 		hc.getSQLWrite().performUpdate("hyperconomy_shops", values, conditions);
 		this.name = name;
 		hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));
 	}
+
 	@Override
 	public void setEconomy(String economy) {
 		this.economy = economy;
-		HashMap<String,String> conditions = new HashMap<String,String>();
-		HashMap<String,String> values = new HashMap<String,String>();
+		HashMap<String, String> conditions = new HashMap<String, String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		conditions.put("NAME", name);
 		values.put("ECONOMY", economy);
 		hc.getSQLWrite().performUpdate("hyperconomy_shops", values, conditions);
 		hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));
 	}
 
-	
-
 	@Override
 	public String getEconomy() {
 		return economy;
 	}
+
 	@Override
 	public HyperEconomy getHyperEconomy() {
 		HyperEconomy he = hc.getDataManager().getEconomy(economy);
 		if (he == null) {
-			hc.getSimpleDataLib().getErrorWriter().writeError("Null HyperEconomy for economy: " + economy + ", shop: " + name);
+			hc.getSimpleDataLib().getErrorWriter()
+					.writeError("Null HyperEconomy for economy: " + economy + ", shop: " + name);
 			he = hc.getDataManager().getEconomy("default");
 		}
 		return he;
 	}
+
 	@Override
 	public String getName() {
 		return name;
 	}
+
 	@Override
 	public String getDisplayName() {
 		return name.replace("_", " ");
 	}
-	
+
 	@Override
 	public void saveAvailable() {
 		HyperEconomy he = getHyperEconomy();
 		ArrayList<String> unavailable = new ArrayList<String>();
 		ArrayList<TradeObject> allObjects = he.getTradeObjects();
-		for (TradeObject ho:allObjects) {
+		for (TradeObject ho : allObjects) {
 			if (!availableObjects.contains(ho.getName())) {
 				unavailable.add(ho.getName());
 			}
 		}
-		HashMap<String,String> conditions = new HashMap<String,String>();
-		HashMap<String,String> values = new HashMap<String,String>();
+		HashMap<String, String> conditions = new HashMap<String, String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		conditions.put("NAME", name);
 		values.put("BANNED_OBJECTS", CommonFunctions.implode(unavailable));
 		hc.getSQLWrite().performUpdate("hyperconomy_shops", values, conditions);
 		hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));
 	}
+
 	@Override
 	public boolean isStocked(TradeObject ho) {
 		if (ho != null && ho.getStock() > 0) {
@@ -163,6 +166,7 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 		}
 		return false;
 	}
+
 	@Override
 	public boolean isBanned(String name) {
 		if (availableObjects.contains(name)) {
@@ -170,6 +174,7 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 		}
 		return true;
 	}
+
 	@Override
 	public boolean isTradeable(TradeObject ho) {
 		if (!isBanned(ho.getName())) {
@@ -177,10 +182,12 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 		}
 		return false;
 	}
+
 	@Override
 	public boolean isStocked(String item) {
 		return isStocked(getHyperEconomy().getTradeObject(item));
 	}
+
 	@Override
 	public boolean isAvailable(TradeObject ho) {
 		if (isTradeable(ho) && isStocked(ho)) {
@@ -188,47 +195,51 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 		}
 		return false;
 	}
+
 	@Override
 	public ArrayList<TradeObject> getTradeableObjects() {
 		HyperEconomy he = getHyperEconomy();
 		ArrayList<TradeObject> available = new ArrayList<TradeObject>();
-		for (String name:availableObjects) {
+		for (String name : availableObjects) {
 			available.add(he.getTradeObject(name));
 		}
 		return available;
 	}
+
 	@Override
 	public void unBanAllObjects() {
 		availableObjects.clear();
-		for (TradeObject ho:getHyperEconomy().getTradeObjects()) {
+		for (TradeObject ho : getHyperEconomy().getTradeObjects()) {
 			availableObjects.add(ho.getName());
 		}
 		saveAvailable();
 	}
+
 	@Override
 	public void banAllObjects() {
 		availableObjects.clear();
 		saveAvailable();
 	}
+
 	@Override
 	public void unBanObjects(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
+		for (TradeObject ho : objects) {
 			if (!availableObjects.contains(ho.getName())) {
 				availableObjects.add(ho.getName());
 			}
 		}
 		saveAvailable();
 	}
+
 	@Override
 	public void banObjects(ArrayList<TradeObject> objects) {
-		for (TradeObject ho:objects) {
+		for (TradeObject ho : objects) {
 			if (availableObjects.contains(ho.getName())) {
 				availableObjects.remove(ho.getName());
 			}
 		}
 		saveAvailable();
 	}
-	
 
 	@Override
 	public HyperAccount getOwner() {
@@ -241,91 +252,137 @@ public class GlobalShop implements Shop, Comparable<Shop>{
 
 	@Override
 	public void deleteShop() {
-		HashMap<String,String> conditions = new HashMap<String,String>();
+		HashMap<String, String> conditions = new HashMap<String, String>();
 		conditions.put("NAME", name);
 		hc.getSQLWrite().performDelete("hyperconomy_shops", conditions);
 		hc.getHyperShopManager().removeShop(name);
 		deleted = true;
 		hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));
 	}
+
 	@Override
 	public void setOwner(HyperAccount owner) {
 		this.owner = owner.getName();
-		if (owner instanceof HyperBank) ownerIsBank = true;
-		HashMap<String,String> conditions = new HashMap<String,String>();
-		HashMap<String,String> values = new HashMap<String,String>();
+		if (owner instanceof HyperBank)
+			ownerIsBank = true;
+		HashMap<String, String> conditions = new HashMap<String, String>();
+		HashMap<String, String> values = new HashMap<String, String>();
 		conditions.put("NAME", name);
 		if (ownerIsBank) {
-			values.put("OWNER", "BANK:"+owner.getName());
+			values.put("OWNER", "BANK:" + owner.getName());
 		} else {
-			values.put("OWNER", "PLAYER:"+owner.getName());
+			values.put("OWNER", "PLAYER:" + owner.getName());
 		}
 		hc.getSQLWrite().performUpdate("hyperconomy_shops", values, conditions);
 		hc.getHyperEventHandler().fireEvent(new ShopModificationEvent(this));
 	}
-	
+
 	@Override
-	public ArrayList<HLocation> getShopBlockLocations() {return null;}
+	public ArrayList<HLocation> getShopBlockLocations() {
+		return null;
+	}
+
 	@Override
-	public boolean intersectsShop(Shop s, int volumeLimit) {return false;}
+	public boolean intersectsShop(Shop s, int volumeLimit) {
+		return false;
+	}
+
 	@Override
-	public void setPoint1(String world, int x, int y, int z) {}
+	public void setPoint1(String world, int x, int y, int z) {
+	}
+
 	@Override
-	public void setPoint2(String world, int x, int y, int z) {}
+	public void setPoint2(String world, int x, int y, int z) {
+	}
+
 	@Override
-	public void setPoint1(HLocation l) {}
+	public void setPoint1(HLocation l) {
+	}
+
 	@Override
-	public void setPoint2(HLocation l) {}
+	public void setPoint2(HLocation l) {
+	}
+
 	@Override
-	public void setMessage(String message) {}
+	public void setMessage(String message) {
+	}
+
 	@Override
-	public void sendEntryMessage(HyperPlayer player) {}
+	public void sendEntryMessage(HyperPlayer player) {
+	}
+
 	@Override
-	public void setDefaultMessage() {}
+	public void setDefaultMessage() {
+	}
+
 	@Override
-	public void setWorld(String world) {}
+	public void setWorld(String world) {
+	}
+
 	@Override
-	public boolean inShop(int x, int y, int z, String world) {return true;}	
+	public boolean inShop(int x, int y, int z, String world) {
+		return true;
+	}
+
 	@Override
-	public boolean inShop(HLocation l) {return true;}
+	public boolean inShop(HLocation l) {
+		return true;
+	}
+
 	@Override
-	public boolean inShop(HyperPlayer hp) {return true;}
+	public boolean inShop(HyperPlayer hp) {
+		return true;
+	}
+
 	@Override
-	public void updatePlayerStatus() {}
+	public void updatePlayerStatus() {
+	}
+
 	@Override
-	public int getVolume() {return 0;}
+	public int getVolume() {
+		return 0;
+	}
+
 	@Override
 	public int getP1x() {
 		return 0;
 	}
+
 	@Override
 	public int getP1y() {
 		return 0;
 	}
+
 	@Override
 	public int getP1z() {
 		return 0;
 	}
+
 	@Override
 	public int getP2x() {
 		return 0;
 	}
+
 	@Override
 	public int getP2y() {
 		return 0;
 	}
+
 	@Override
 	public int getP2z() {
 		return 0;
 	}
+
 	@Override
 	public HLocation getLocation1() {
 		return null;
 	}
+
 	@Override
 	public HLocation getLocation2() {
 		return null;
 	}
+
 	@Override
 	public boolean deleted() {
 		return deleted;

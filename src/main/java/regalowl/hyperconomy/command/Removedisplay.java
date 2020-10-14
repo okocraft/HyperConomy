@@ -1,13 +1,10 @@
 package regalowl.hyperconomy.command;
 
-
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.display.ItemDisplayHandler;
 import regalowl.hyperconomy.minecraft.HLocation;
 
 public class Removedisplay extends BaseCommand implements HyperCommand {
-
 
 	public Removedisplay(HyperConomy hc) {
 		super(hc, true);
@@ -15,7 +12,8 @@ public class Removedisplay extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (!hc.getConf().getBoolean("enable-feature.item-displays")) {
 			data.addResponse(L.get("ITEMDISPLAYS_MUST_BE_ENABLED"));
 			return data;

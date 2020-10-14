@@ -5,41 +5,38 @@ import java.util.HashMap;
 
 import regalowl.simpledatalib.CommonFunctions;
 
- 
-
 public class HSpawnEggMeta extends HItemMeta {
-
 
 	private String entityType;
 
-	public HSpawnEggMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments, ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, String entityType) {
+	public HSpawnEggMeta(String displayName, ArrayList<String> lore, ArrayList<HEnchantment> enchantments,
+			ArrayList<HItemFlag> itemFlags, boolean unbreakable, int repairCost, String entityType) {
 		super(displayName, lore, enchantments, itemFlags, unbreakable, repairCost);
 		this.entityType = entityType;
 	}
 
 	public HSpawnEggMeta(String serialized) {
 		super(serialized);
-		HashMap<String,String> data = CommonFunctions.explodeMap(serialized);
+		HashMap<String, String> data = CommonFunctions.explodeMap(serialized);
 		this.entityType = data.get("entityType");
-    }
-	
+	}
+
 	public HSpawnEggMeta(HSpawnEggMeta meta) {
 		super(meta);
 		this.entityType = meta.entityType;
-    }
+	}
 
 	@Override
 	public String serialize() {
-		HashMap<String,String> data = super.getMap();
+		HashMap<String, String> data = super.getMap();
 		data.put("entityType", entityType);
 		return CommonFunctions.implodeMap(data);
 	}
-	
+
 	@Override
 	public HItemMetaType getType() {
 		return HItemMetaType.SPAWN_EGG;
 	}
-	
 
 	public String getEntityType() {
 		return entityType;
@@ -55,16 +52,19 @@ public class HSpawnEggMeta extends HItemMeta {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (!super.equals(obj)) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		HSpawnEggMeta other = (HSpawnEggMeta) obj;
 		if (entityType == null) {
-			if (other.entityType != null) return false;
-		} else if (!entityType.equals(other.entityType)) return false;
+			if (other.entityType != null)
+				return false;
+		} else if (!entityType.equals(other.entityType))
+			return false;
 		return true;
 	}
-
-
 
 }

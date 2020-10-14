@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-
-
 public class SerializableObject implements Serializable {
 
 	private static final long serialVersionUID = -8134508220996453330L;
@@ -20,9 +18,9 @@ public class SerializableObject implements Serializable {
 			oos.close();
 			return new String(Base64Coder.encode(baos.toByteArray()));
 		} catch (Exception e) {
-			
+
 			return null;
 		}
 	}
-	
+
 }

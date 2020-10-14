@@ -1,17 +1,7 @@
 package regalowl.hyperconomy.command;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
-
-
-
-
-
-
-
 
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.DataManager;
@@ -31,21 +21,18 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-
-
-
 public class Manageshop extends BaseCommand implements HyperCommand {
-	
+
 	public Manageshop(HyperConomy hc) {
 		super(hc, true);
 	}
 
 	private HashMap<HyperPlayer, PlayerShop> currentShop = new HashMap<HyperPlayer, PlayerShop>();
-	
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		if (!hc.getConf().getBoolean("enable-feature.player-shops")) {
 			data.addResponse(L.get("PLAYERSHOPS_DISABLED"));
 			return data;
@@ -53,12 +40,14 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 		int maxVolume = hc.getConf().getInt("shop.max-player-shop-volume");
 		DataManager em = hc.getDataManager();
 		HyperShopManager hsm = hc.getHyperShopManager();
-		if (hp == null) {return data;}
+		if (hp == null) {
+			return data;
+		}
 		HyperEconomy he = em.getEconomy(hp.getEconomy());
 		if (hsm.inAnyShop(hp)) {
 			Shop s = hsm.getShop(hp);
 			if (s instanceof PlayerShop) {
-				PlayerShop ps = (PlayerShop)s;
+				PlayerShop ps = (PlayerShop) s;
 				if (ps.getOwner().equals(hp) || ps.isAllowed(hp) || hp.hasPermission("hyperconomy.admin")) {
 					currentShop.put(hp, ps);
 				}
@@ -77,7 +66,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 			if (cps != null) {
 				data.addResponse(L.f(L.get("MANAGESHOP_HELP2"), cps.getName()));
 				data.addResponse(L.f(L.get("MANAGESHOP_HELP3"), cps.getName()) + " &b" + cps.getOwner().getName());
-				data.addResponse(L.get("MANAGESHOP_HELP4") + " &b" +  CommonFunctions.implode(cps.getAllowed()));
+				data.addResponse(L.get("MANAGESHOP_HELP4") + " &b" + CommonFunctions.implode(cps.getAllowed()));
 			} else {
 				data.addResponse(L.get("NO_SHOP_SELECTED"));
 			}
@@ -97,7 +86,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				data.addResponse(L.get("ONLY_PLAYER_SHOPS"));
 				return data;
 			}
-			PlayerShop ps = (PlayerShop)s;
+			PlayerShop ps = (PlayerShop) s;
 			if ((!(ps.getOwner().equals(hp) || ps.isAllowed(hp))) && !hp.hasPermission("hyperconomy.admin")) {
 				data.addResponse(L.get("ONLY_EDIT_OWN_SHOPS"));
 				return data;
@@ -171,13 +160,11 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				return data;
 			}
 
-	
-
 			if (ho == null) {
 				data.addResponse(L.get("OBJECT_NOT_IN_DATABASE"));
 				return data;
 			}
-			
+
 			TradeObject ho2 = he.getTradeObject(ho.getName(), cps);
 			int globalMaxStock = hc.getConf().getInt("shop.max-stock-per-item-in-playershops");
 			if (ho2.getStock() + amount > globalMaxStock) {
@@ -236,7 +223,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 			} else {
 				hc.getSimpleDataLib().getErrorWriter().writeError("Setting PlayerShopObject stock failed in /ms add.");
 				return data;
-			}	
+			}
 		} else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("r")) {
 			if (cps == null) {
 				data.addResponse(L.get("NO_SHOP_SELECTED"));
@@ -254,10 +241,10 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 			if (args.length == 3) {
 				try {
 					amount = Integer.parseInt(args[2]);
-				} catch (Exception e) {}
+				} catch (Exception e) {
+				}
 			}
 
-			
 			TradeObject ho = he.getTradeObject(args[1], cps);
 			if (ho == null) {
 				data.addResponse(L.get("OBJECT_NOT_IN_DATABASE"));
@@ -326,7 +313,8 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 					data.addResponse(L.get("MUST_TRANSFER_MORE_THAN_ZERO"));
 				}
 			} else {
-				hc.getSimpleDataLib().getErrorWriter().writeError("Setting PlayerShopObject stock failed in /ms remove.");
+				hc.getSimpleDataLib().getErrorWriter()
+						.writeError("Setting PlayerShopObject stock failed in /ms remove.");
 				return data;
 			}
 		} else if ((args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c"))) {
@@ -339,7 +327,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				return data;
 			}
 			String name = args[1].replace(".", "").replace(":", "");
-			if (hsm.shopExists(name)){
+			if (hsm.shopExists(name)) {
 				data.addResponse(L.get("SHOP_ALREADY_EXISTS"));
 				return data;
 			}
@@ -353,26 +341,28 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				try {
 					radius = Integer.parseInt(args[2]);
 				} catch (Exception e) {
-					//continue
+					// continue
 				}
 			}
 			HLocation l = hp.getLocation();
-			HLocation p1 = new HLocation(l.getWorld(), l.getBlockX() - radius, l.getBlockY() - radius, l.getBlockZ() - radius);
-			HLocation p2 = new HLocation(l.getWorld(), l.getBlockX() + radius, l.getBlockY() + radius, l.getBlockZ() + radius);
+			HLocation p1 = new HLocation(l.getWorld(), l.getBlockX() - radius, l.getBlockY() - radius,
+					l.getBlockZ() - radius);
+			HLocation p2 = new HLocation(l.getWorld(), l.getBlockX() + radius, l.getBlockY() + radius,
+					l.getBlockZ() + radius);
 			PlayerShop newShop = new PlayerShop(hc, name, hp.getEconomy(), hp, p1, p2);
 			if (newShop.getVolume() > maxVolume) {
 				data.addResponse(L.f(L.get("CANT_MAKE_SHOP_LARGER_THAN"), maxVolume));
 				newShop.deleteShop();
 				return data;
 			}
-			for (Shop s:hsm.getShops()) {
+			for (Shop s : hsm.getShops()) {
 				if (newShop.intersectsShop(s, 10000)) {
 					data.addResponse(L.f(L.get("SHOP_INTERSECTS_SHOP"), s.getDisplayName()));
 					newShop.deleteShop();
 					return data;
 				}
 			}
-			for (TradeObject ho:he.getTradeObjects(newShop)) {
+			for (TradeObject ho : he.getTradeObjects(newShop)) {
 				if (ho.isShopObject()) {
 					ho.setShopObjectStatus(TradeObjectStatus.NONE);
 				}
@@ -401,8 +391,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 					return data;
 				}
 			}
-			
-			
+
 		} else if (args[0].equalsIgnoreCase("set1") || args[0].equalsIgnoreCase("s1")) {
 			if (cps == null) {
 				data.addResponse(L.get("NO_SHOP_SELECTED"));
@@ -415,9 +404,11 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				cps.setPoint1(priorLoc);
 				return data;
 			}
-			for (Shop s:hsm.getShops()) {
+			for (Shop s : hsm.getShops()) {
 				if (cps.intersectsShop(s, 10000)) {
-					if (cps.equals(s)) {continue;}
+					if (cps.equals(s)) {
+						continue;
+					}
 					data.addResponse(L.f(L.get("SHOP_INTERSECTS_SHOP"), s.getDisplayName()));
 					cps.setPoint1(priorLoc);
 					return data;
@@ -436,9 +427,11 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				cps.setPoint2(priorLoc);
 				return data;
 			}
-			for (Shop s:hsm.getShops()) {
+			for (Shop s : hsm.getShops()) {
 				if (cps.intersectsShop(s, 10000)) {
-					if (cps.equals(s)) {continue;}
+					if (cps.equals(s)) {
+						continue;
+					}
 					data.addResponse(L.f(L.get("SHOP_INTERSECTS_SHOP"), s.getDisplayName()));
 					cps.setPoint2(priorLoc);
 					return data;
@@ -577,14 +570,14 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				return data;
 			}
 			if (args[1].equalsIgnoreCase("all")) {
-				for (TradeObject ho:he.getTradeObjects(cps)) {
+				for (TradeObject ho : he.getTradeObjects(cps)) {
 					ho.setShopObjectStatus(status);
 				}
 				data.addResponse(L.get("ALL_STATUS_SET"));
 				return data;
 			}
 			if (args[1].equalsIgnoreCase("instock")) {
-				for (TradeObject ho:he.getTradeObjects(cps)) {
+				for (TradeObject ho : he.getTradeObjects(cps)) {
 					if (ho.getStock() > 0) {
 						ho.setShopObjectStatus(status);
 					}
@@ -599,8 +592,9 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 				return data;
 			}
 			if (dm.categoryExists(args[1])) {
-				for (TradeObject to:he.getCategory(args[1], cps)) {
-					if (to != null) to.setShopObjectStatus(status);
+				for (TradeObject to : he.getCategory(args[1], cps)) {
+					if (to != null)
+						to.setShopObjectStatus(status);
 				}
 				data.addResponse(L.get("CATEGORY_STATUS_SET"));
 				return data;
@@ -695,7 +689,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 			}
 			ArrayList<Shop> shops = hsm.getShops();
 			String sList = "";
-			for (Shop s:shops) {
+			for (Shop s : shops) {
 				if (s instanceof PlayerShop) {
 					sList += s.getDisplayName() + ",";
 				}
@@ -717,11 +711,7 @@ public class Manageshop extends BaseCommand implements HyperCommand {
 			return data;
 		}
 
-		
-		
 		return data;
 	}
-	
-	
 
 }

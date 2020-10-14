@@ -2,7 +2,6 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-
 public class Economyinfo extends BaseCommand implements HyperCommand {
 	public Economyinfo(HyperConomy hc) {
 		super(hc, false);
@@ -10,7 +9,8 @@ public class Economyinfo extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length == 0) {
 				data.addResponse(L.f(L.get("PART_OF_ECONOMY"), getEconomyName()));

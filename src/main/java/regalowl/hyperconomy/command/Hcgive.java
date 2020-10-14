@@ -4,16 +4,16 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.MessageBuilder;
 
+public class Hcgive extends BaseCommand implements HyperCommand {
 
-public class Hcgive extends BaseCommand implements HyperCommand{
-	
 	public Hcgive(HyperConomy hc) {
 		super(hc, false);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (args.length < 2) {
 				data.addResponse(L.get("HCGIVE_INVALID"));
@@ -31,7 +31,8 @@ public class Hcgive extends BaseCommand implements HyperCommand{
 				Double amount = 0.0;
 				try {
 					amount = Double.parseDouble(args[2]);
-				} catch (Exception e) {}
+				} catch (Exception e) {
+				}
 				if (amount <= 0) {
 					data.addResponse(L.get("CANNOT_PAY_NEGATIVE"));
 					return data;
@@ -39,7 +40,8 @@ public class Hcgive extends BaseCommand implements HyperCommand{
 				recipient.deposit(amount);
 				MessageBuilder mb = new MessageBuilder(hc, "MONEY_RECEIVED");
 				mb.setAmount(amount);
-				if (recipient.isOnline()) recipient.sendMessage(mb.build());
+				if (recipient.isOnline())
+					recipient.sendMessage(mb.build());
 				mb = new MessageBuilder(hc, "MONEY_GIVEN");
 				mb.setAmount(amount);
 				mb.setPlayerName(recipient.getName());
@@ -51,11 +53,6 @@ public class Hcgive extends BaseCommand implements HyperCommand{
 			hc.gSDL().getErrorWriter().writeError(e);
 		}
 		return data;
-		
-		
-		
-		
-		
-		
+
 	}
 }

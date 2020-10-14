@@ -1,25 +1,23 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.HyperLock;
 import regalowl.hyperconomy.util.LanguageFile;
 
-
-
 public class HcCommand extends BaseCommand implements HyperCommand {
-	
+
 	public HcCommand(HyperConomy hc) {
 		super(hc, false);
 	}
-	
+
 	public CommandData onCommand(CommandData data) {
 		String args[] = data.getArgs();
 		HyperLock hl = hc.getHyperLock();
 		LanguageFile L = hc.getLanguageFile();
 		HyperPlayer hp = data.getHyperPlayer();
-		if ((args.length == 0 && !hl.isLocked(hp)) || (args.length >= 1 && !args[0].equalsIgnoreCase("enable") && !args[0].equalsIgnoreCase("disable") && !hl.isLocked(hp))) {
+		if ((args.length == 0 && !hl.isLocked(hp)) || (args.length >= 1 && !args[0].equalsIgnoreCase("enable")
+				&& !args[0].equalsIgnoreCase("disable") && !hl.isLocked(hp))) {
 			displayInfo(data);
 		} else {
 			if (!data.isPlayer() || hp.hasPermission("hyperconomy.admin")) {
@@ -40,8 +38,7 @@ public class HcCommand extends BaseCommand implements HyperCommand {
 		data.setSuccessful();
 		return data;
 	}
-	
-	
+
 	private void displayInfo(CommandData data) {
 		String args[] = data.getArgs();
 		LanguageFile L = hc.getLanguageFile();
@@ -200,4 +197,3 @@ public class HcCommand extends BaseCommand implements HyperCommand {
 		}
 	}
 }
-

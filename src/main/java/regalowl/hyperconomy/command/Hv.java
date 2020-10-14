@@ -17,19 +17,22 @@ public class Hv extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			int amount;
 			HyperEconomy he = getEconomy();
 			boolean requireShop = hc.getConf().getBoolean("shop.limit-info-commands-to-shops");
-			if ((requireShop && dm.getHyperShopManager().inAnyShop(hp)) || !requireShop || hp.hasPermission("hyperconomy.admin")) {
+			if ((requireShop && dm.getHyperShopManager().inAnyShop(hp)) || !requireShop
+					|| hp.hasPermission("hyperconomy.admin")) {
 				HItemStack iinhand = hp.getItemInHand();
 				if (args.length == 0) {
 					amount = 1;
 				} else {
 					try {
 						amount = Integer.parseInt(args[0]);
-						if (amount > 10000) amount = 10000;
+						if (amount > 10000)
+							amount = 10000;
 					} catch (Exception e) {
 						data.addResponse(L.get("VALUE_INVALID"));
 						return data;
@@ -43,14 +46,10 @@ public class Hv extends BaseCommand implements HyperCommand {
 						String displayName = ho.getDisplayName();
 						double val = ho.getSellPrice(amount, hp);
 						/*
-						if (ho.isDurable() && amount > 1) {
-							int numberofitem = ho.count(hp.getInventory());
-							if (amount - numberofitem > 0) {
-								int addamount = amount - numberofitem;
-								val = val + ho.getSellPrice(addamount);
-							}
-						}
-						*/
+						 * if (ho.isDurable() && amount > 1) { int numberofitem =
+						 * ho.count(hp.getInventory()); if (amount - numberofitem > 0) { int addamount =
+						 * amount - numberofitem; val = val + ho.getSellPrice(addamount); } }
+						 */
 						double salestax = hp.getSalesTax(val);
 						val = CommonFunctions.twoDecimals(val - salestax);
 						data.addResponse(L.get("LINE_BREAK"));
@@ -61,7 +60,8 @@ public class Hv extends BaseCommand implements HyperCommand {
 						double stock = 0;
 						stock = ho.getStock();
 						data.addResponse(L.f(L.get("CAN_BE_PURCHASED_FOR"), amount, cost, displayName));
-						data.addResponse(L.f(L.get("GLOBAL_SHOP_CURRENTLY_HAS"), CommonFunctions.twoDecimals(stock), displayName));
+						data.addResponse(L.f(L.get("GLOBAL_SHOP_CURRENTLY_HAS"), CommonFunctions.twoDecimals(stock),
+								displayName));
 						data.addResponse(L.get("LINE_BREAK"));
 					}
 				} else {
@@ -79,7 +79,8 @@ public class Hv extends BaseCommand implements HyperCommand {
 						value = CommonFunctions.twoDecimals(value - salestax);
 						data.addResponse(L.f(L.get("EVALUE_SALE"), value, ho.getDisplayName()));
 						data.addResponse(L.f(L.get("EVALUE_PURCHASE"), cost, ho.getDisplayName()));
-						data.addResponse(L.f(L.get("EVALUE_STOCK"), CommonFunctions.twoDecimals(ho.getStock()), ho.getDisplayName()));
+						data.addResponse(L.f(L.get("EVALUE_STOCK"), CommonFunctions.twoDecimals(ho.getStock()),
+								ho.getDisplayName()));
 					}
 					data.addResponse(L.get("LINE_BREAK"));
 				}

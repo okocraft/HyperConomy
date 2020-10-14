@@ -1,11 +1,6 @@
 package regalowl.hyperconomy.command;
 
-
-
 import java.util.ArrayList;
-
-
-
 
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
@@ -14,17 +9,16 @@ import regalowl.hyperconomy.account.HyperBankManager;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.shop.Shop;
 
-
-
 public class Hcbank extends BaseCommand implements HyperCommand {
-	
+
 	public Hcbank(HyperConomy hc) {
 		super(hc, true);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		HyperBankManager hbm = dm.getHyperBankManager();
 		if (args.length == 0) {
 			data.addResponse(L.get("HCBANK_HELP"));
@@ -46,12 +40,13 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 			}
 			ArrayList<HyperBank> allBanks = hbm.getHyperBanks();
 			int bankOwnerships = 0;
-			for (HyperBank hb:allBanks) {
+			for (HyperBank hb : allBanks) {
 				if (hb.isOwner(hp)) {
 					bankOwnerships++;
 				}
 			}
-			if (bankOwnerships > hc.getConf().getInt("bank.max-ownerships-per-player") && !hp.hasPermission("hyperconomy.admin")) {
+			if (bankOwnerships > hc.getConf().getInt("bank.max-ownerships-per-player")
+					&& !hp.hasPermission("hyperconomy.admin")) {
 				data.addResponse(L.get("CANNOT_OWN_MORE_BANKS"));
 				return data;
 			}
@@ -72,13 +67,13 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 				data.addResponse(L.get("DONT_OWN_THIS_BANK"));
 				return data;
 			}
-			for (HyperEconomy he:hc.getDataManager().getEconomies()) {
+			for (HyperEconomy he : hc.getDataManager().getEconomies()) {
 				if (he.getDefaultAccount() == hb) {
 					data.addResponse(L.get("BANK_IN_USE_BY_ECONOMY"));
 					return data;
 				}
 			}
-			for (Shop s:hc.getHyperShopManager().getShops()) {
+			for (Shop s : hc.getHyperShopManager().getShops()) {
 				if (s.getOwner() == hb) {
 					data.addResponse(L.get("BANK_IN_USE_BY_SHOP"));
 					return data;
@@ -158,7 +153,7 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 			}
 			hb.removeMember(account);
 			data.addResponse(L.get("MEMBER_REMOVED_BANK"));
-		} else  if (args[0].equalsIgnoreCase("addowner") || args[0].equalsIgnoreCase("ao")) {
+		} else if (args[0].equalsIgnoreCase("addowner") || args[0].equalsIgnoreCase("ao")) {
 			if (args.length != 3) {
 				data.addResponse(L.get("HCBANK_ADDOWNER_HELP"));
 				return data;
@@ -278,7 +273,7 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 				ArrayList<HyperBank> allBanks = hbm.getHyperBanks();
 				String ownerBanks = "";
 				String memberBanks = "";
-				for (HyperBank hb:allBanks) {
+				for (HyperBank hb : allBanks) {
 					if (hb.isOwner(hp)) {
 						ownerBanks += hb.getName() + ",";
 					}
@@ -331,7 +326,7 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 			}
 			ArrayList<String> banks = new ArrayList<String>();
 			ArrayList<Double> balances = new ArrayList<Double>();
-			for (HyperBank hb:hbm.getHyperBanks()) {
+			for (HyperBank hb : hbm.getHyperBanks()) {
 				banks.add(hb.getName());
 				balances.add(hb.getBalance());
 			}
@@ -357,7 +352,7 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 				serverTotal += sbalances.get(i);
 			}
 			data.addResponse(L.get("TOP_BALANCE"));
-			data.addResponse(L.f(L.get("TOP_BALANCE_PAGE"), pe, (int)Math.ceil(sbalances.size()/10.0)));
+			data.addResponse(L.f(L.get("TOP_BALANCE_PAGE"), pe, (int) Math.ceil(sbalances.size() / 10.0)));
 			data.addResponse(L.f(L.get("TOP_BALANCE_TOTAL"), L.formatMoney(serverTotal)));
 			int ps = pe - 1;
 			ps *= 10;
@@ -367,18 +362,15 @@ public class Hcbank extends BaseCommand implements HyperCommand {
 					data.addResponse(L.get("REACHED_END"));
 					return data;
 				}
-				data.addResponse(L.f(L.get("TOP_BALANCE_BALANCE"), sbanks.get(i), L.formatMoney(sbalances.get(i)), (i + 1)));
+				data.addResponse(
+						L.f(L.get("TOP_BALANCE_BALANCE"), sbanks.get(i), L.formatMoney(sbalances.get(i)), (i + 1)));
 			}
 		} else {
 			data.addResponse(L.get("HCBANK_HELP"));
 			return data;
 		}
 
-		
-		
 		return data;
 	}
-	
-	
 
 }

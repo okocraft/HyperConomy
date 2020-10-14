@@ -6,14 +6,15 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
 public class Hctop extends BaseCommand implements HyperCommand {
-	
+
 	public Hctop(HyperConomy hc) {
 		super(hc, false);
 	}
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		try {
 			if (hc.getMC().useExternalEconomy()) {
 				data.addResponse(L.get("ONLY_AVAILABLE_INTERNAL"));
@@ -28,10 +29,10 @@ public class Hctop extends BaseCommand implements HyperCommand {
 				data.addResponse(L.get("HCTOP_INVALID"));
 				return data;
 			}
-			
+
 			ArrayList<String> players = new ArrayList<String>();
 			ArrayList<Double> balances = new ArrayList<Double>();
-			for (HyperPlayer hp:dm.getHyperPlayerManager().getHyperPlayers()) {
+			for (HyperPlayer hp : dm.getHyperPlayerManager().getHyperPlayers()) {
 				players.add(hp.getName());
 				balances.add(hp.getBalance());
 			}
@@ -57,7 +58,7 @@ public class Hctop extends BaseCommand implements HyperCommand {
 				serverTotal += sbalances.get(i);
 			}
 			data.addResponse(L.get("TOP_BALANCE"));
-			data.addResponse(L.f(L.get("TOP_BALANCE_PAGE"), pe, (int)Math.ceil(sbalances.size()/10.0)));
+			data.addResponse(L.f(L.get("TOP_BALANCE_PAGE"), pe, (int) Math.ceil(sbalances.size() / 10.0)));
 			data.addResponse(L.f(L.get("TOP_BALANCE_TOTAL"), L.formatMoney(serverTotal)));
 			int ps = pe - 1;
 			ps *= 10;
@@ -67,7 +68,8 @@ public class Hctop extends BaseCommand implements HyperCommand {
 					data.addResponse(L.get("REACHED_END"));
 					return data;
 				}
-				data.addResponse(L.f(L.get("TOP_BALANCE_BALANCE"), splayers.get(i), L.formatMoney(sbalances.get(i)), (i + 1)));
+				data.addResponse(
+						L.f(L.get("TOP_BALANCE_BALANCE"), splayers.get(i), L.formatMoney(sbalances.get(i)), (i + 1)));
 			}
 		} catch (Exception e) {
 			data.addResponse(L.get("HCTOP_INVALID"));

@@ -1,12 +1,9 @@
 package regalowl.hyperconomy.command;
 
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.display.InfoSignHandler;
 
 public class Settax extends BaseCommand implements HyperCommand {
-
-
 
 	public Settax(HyperConomy hc) {
 		super(hc, false);
@@ -14,7 +11,8 @@ public class Settax extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		InfoSignHandler isign = hc.getInfoSignHandler();
 		double taxrate = 0.0;
 		try {
@@ -54,6 +52,5 @@ public class Settax extends BaseCommand implements HyperCommand {
 		}
 		return data;
 	}
-	
-	
+
 }

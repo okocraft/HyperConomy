@@ -1,7 +1,5 @@
 package regalowl.hyperconomy.command;
 
-
-
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.display.FrameShopHandler;
@@ -17,7 +15,8 @@ public class Frameshopcommand extends BaseCommand implements HyperCommand {
 
 	@Override
 	public CommandData onCommand(CommandData data) {
-		if (!validate(data)) return data;
+		if (!validate(data))
+			return data;
 		FrameShopHandler fsh = hc.getFrameShopHandler();
 		HyperEconomy he = getEconomy();
 		if (args.length == 1) {
