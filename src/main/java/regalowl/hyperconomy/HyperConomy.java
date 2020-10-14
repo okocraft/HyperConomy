@@ -75,7 +75,6 @@ import regalowl.hyperconomy.util.DebugMode;
 import regalowl.hyperconomy.util.History;
 import regalowl.hyperconomy.util.HyperLock;
 import regalowl.hyperconomy.util.LanguageFile;
-import regalowl.hyperconomy.util.LibraryManager;
 import regalowl.hyperconomy.util.Log;
 import regalowl.hyperconomy.util.UpdateChecker;
 import regalowl.hyperconomy.util.UpdateYML;
@@ -124,7 +123,6 @@ public class HyperConomy implements HyperEventListener, SDLEventListener {
 	private AtomicBoolean waitingForLibraries = new AtomicBoolean();
 	private AtomicBoolean preEnabled = new AtomicBoolean();
 	private String consoleEconomy;
-	private LibraryManager lm;
 
 	public HyperConomy(MineCraftConnector mc) {
 		this.mc = mc;
@@ -166,14 +164,6 @@ public class HyperConomy implements HyperEventListener, SDLEventListener {
 				dMode.syncDebugConsoleMessage("Data loading completed.");
 				UpdateChecker uc = new UpdateChecker(this);
 				uc.runCheck();
-			} else if (devent.loadType == DataLoadType.LIBRARIES) {
-				if (lm.dependencyError()) {
-					disable(true);
-					return;
-				}
-				waitingForLibraries.set(false);
-				if (enabled.get() && !loadingStarted.get())
-					enable();
 			}
 		}
 	}
@@ -196,20 +186,13 @@ public class HyperConomy implements HyperEventListener, SDLEventListener {
 		// dp = new DisabledProtection(this);
 		// dp.enable();
 		waitingForLibraries.set(true);
-		lm = new LibraryManager(this, heh);
 	}
 
 	public void enable() {
 		if (!preEnabled.get()) {
 			preEnable();
 		}
-		if (lm.dependencyError()) {
-			return;
-		}
 		enabled.set(true);
-		if (waitingForLibraries.get()) {
-			return;
-		}
 		loadingStarted.set(true);
 		if (hConfig.getBoolean("sql.use-mysql")) {
 			String username = hConfig.getString("sql.mysql-connection.username");
@@ -471,10 +454,6 @@ public class HyperConomy implements HyperEventListener, SDLEventListener {
 
 	public TimeEffectsManager getTimeEffectsManager() {
 		return tem;
-	}
-
-	public LibraryManager getLibraryManager() {
-		return lm;
 	}
 
 	public HItemStack getBlankStack() {

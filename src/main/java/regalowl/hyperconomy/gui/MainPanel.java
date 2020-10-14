@@ -27,7 +27,6 @@ import regalowl.simpledatalib.event.SDLEvent;
 import regalowl.simpledatalib.event.SDLEventListener;
 import regalowl.simpledatalib.events.LogEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JTextField;
-import javax.swing.Timer;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -643,35 +641,6 @@ public class MainPanel implements SDLEventListener, HyperEventListener {
 				economySelectList.setSelectedIndex(economyList.indexOf("default"));
 				frmEconomyEditor.setVisible(true);
 				refreshEconomyList();
-			} else if (hevent.loadType == DataLoadType.LIBRARIES) {
-				if (hc.getLibraryManager().dependencyError()) {
-					waitMessage.dispose();
-
-					final JOptionPane optionPane = new JOptionPane(
-							"There was a problem downloading libraries.  Please check your internet connection or manually install the libraries.  Shutting down...",
-							JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
-					final JDialog dialog = new JDialog();
-					dialog.setTitle("Error");
-					dialog.setModal(true);
-					dialog.setContentPane(optionPane);
-					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-					dialog.pack();
-					// remove error message after 8 seconds
-					Timer timer = new Timer(8000, new AbstractAction() {
-						private static final long serialVersionUID = 1820275341492338555L;
-
-						@Override
-						public void actionPerformed(ActionEvent ae) {
-							dialog.dispose();
-							if (hc != null)
-								hc.disable(false);
-							System.exit(0);
-						}
-					});
-					timer.setRepeats(false);
-					timer.start();
-					dialog.setVisible(true);
-				}
 			}
 		}
 
