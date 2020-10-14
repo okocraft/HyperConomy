@@ -28,10 +28,12 @@ public class LanguageFile {
 		languageConversions.put("russian", "ruRU");
 		languageConversions.put("ру́сский язы́к", "ruRU");
 		languageConversions.put("russkij jazyk", "ruRU");
+		languageConversions.put("日本語", "jaJP");
 
 		supportedLanguages.add("enUS");
 		supportedLanguages.add("frFR");
 		supportedLanguages.add("ruRU");
+		supportedLanguages.add("jaJP");
 		buildLanguageFile(false);
 	}
 
