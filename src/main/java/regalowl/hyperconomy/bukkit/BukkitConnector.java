@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -27,6 +28,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -108,19 +110,12 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (commands.containsKey(cmd.getName().toLowerCase())) {
-			HyperCommand hCommand = commands.get(cmd.getName().toLowerCase());
-			boolean isPlayer = false;
-			if (sender instanceof Player) {
-				isPlayer = true;
-			}
-			CommandData data = hCommand
-					.onCommand(new CommandData(hc, sender, sender.getName(), isPlayer, cmd.getName(), args));
-			for (String response : data.getResponse()) {
-				sender.sendMessage(common.applyColor(response));
-			}
-		} else {
-			hc.getDebugMode().syncDebugConsoleMessage("Command not found: " + cmd.getName());
+		HyperCommand hCommand = commands.get(cmd.getName().toLowerCase());
+		boolean isPlayer = sender instanceof Player;
+		CommandData data = hCommand
+				.onCommand(new CommandData(hc, sender, sender.getName(), isPlayer, cmd.getName(), args));
+		for (String response : data.getResponse()) {
+			sender.sendMessage(common.applyColor(response));
 		}
 		return true;
 	}
@@ -213,6 +208,9 @@ public class BukkitConnector extends JavaPlugin implements MineCraftConnector, L
 
 	@Override
 	public void registerCommand(String command, HyperCommand hCommand) {
+		PluginCommand bukkitCommand = Optional.of(getCommand(command))
+				.orElseThrow(() -> new IllegalStateException("Command is not written in plugin.yml: " + command));
+		bukkitCommand.setExecutor(this);		
 		commands.put(command.toLowerCase(), hCommand);
 	}
 
