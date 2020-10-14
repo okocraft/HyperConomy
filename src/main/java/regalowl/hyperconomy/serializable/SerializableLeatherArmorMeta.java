@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -57,28 +58,18 @@ public class SerializableLeatherArmorMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableLeatherArmorMeta)) {
+			return false;
+		}
+		SerializableLeatherArmorMeta serializableLeatherArmorMeta = (SerializableLeatherArmorMeta) o;
+		return super.equals(serializableLeatherArmorMeta) && Objects.equals(color, serializableLeatherArmorMeta.color);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableLeatherArmorMeta other = (SerializableLeatherArmorMeta) obj;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), color);
 	}
-
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import regalowl.hyperconomy.HyperConomy;
@@ -831,28 +831,18 @@ public class ChestShop {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof ChestShop)) {
+			return false;
+		}
+		ChestShop chestShop = (ChestShop) o;
+		return Objects.equals(location, chestShop.location);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ChestShop other = (ChestShop) obj;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hashCode(location);
 	}
-
 }

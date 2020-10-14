@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.HyperConomy;
@@ -258,78 +259,24 @@ public class HItemStack {
 		return data;
 	}
 
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + getComparisonData();
-		result = prime * result + getComparisonDurability();
-		result = prime * result + (isBlank ? 1231 : 1237);
-		result = prime * result + ((itemMeta == null) ? 0 : itemMeta.hashCode());
-		result = prime * result + ((material == null) ? 0 : material.hashCode());
-		result = prime * result + maxDurability;
-		result = prime * result + maxStackSize;
-		return result;
+		return Objects.hash(material, getComparisonDurability(), getComparisonData(), itemMeta, maxStackSize,
+				maxDurability, isBlank);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (o == this)
 			return true;
-		if (obj == null)
+		if (!(o instanceof HItemStack)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HItemStack other = (HItemStack) obj;
-		if (getComparisonData() != other.getComparisonData())
-			return false;
-		if (getComparisonDurability() != other.getComparisonDurability())
-			return false;
-		if (isBlank != other.isBlank())
-			return false;
-		if (itemMeta == null) {
-			if (other.getItemMeta() != null)
-				return false;
-		} else if (!itemMeta.equals(other.getItemMeta()))
-			return false;
-		if (material == null) {
-			if (other.getMaterial() != null)
-				return false;
-		} else if (!material.equals(other.getMaterial()))
-			return false;
-		if (maxDurability != other.getMaxDurability())
-			return false;
-		if (maxStackSize != other.getMaxStackSize())
-			return false;
-		return true;
+		}
+		HItemStack hItemStack = (HItemStack) o;
+		return Objects.equals(material, hItemStack.material) && durability == hItemStack.durability
+				&& data == hItemStack.data && Objects.equals(itemMeta, hItemStack.itemMeta)
+				&& maxStackSize == hItemStack.maxStackSize && maxDurability == hItemStack.maxDurability
+				&& isBlank == hItemStack.isBlank;
 	}
-
-	/*
-	 * @Override public boolean equals(Object obj) { if (this == obj) return true;
-	 * if (obj == null) return false; if (getClass() != obj.getClass()) return
-	 * false; HItemStack other = (HItemStack) obj; if (amount != other.getAmount())
-	 * return false; if (data != other.getData()) return false; if (durability !=
-	 * other.getDurability()) return false; if (isBlank != other.isBlank()) return
-	 * false; if (itemMeta == null) { if (other.getItemMeta() != null) return false;
-	 * } else if (!itemMeta.equals(other.getItemMeta())) return false; if (material
-	 * == null) { if (other.getMaterial() != null) return false; } else if
-	 * (!material.equals(other.getMaterial())) return false; if (maxDurability !=
-	 * other.getMaxDurability()) return false; if (maxStackSize !=
-	 * other.getMaxStackSize()) return false; return true; }
-	 */
-	/*
-	 * public boolean isSimilarTo(Object obj) { if (this == obj) return true; if
-	 * (obj == null) return false; if (getClass() != obj.getClass()) return false;
-	 * HItemStack other = (HItemStack) obj; if (getComparisonData() !=
-	 * other.getComparisonData()) return false; if (getComparisonDurability() !=
-	 * other.getComparisonDurability()) return false; if (isBlank !=
-	 * other.isBlank()) return false; if (itemMeta == null) { if
-	 * (other.getItemMeta() != null) return false; } else if
-	 * (!itemMeta.equals(other.getItemMeta())) return false; if (material == null) {
-	 * if (other.getMaterial() != null) return false; } else if
-	 * (!material.equals(other.getMaterial())) return false; if (maxDurability !=
-	 * other.getMaxDurability()) return false; if (maxStackSize !=
-	 * other.getMaxStackSize()) return false; return true; }
-	 */
-
 }

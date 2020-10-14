@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.simpledatalib.CommonFunctions;
@@ -78,34 +79,18 @@ public class HBannerMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((baseColor == null) ? 0 : baseColor.hashCode());
-		result = prime * result + ((patterns == null) ? 0 : patterns.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HBannerMeta)) {
+			return false;
+		}
+		HBannerMeta hBannerMeta = (HBannerMeta) o;
+		return super.equals(hBannerMeta) && Objects.equals(baseColor, hBannerMeta.baseColor) && Objects.equals(patterns, hBannerMeta.patterns);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HBannerMeta other = (HBannerMeta) obj;
-		if (baseColor == null) {
-			if (other.baseColor != null)
-				return false;
-		} else if (!baseColor.equals(other.baseColor))
-			return false;
-		if (patterns == null) {
-			if (other.patterns != null)
-				return false;
-		} else if (!patterns.equals(other.patterns))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), baseColor, patterns);
 	}
-
 }

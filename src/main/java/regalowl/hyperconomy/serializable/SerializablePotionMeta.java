@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -64,28 +65,18 @@ public class SerializablePotionMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((potionEffects == null) ? 0 : potionEffects.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializablePotionMeta)) {
+			return false;
+		}
+		SerializablePotionMeta serializablePotionMeta = (SerializablePotionMeta) o;
+		return super.equals(serializablePotionMeta) && Objects.equals(potionEffects, serializablePotionMeta.potionEffects);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializablePotionMeta other = (SerializablePotionMeta) obj;
-		if (potionEffects == null) {
-			if (other.potionEffects != null)
-				return false;
-		} else if (!potionEffects.equals(other.potionEffects))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), potionEffects);
 	}
-
 }

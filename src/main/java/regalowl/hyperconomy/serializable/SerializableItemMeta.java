@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -96,40 +97,20 @@ public class SerializableItemMeta extends SerializableObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
-		result = prime * result + ((enchantments == null) ? 0 : enchantments.hashCode());
-		result = prime * result + ((lore == null) ? 0 : lore.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableItemMeta)) {
+			return false;
+		}
+		SerializableItemMeta serializableItemMeta = (SerializableItemMeta) o;
+		return Objects.equals(displayName, serializableItemMeta.displayName)
+				&& Objects.equals(lore, serializableItemMeta.lore)
+				&& Objects.equals(enchantments, serializableItemMeta.enchantments);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableItemMeta other = (SerializableItemMeta) obj;
-		if (displayName == null) {
-			if (other.displayName != null)
-				return false;
-		} else if (!displayName.equals(other.displayName))
-			return false;
-		if (enchantments == null) {
-			if (other.enchantments != null)
-				return false;
-		} else if (!enchantments.equals(other.enchantments))
-			return false;
-		if (lore == null) {
-			if (other.lore != null)
-				return false;
-		} else if (!lore.equals(other.lore))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(displayName, lore, enchantments);
 	}
-
 }

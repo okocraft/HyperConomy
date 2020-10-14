@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -86,45 +87,18 @@ public class SerializableFireworkEffect extends SerializableObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((colors == null) ? 0 : colors.hashCode());
-		result = prime * result + ((fadeColors == null) ? 0 : fadeColors.hashCode());
-		result = prime * result + (hasFlicker ? 1231 : 1237);
-		result = prime * result + (hasTrail ? 1231 : 1237);
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableFireworkEffect)) {
+			return false;
+		}
+		SerializableFireworkEffect serializableFireworkEffect = (SerializableFireworkEffect) o;
+		return Objects.equals(colors, serializableFireworkEffect.colors) && Objects.equals(fadeColors, serializableFireworkEffect.fadeColors) && Objects.equals(type, serializableFireworkEffect.type) && hasFlicker == serializableFireworkEffect.hasFlicker && hasTrail == serializableFireworkEffect.hasTrail;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableFireworkEffect other = (SerializableFireworkEffect) obj;
-		if (colors == null) {
-			if (other.colors != null)
-				return false;
-		} else if (!colors.equals(other.colors))
-			return false;
-		if (fadeColors == null) {
-			if (other.fadeColors != null)
-				return false;
-		} else if (!fadeColors.equals(other.fadeColors))
-			return false;
-		if (hasFlicker != other.hasFlicker)
-			return false;
-		if (hasTrail != other.hasTrail)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(colors, fadeColors, type, hasFlicker, hasTrail);
 	}
 }

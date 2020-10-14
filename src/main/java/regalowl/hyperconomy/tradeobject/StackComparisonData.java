@@ -1,14 +1,13 @@
 package regalowl.hyperconomy.tradeobject;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import regalowl.hyperconomy.inventory.HItemMeta;
 
 public class StackComparisonData implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -755014510365039145L;
+
 	public String material;
 	public short durability;
 	public byte data;
@@ -18,48 +17,21 @@ public class StackComparisonData implements Serializable {
 	public boolean isBlank;
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + data;
-		result = prime * result + durability;
-		result = prime * result + (isBlank ? 1231 : 1237);
-		result = prime * result + ((itemMeta == null) ? 0 : itemMeta.hashCode());
-		result = prime * result + ((material == null) ? 0 : material.hashCode());
-		result = prime * result + maxDurability;
-		result = prime * result + maxStackSize;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof StackComparisonData)) {
+			return false;
+		}
+		StackComparisonData stackComparisonData = (StackComparisonData) o;
+		return Objects.equals(material, stackComparisonData.material) && durability == stackComparisonData.durability
+				&& data == stackComparisonData.data && Objects.equals(itemMeta, stackComparisonData.itemMeta)
+				&& maxStackSize == stackComparisonData.maxStackSize
+				&& maxDurability == stackComparisonData.maxDurability && isBlank == stackComparisonData.isBlank;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StackComparisonData other = (StackComparisonData) obj;
-		if (data != other.data)
-			return false;
-		if (durability != other.durability)
-			return false;
-		if (isBlank != other.isBlank)
-			return false;
-		if (itemMeta == null) {
-			if (other.itemMeta != null)
-				return false;
-		} else if (!itemMeta.equals(other.itemMeta))
-			return false;
-		if (material == null) {
-			if (other.material != null)
-				return false;
-		} else if (!material.equals(other.material))
-			return false;
-		if (maxDurability != other.maxDurability)
-			return false;
-		if (maxStackSize != other.maxStackSize)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(material, durability, data, itemMeta, maxStackSize, maxDurability, isBlank);
 	}
 }

@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.simpledatalib.CommonFunctions;
@@ -79,34 +80,19 @@ public class HPotionMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((potionData == null) ? 0 : potionData.hashCode());
-		result = prime * result + ((potionEffects == null) ? 0 : potionEffects.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HPotionMeta)) {
+			return false;
+		}
+		HPotionMeta hPotionMeta = (HPotionMeta) o;
+		return super.equals(hPotionMeta) && Objects.equals(potionEffects, hPotionMeta.potionEffects)
+				&& Objects.equals(potionData, hPotionMeta.potionData);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HPotionMeta other = (HPotionMeta) obj;
-		if (potionData == null) {
-			if (other.potionData != null)
-				return false;
-		} else if (!potionData.equals(other.potionData))
-			return false;
-		if (potionEffects == null) {
-			if (other.potionEffects != null)
-				return false;
-		} else if (!potionEffects.equals(other.potionEffects))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), potionEffects, potionData);
 	}
-
 }

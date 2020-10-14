@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.Color;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -54,30 +55,19 @@ public class SerializableColor extends SerializableObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + blue;
-		result = prime * result + green;
-		result = prime * result + red;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableColor)) {
+			return false;
+		}
+		SerializableColor serializableColor = (SerializableColor) o;
+		return red == serializableColor.red && green == serializableColor.green && blue == serializableColor.blue;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableColor other = (SerializableColor) obj;
-		if (blue != other.blue)
-			return false;
-		if (green != other.green)
-			return false;
-		if (red != other.red)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(red, green, blue);
 	}
+
 }

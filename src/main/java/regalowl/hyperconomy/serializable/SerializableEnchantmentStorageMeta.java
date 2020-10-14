@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -70,28 +71,19 @@ public class SerializableEnchantmentStorageMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((storedEnchantments == null) ? 0 : storedEnchantments.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableEnchantmentStorageMeta)) {
+			return false;
+		}
+		SerializableEnchantmentStorageMeta serializableEnchantmentStorageMeta = (SerializableEnchantmentStorageMeta) o;
+		return super.equals(serializableEnchantmentStorageMeta) &&
+				Objects.equals(storedEnchantments, serializableEnchantmentStorageMeta.storedEnchantments);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableEnchantmentStorageMeta other = (SerializableEnchantmentStorageMeta) obj;
-		if (storedEnchantments == null) {
-			if (other.storedEnchantments != null)
-				return false;
-		} else if (!storedEnchantments.equals(other.storedEnchantments))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), storedEnchantments);
 	}
-
 }

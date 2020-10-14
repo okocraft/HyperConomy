@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -42,25 +43,18 @@ public class HMapMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (isScaling ? 1231 : 1237);
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HMapMeta)) {
+			return false;
+		}
+		HMapMeta hMapMeta = (HMapMeta) o;
+		return super.equals(hMapMeta) && isScaling == hMapMeta.isScaling;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HMapMeta other = (HMapMeta) obj;
-		if (isScaling != other.isScaling)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), isScaling);
 	}
-
 }

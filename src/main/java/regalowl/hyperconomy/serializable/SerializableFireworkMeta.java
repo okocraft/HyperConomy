@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -72,31 +73,19 @@ public class SerializableFireworkMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((effects == null) ? 0 : effects.hashCode());
-		result = prime * result + power;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableFireworkMeta)) {
+			return false;
+		}
+		SerializableFireworkMeta serializableFireworkMeta = (SerializableFireworkMeta) o;
+		return super.equals(serializableFireworkMeta) && Objects.equals(effects, serializableFireworkMeta.effects)
+				&& power == serializableFireworkMeta.power;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableFireworkMeta other = (SerializableFireworkMeta) obj;
-		if (effects == null) {
-			if (other.effects != null)
-				return false;
-		} else if (!effects.equals(other.effects))
-			return false;
-		if (power != other.power)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), effects, power);
 	}
-
 }

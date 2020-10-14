@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -57,27 +58,19 @@ public class SerializableFireworkEffectMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((effect == null) ? 0 : effect.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableFireworkEffectMeta)) {
+			return false;
+		}
+		SerializableFireworkEffectMeta serializableFireworkEffectMeta = (SerializableFireworkEffectMeta) o;
+		return super.equals(serializableFireworkEffectMeta) &&
+				Objects.equals(effect, serializableFireworkEffectMeta.effect);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableFireworkEffectMeta other = (SerializableFireworkEffectMeta) obj;
-		if (effect == null) {
-			if (other.effect != null)
-				return false;
-		} else if (!effect.equals(other.effect))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), effect);
 	}
 }

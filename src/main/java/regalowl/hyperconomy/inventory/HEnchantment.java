@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.inventory;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -40,31 +41,18 @@ public class HEnchantment {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((enchantment == null) ? 0 : enchantment.hashCode());
-		result = prime * result + lvl;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HEnchantment)) {
+			return false;
+		}
+		HEnchantment hEnchantment = (HEnchantment) o;
+		return Objects.equals(enchantment, hEnchantment.enchantment) && lvl == hEnchantment.lvl;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HEnchantment other = (HEnchantment) obj;
-		if (enchantment == null) {
-			if (other.enchantment != null)
-				return false;
-		} else if (!enchantment.equals(other.enchantment))
-			return false;
-		if (lvl != other.lvl)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(enchantment, lvl);
 	}
-
 }

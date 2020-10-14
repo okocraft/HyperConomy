@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -57,28 +58,18 @@ public class SerializableSkullMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableSkullMeta)) {
+			return false;
+		}
+		SerializableSkullMeta serializableSkullMeta = (SerializableSkullMeta) o;
+		return super.equals(serializableSkullMeta) && Objects.equals(owner, serializableSkullMeta.owner);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableSkullMeta other = (SerializableSkullMeta) obj;
-		if (owner == null) {
-			if (other.owner != null)
-				return false;
-		} else if (!owner.equals(other.owner))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), owner);
 	}
-
 }

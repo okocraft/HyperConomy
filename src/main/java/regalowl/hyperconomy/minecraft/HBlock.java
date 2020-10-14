@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.minecraft;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import regalowl.hyperconomy.HyperConomy;
 
@@ -82,28 +83,18 @@ public class HBlock implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HBlock)) {
+			return false;
+		}
+		HBlock hBlock = (HBlock) o;
+		return Objects.equals(location, hBlock.location);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HBlock other = (HBlock) obj;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hashCode(location);
 	}
-
 }

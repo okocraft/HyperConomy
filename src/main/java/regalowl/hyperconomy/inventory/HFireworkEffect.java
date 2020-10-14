@@ -3,6 +3,7 @@ package regalowl.hyperconomy.inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -89,46 +90,20 @@ public class HFireworkEffect {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((colors == null) ? 0 : colors.hashCode());
-		result = prime * result + ((fadeColors == null) ? 0 : fadeColors.hashCode());
-		result = prime * result + (hasFlicker ? 1231 : 1237);
-		result = prime * result + (hasTrail ? 1231 : 1237);
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HFireworkEffect)) {
+			return false;
+		}
+		HFireworkEffect hFireworkEffect = (HFireworkEffect) o;
+		return Objects.equals(colors, hFireworkEffect.colors) && Objects.equals(fadeColors, hFireworkEffect.fadeColors)
+				&& Objects.equals(type, hFireworkEffect.type) && hasFlicker == hFireworkEffect.hasFlicker
+				&& hasTrail == hFireworkEffect.hasTrail;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HFireworkEffect other = (HFireworkEffect) obj;
-		if (colors == null) {
-			if (other.colors != null)
-				return false;
-		} else if (!colors.equals(other.colors))
-			return false;
-		if (fadeColors == null) {
-			if (other.fadeColors != null)
-				return false;
-		} else if (!fadeColors.equals(other.fadeColors))
-			return false;
-		if (hasFlicker != other.hasFlicker)
-			return false;
-		if (hasTrail != other.hasTrail)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(colors, fadeColors, type, hasFlicker, hasTrail);
 	}
-
 }

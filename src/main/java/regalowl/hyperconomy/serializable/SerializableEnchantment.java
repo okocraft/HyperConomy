@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.enchantments.Enchantment;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -47,31 +48,18 @@ public class SerializableEnchantment extends SerializableObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((enchantment == null) ? 0 : enchantment.hashCode());
-		result = prime * result + lvl;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableEnchantment)) {
+			return false;
+		}
+		SerializableEnchantment serializableEnchantment = (SerializableEnchantment) o;
+		return Objects.equals(enchantment, serializableEnchantment.enchantment) && lvl == serializableEnchantment.lvl;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableEnchantment other = (SerializableEnchantment) obj;
-		if (enchantment == null) {
-			if (other.enchantment != null)
-				return false;
-		} else if (!enchantment.equals(other.enchantment))
-			return false;
-		if (lvl != other.lvl)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(enchantment, lvl);
 	}
-
 }

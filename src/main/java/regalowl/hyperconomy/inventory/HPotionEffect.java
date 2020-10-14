@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.inventory;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -59,37 +60,19 @@ public class HPotionEffect {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + amplifier;
-		result = prime * result + duration;
-		result = prime * result + (isAmbient ? 1231 : 1237);
-		result = prime * result + ((potionEffectType == null) ? 0 : potionEffectType.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HPotionEffect)) {
+			return false;
+		}
+		HPotionEffect hPotionEffect = (HPotionEffect) o;
+		return Objects.equals(potionEffectType, hPotionEffect.potionEffectType) && amplifier == hPotionEffect.amplifier
+				&& duration == hPotionEffect.duration && isAmbient == hPotionEffect.isAmbient;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HPotionEffect other = (HPotionEffect) obj;
-		if (amplifier != other.amplifier)
-			return false;
-		if (duration != other.duration)
-			return false;
-		if (isAmbient != other.isAmbient)
-			return false;
-		if (potionEffectType == null) {
-			if (other.potionEffectType != null)
-				return false;
-		} else if (!potionEffectType.equals(other.potionEffectType))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(potionEffectType, amplifier, duration, isAmbient);
 	}
-
 }

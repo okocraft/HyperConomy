@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -57,25 +58,19 @@ public class SerializableMapMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (isScaling ? 1231 : 1237);
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableMapMeta)) {
+			return false;
+		}
+		SerializableMapMeta serializableMapMeta = (SerializableMapMeta) o;
+		return super.equals(serializableMapMeta) && isScaling == serializableMapMeta.isScaling;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableMapMeta other = (SerializableMapMeta) obj;
-		if (isScaling != other.isScaling)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), isScaling);
 	}
 
 }

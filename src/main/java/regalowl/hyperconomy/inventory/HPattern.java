@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.inventory;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -41,34 +42,18 @@ public class HPattern {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dyeColor == null) ? 0 : dyeColor.hashCode());
-		result = prime * result + ((patternType == null) ? 0 : patternType.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HPattern)) {
+			return false;
+		}
+		HPattern hPattern = (HPattern) o;
+		return Objects.equals(dyeColor, hPattern.dyeColor) && Objects.equals(patternType, hPattern.patternType);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HPattern other = (HPattern) obj;
-		if (dyeColor == null) {
-			if (other.dyeColor != null)
-				return false;
-		} else if (!dyeColor.equals(other.dyeColor))
-			return false;
-		if (patternType == null) {
-			if (other.patternType != null)
-				return false;
-		} else if (!patternType.equals(other.patternType))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(dyeColor, patternType);
 	}
-
 }

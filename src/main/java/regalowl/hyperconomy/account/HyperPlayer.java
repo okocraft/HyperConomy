@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.account;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 import regalowl.simpledatalib.CommonFunctions;
@@ -561,33 +562,17 @@ public class HyperPlayer implements HyperAccount {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		return result;
+		return Objects.hash(name, uuid);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (o == this)
 			return true;
-		if (obj == null)
+		if (!(o instanceof HyperPlayer)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HyperPlayer other = (HyperPlayer) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		return true;
+		}
+		HyperPlayer hyperPlayer = (HyperPlayer) o;
+		return Objects.equals(name, hyperPlayer.name) && Objects.equals(uuid, hyperPlayer.uuid);
 	}
-
 }

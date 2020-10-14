@@ -3,6 +3,7 @@ package regalowl.hyperconomy.serializable;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -74,39 +75,18 @@ public class SerializableBookMeta extends SerializableItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((pages == null) ? 0 : pages.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableBookMeta)) {
+			return false;
+		}
+		SerializableBookMeta serializableBookMeta = (SerializableBookMeta) o;
+		return super.equals(serializableBookMeta) && Objects.equals(author, serializableBookMeta.author) && Objects.equals(pages, serializableBookMeta.pages) && Objects.equals(title, serializableBookMeta.title);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableBookMeta other = (SerializableBookMeta) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
-		if (pages == null) {
-			if (other.pages != null)
-				return false;
-		} else if (!pages.equals(other.pages))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), author, pages, title);
 	}
 }

@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.simpledatalib.CommonFunctions;
@@ -72,39 +73,18 @@ public class HBookMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((pages == null) ? 0 : pages.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HBookMeta)) {
+			return false;
+		}
+		HBookMeta hBookMeta = (HBookMeta) o;
+		return super.equals(hBookMeta) && Objects.equals(author, hBookMeta.author) && Objects.equals(pages, hBookMeta.pages) && Objects.equals(title, hBookMeta.title);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HBookMeta other = (HBookMeta) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
-		if (pages == null) {
-			if (other.pages != null)
-				return false;
-		} else if (!pages.equals(other.pages))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), author, pages, title);
 	}
 }

@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -62,31 +63,19 @@ public class HFireworkMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((effects == null) ? 0 : effects.hashCode());
-		result = prime * result + power;
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HFireworkMeta)) {
+			return false;
+		}
+		HFireworkMeta hFireworkMeta = (HFireworkMeta) o;
+		return super.equals(hFireworkMeta) && Objects.equals(effects, hFireworkMeta.effects) && power == hFireworkMeta.power;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HFireworkMeta other = (HFireworkMeta) obj;
-		if (effects == null) {
-			if (other.effects != null)
-				return false;
-		} else if (!effects.equals(other.effects))
-			return false;
-		if (power != other.power)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), effects, power);
 	}
 
 }

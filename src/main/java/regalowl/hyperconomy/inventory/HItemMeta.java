@@ -3,6 +3,7 @@ package regalowl.hyperconomy.inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 import regalowl.hyperconomy.account.HyperPlayer;
@@ -213,52 +214,21 @@ public class HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
-		result = prime * result + ((enchantments == null) ? 0 : enchantments.hashCode());
-		result = prime * result + ((itemFlags == null) ? 0 : itemFlags.hashCode());
-		result = prime * result + ((lore == null) ? 0 : lore.hashCode());
-		result = prime * result + repairCost;
-		result = prime * result + (unbreakable ? 1231 : 1237);
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HItemMeta)) {
+			return false;
+		}
+		HItemMeta hItemMeta = (HItemMeta) o;
+		return Objects.equals(displayName, hItemMeta.displayName) && Objects.equals(lore, hItemMeta.lore)
+				&& Objects.equals(enchantments, hItemMeta.enchantments)
+				&& Objects.equals(itemFlags, hItemMeta.itemFlags) && unbreakable == hItemMeta.unbreakable
+				&& repairCost == hItemMeta.repairCost;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HItemMeta other = (HItemMeta) obj;
-		if (displayName == null) {
-			if (other.displayName != null)
-				return false;
-		} else if (!displayName.equals(other.displayName))
-			return false;
-		if (enchantments == null) {
-			if (other.enchantments != null)
-				return false;
-		} else if (!enchantments.equals(other.enchantments))
-			return false;
-		if (itemFlags == null) {
-			if (other.itemFlags != null)
-				return false;
-		} else if (!itemFlags.equals(other.itemFlags))
-			return false;
-		if (lore == null) {
-			if (other.lore != null)
-				return false;
-		} else if (!lore.equals(other.lore))
-			return false;
-		if (repairCost != other.repairCost)
-			return false;
-		if (unbreakable != other.unbreakable)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(displayName, lore, enchantments, itemFlags, unbreakable, repairCost);
 	}
-
 }

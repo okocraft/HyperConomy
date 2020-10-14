@@ -1,6 +1,7 @@
 package regalowl.hyperconomy.inventory;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -49,34 +50,19 @@ public class HPotionData {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (isExtended ? 1231 : 1237);
-		result = prime * result + (isUpgraded ? 1231 : 1237);
-		result = prime * result + ((potionType == null) ? 0 : potionType.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HPotionData)) {
+			return false;
+		}
+		HPotionData hPotionData = (HPotionData) o;
+		return Objects.equals(potionType, hPotionData.potionType) && isExtended == hPotionData.isExtended
+				&& isUpgraded == hPotionData.isUpgraded;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HPotionData other = (HPotionData) obj;
-		if (isExtended != other.isExtended)
-			return false;
-		if (isUpgraded != other.isUpgraded)
-			return false;
-		if (potionType == null) {
-			if (other.potionType != null)
-				return false;
-		} else if (!potionType.equals(other.potionType))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(potionType, isExtended, isUpgraded);
 	}
-
 }

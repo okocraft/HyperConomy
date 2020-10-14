@@ -3,6 +3,7 @@ package regalowl.hyperconomy.minecraft;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.simpledatalib.CommonFunctions;
@@ -126,41 +127,18 @@ public class HLocation implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((world == null) ? 0 : world.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(x);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(z);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HLocation)) {
+			return false;
+		}
+		HLocation hLocation = (HLocation) o;
+		return x == hLocation.x && y == hLocation.y && z == hLocation.z && Objects.equals(world, hLocation.world);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HLocation other = (HLocation) obj;
-		if (world == null) {
-			if (other.world != null)
-				return false;
-		} else if (!world.equals(other.world))
-			return false;
-		if (getBlockX() != other.getBlockX())
-			return false;
-		if (getBlockY() != other.getBlockY())
-			return false;
-		if (getBlockZ() != other.getBlockZ())
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(x, y, z, world);
 	}
-
 }

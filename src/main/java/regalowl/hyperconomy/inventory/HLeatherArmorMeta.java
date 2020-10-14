@@ -2,6 +2,7 @@ package regalowl.hyperconomy.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import regalowl.simpledatalib.CommonFunctions;
 
@@ -42,28 +43,18 @@ public class HLeatherArmorMeta extends HItemMeta {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof HLeatherArmorMeta)) {
+			return false;
+		}
+		HLeatherArmorMeta hLeatherArmorMeta = (HLeatherArmorMeta) o;
+		return super.equals(hLeatherArmorMeta) && Objects.equals(color, hLeatherArmorMeta.color);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HLeatherArmorMeta other = (HLeatherArmorMeta) obj;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), color);
 	}
-
 }

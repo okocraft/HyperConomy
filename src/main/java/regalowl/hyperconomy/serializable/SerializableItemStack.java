@@ -2,6 +2,7 @@ package regalowl.hyperconomy.serializable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -120,54 +121,25 @@ public class SerializableItemStack extends SerializableObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + data;
-		result = prime * result + durability;
-		result = prime * result + ((itemMeta == null) ? 0 : itemMeta.hashCode());
-		result = prime * result + ((material == null) ? 0 : material.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof SerializableItemStack)) {
+			return false;
+		}
+		SerializableItemStack serializableItemStack = (SerializableItemStack) o;
+		return Objects.equals(material, serializableItemStack.material)
+				&& durability == serializableItemStack.durability && data == serializableItemStack.data
+				&& Objects.equals(itemMeta, serializableItemStack.itemMeta);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SerializableItemStack other = (SerializableItemStack) obj;
-		if (considerDamage()) {
-			if (data != other.data)
-				return false;
-			if (durability != other.durability)
-				return false;
-		}
-		if (itemMeta == null) {
-			if (other.itemMeta != null)
-				return false;
-		} else if (!itemMeta.equals(other.itemMeta))
-			return false;
-		if (material == null) {
-			if (other.material != null)
-				return false;
-		} else if (!material.equals(other.material))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(material, durability, data, itemMeta);
 	}
 
 	public boolean considerDamage() {
 		Material m = Material.matchMaterial(material);
-		boolean ignoreDamage = true;
-		if (!ignoreDamage) {
-			return true;
-		}
-		if (m != null && m.getMaxDurability() > 0) {
-			return false;
-		}
-		return true;
+		return m == null || m.getMaxDurability() <= 0;
 	}
-
 }

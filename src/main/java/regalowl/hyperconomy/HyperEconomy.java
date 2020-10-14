@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import regalowl.simpledatalib.CommonFunctions;
@@ -492,58 +493,23 @@ public class HyperEconomy implements Serializable {
 
 	@Override
 	public synchronized int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((composites == null) ? 0 : composites.hashCode());
-		result = prime * result + ((defaultAccount == null) ? 0 : defaultAccount.hashCode());
-		result = prime * result + (defaultAccountIsBank ? 1231 : 1237);
-		result = prime * result + ((economyName == null) ? 0 : economyName.hashCode());
-		result = prime * result + ((tradeObjects == null) ? 0 : tradeObjects.hashCode());
-		result = prime * result + ((tradeObjectsNameMap == null) ? 0 : tradeObjectsNameMap.hashCode());
-		result = prime * result + (useComposites ? 1231 : 1237);
-		result = prime * result + ((xpName == null) ? 0 : xpName.hashCode());
-		return result;
+		return Objects.hash(composites, defaultAccount, defaultAccountIsBank, economyName, tradeObjects,
+				tradeObjectsNameMap, useComposites, xpName);
 	}
 
 	@Override
-	public synchronized boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (o == this)
 			return true;
-		if (obj == null)
+		if (!(o instanceof HyperEconomy)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HyperEconomy other = (HyperEconomy) obj;
-		if (composites == null) {
-			if (other.composites != null)
-				return false;
-		} else if (!composites.equals(other.composites))
-			return false;
-		if (defaultAccount == null) {
-			if (other.defaultAccount != null)
-				return false;
-		} else if (!defaultAccount.equals(other.defaultAccount))
-			return false;
-		if (defaultAccountIsBank != other.defaultAccountIsBank)
-			return false;
-		if (economyName == null) {
-			if (other.economyName != null)
-				return false;
-		} else if (!economyName.equals(other.economyName))
-			return false;
-		if (tradeObjects == null) {
-			if (other.tradeObjects != null)
-				return false;
-		} else if (!tradeObjects.equals(other.tradeObjects))
-			return false;
-		if (useComposites != other.useComposites)
-			return false;
-		if (xpName == null) {
-			if (other.xpName != null)
-				return false;
-		} else if (!xpName.equals(other.xpName))
-			return false;
-		return true;
+		}
+		HyperEconomy hyperEconomy = (HyperEconomy) o;
+		return Objects.equals(defaultAccount, hyperEconomy.defaultAccount)
+				&& defaultAccountIsBank == hyperEconomy.defaultAccountIsBank
+				&& Objects.equals(tradeObjectsNameMap, hyperEconomy.tradeObjectsNameMap)
+				&& Objects.equals(tradeObjects, hyperEconomy.tradeObjects)
+				&& Objects.equals(composites, hyperEconomy.composites) && useComposites == hyperEconomy.useComposites
+				&& Objects.equals(economyName, hyperEconomy.economyName) && Objects.equals(xpName, hyperEconomy.xpName);
 	}
-
 }
