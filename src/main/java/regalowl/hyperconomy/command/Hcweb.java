@@ -5,7 +5,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.webpage.HyperConomy_Web;
 import regalowl.hyperconomy.webpage.WebHandler;
 
-public class Hcweb extends BaseCommand implements HyperCommand {
+public class Hcweb extends BaseCommand {
 
 	public Hcweb(HyperConomy hc) {
 		super(hc, false);

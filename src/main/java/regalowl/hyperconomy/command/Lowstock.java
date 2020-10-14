@@ -12,7 +12,7 @@ import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 
-public class Lowstock extends BaseCommand implements HyperCommand {
+public class Lowstock extends BaseCommand {
 
 	private final int numberPerPage = 10;
 

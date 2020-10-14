@@ -9,7 +9,7 @@ import regalowl.hyperconomy.account.HyperBankManager;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.shop.Shop;
 
-public class Hcbank extends BaseCommand implements HyperCommand {
+public class Hcbank extends BaseCommand {
 
 	public Hcbank(HyperConomy hc) {
 		super(hc, true);

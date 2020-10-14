@@ -2,7 +2,7 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-public class Seteconomy extends BaseCommand implements HyperCommand {
+public class Seteconomy extends BaseCommand {
 
 	public Seteconomy(HyperConomy hc) {
 		super(hc, false);

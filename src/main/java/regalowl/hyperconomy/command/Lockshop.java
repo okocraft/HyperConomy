@@ -3,7 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.util.HyperLock;
 
-public class Lockshop extends BaseCommand implements HyperCommand {
+public class Lockshop extends BaseCommand {
 
 	public Lockshop(HyperConomy hc) {
 		super(hc, false);

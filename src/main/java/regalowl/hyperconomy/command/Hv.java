@@ -10,7 +10,7 @@ import regalowl.hyperconomy.inventory.HItemStack;
 import regalowl.hyperconomy.tradeobject.EnchantmentClass;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Hv extends BaseCommand implements HyperCommand {
+public class Hv extends BaseCommand {
 	public Hv(HyperConomy hc) {
 		super(hc, true);
 	}

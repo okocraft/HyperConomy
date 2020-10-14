@@ -9,7 +9,7 @@ import regalowl.hyperconomy.minecraft.HSign;
 import regalowl.hyperconomy.shop.ChestShop;
 import regalowl.simpledatalib.CommonFunctions;
 
-public class Hcchestshop extends BaseCommand implements HyperCommand {
+public class Hcchestshop extends BaseCommand {
 
 	public Hcchestshop(HyperConomy hc) {
 		super(hc, true);

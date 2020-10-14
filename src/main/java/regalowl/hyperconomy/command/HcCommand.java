@@ -5,7 +5,7 @@ import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.HyperLock;
 import regalowl.hyperconomy.util.LanguageFile;
 
-public class HcCommand extends BaseCommand implements HyperCommand {
+public class HcCommand extends BaseCommand {
 
 	public HcCommand(HyperConomy hc) {
 		super(hc, false);

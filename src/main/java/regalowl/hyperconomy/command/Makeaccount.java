@@ -3,7 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-public class Makeaccount extends BaseCommand implements HyperCommand {
+public class Makeaccount extends BaseCommand {
 
 	public Makeaccount(HyperConomy hc) {
 		super(hc, false);

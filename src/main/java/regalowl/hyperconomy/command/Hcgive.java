@@ -4,7 +4,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.MessageBuilder;
 
-public class Hcgive extends BaseCommand implements HyperCommand {
+public class Hcgive extends BaseCommand {
 
 	public Hcgive(HyperConomy hc) {
 		super(hc, false);

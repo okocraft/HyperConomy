@@ -12,7 +12,7 @@ import regalowl.hyperconomy.transaction.PlayerTransaction;
 import regalowl.hyperconomy.transaction.TransactionResponse;
 import regalowl.hyperconomy.transaction.TransactionType;
 
-public class Sellall extends BaseCommand implements HyperCommand {
+public class Sellall extends BaseCommand {
 
 	public Sellall(HyperConomy hc) {
 		super(hc, true);

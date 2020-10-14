@@ -5,7 +5,7 @@ import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.display.ItemDisplayHandler;
 import regalowl.hyperconomy.minecraft.HLocation;
 
-public class Makedisplay extends BaseCommand implements HyperCommand {
+public class Makedisplay extends BaseCommand {
 
 	public Makedisplay(HyperConomy hc) {
 		super(hc, true);

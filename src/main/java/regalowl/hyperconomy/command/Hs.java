@@ -8,7 +8,7 @@ import regalowl.hyperconomy.transaction.PlayerTransaction;
 import regalowl.hyperconomy.transaction.TransactionResponse;
 import regalowl.hyperconomy.transaction.TransactionType;
 
-public class Hs extends BaseCommand implements HyperCommand {
+public class Hs extends BaseCommand {
 
 	public Hs(HyperConomy hc) {
 		super(hc, true);

@@ -4,7 +4,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.display.ItemDisplayHandler;
 import regalowl.hyperconomy.minecraft.HLocation;
 
-public class Removedisplay extends BaseCommand implements HyperCommand {
+public class Removedisplay extends BaseCommand {
 
 	public Removedisplay(HyperConomy hc) {
 		super(hc, true);

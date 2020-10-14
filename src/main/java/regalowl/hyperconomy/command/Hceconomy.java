@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.util.Backup;
 
-public class Hceconomy extends BaseCommand implements HyperCommand {
+public class Hceconomy extends BaseCommand {
 
 	public Hceconomy(HyperConomy hc) {
 		super(hc, false);

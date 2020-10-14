@@ -8,7 +8,7 @@ import regalowl.simpledatalib.file.FileTools;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-public class Importbalance extends BaseCommand implements HyperCommand {
+public class Importbalance extends BaseCommand {
 
 	public Importbalance(HyperConomy hc) {
 		super(hc, false);

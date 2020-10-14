@@ -21,7 +21,7 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-public class Manageshop extends BaseCommand implements HyperCommand {
+public class Manageshop extends BaseCommand {
 
 	public Manageshop(HyperConomy hc) {
 		super(hc, true);

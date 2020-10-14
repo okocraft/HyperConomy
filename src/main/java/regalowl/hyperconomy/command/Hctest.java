@@ -2,7 +2,7 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-public class Hctest extends BaseCommand implements HyperCommand {
+public class Hctest extends BaseCommand {
 
 	public Hctest(HyperConomy hc) {
 		super(hc, false);

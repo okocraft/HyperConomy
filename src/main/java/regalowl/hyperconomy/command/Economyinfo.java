@@ -2,7 +2,7 @@ package regalowl.hyperconomy.command;
 
 import regalowl.hyperconomy.HyperConomy;
 
-public class Economyinfo extends BaseCommand implements HyperCommand {
+public class Economyinfo extends BaseCommand {
 	public Economyinfo(HyperConomy hc) {
 		super(hc, false);
 	}

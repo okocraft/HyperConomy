@@ -3,7 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.simpledatalib.CommonFunctions;
 
-public class Listcategories extends BaseCommand implements HyperCommand {
+public class Listcategories extends BaseCommand {
 
 	public Listcategories(HyperConomy hc) {
 		super(hc, false);

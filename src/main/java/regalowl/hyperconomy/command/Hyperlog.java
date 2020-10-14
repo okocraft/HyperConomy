@@ -7,7 +7,7 @@ import regalowl.simpledatalib.sql.SQLRead;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.util.LanguageFile;
 
-public class Hyperlog extends BaseCommand implements HyperCommand {
+public class Hyperlog extends BaseCommand {
 
 	private String statement;
 	private ArrayList<String> result;

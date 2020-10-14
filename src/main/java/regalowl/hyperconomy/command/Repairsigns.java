@@ -10,7 +10,7 @@ import regalowl.hyperconomy.minecraft.HSign;
 import regalowl.hyperconomy.tradeobject.EnchantmentClass;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Repairsigns extends BaseCommand implements HyperCommand {
+public class Repairsigns extends BaseCommand {
 
 	public Repairsigns(HyperConomy hc) {
 		super(hc, true);

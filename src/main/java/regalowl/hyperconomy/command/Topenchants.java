@@ -9,7 +9,7 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-public class Topenchants extends BaseCommand implements HyperCommand {
+public class Topenchants extends BaseCommand {
 
 	public Topenchants(HyperConomy hc) {
 		super(hc, false);

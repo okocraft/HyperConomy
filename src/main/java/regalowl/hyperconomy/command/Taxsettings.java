@@ -3,7 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.simpledatalib.file.FileConfiguration;
 
-public class Taxsettings extends BaseCommand implements HyperCommand {
+public class Taxsettings extends BaseCommand {
 
 	public Taxsettings(HyperConomy hc) {
 		super(hc, false);

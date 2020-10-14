@@ -8,7 +8,7 @@ import regalowl.hyperconomy.shop.PlayerShop;
 import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Frameshopcommand extends BaseCommand implements HyperCommand {
+public class Frameshopcommand extends BaseCommand {
 	public Frameshopcommand(HyperConomy hc) {
 		super(hc, true);
 	}

@@ -4,7 +4,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-public class Hcdelete extends BaseCommand implements HyperCommand {
+public class Hcdelete extends BaseCommand {
 
 	public Hcdelete(HyperConomy hc) {
 		super(hc, false);

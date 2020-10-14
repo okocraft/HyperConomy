@@ -9,7 +9,7 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 import regalowl.hyperconomy.util.Backup;
 
-public class Scalebypercent extends BaseCommand implements HyperCommand {
+public class Scalebypercent extends BaseCommand {
 
 	public Scalebypercent(HyperConomy hc) {
 		super(hc, false);

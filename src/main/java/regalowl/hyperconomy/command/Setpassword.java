@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import regalowl.hyperconomy.HyperConomy;
 
-public class Setpassword extends BaseCommand implements HyperCommand {
+public class Setpassword extends BaseCommand {
 
 	public Setpassword(HyperConomy hc) {
 		super(hc, true);

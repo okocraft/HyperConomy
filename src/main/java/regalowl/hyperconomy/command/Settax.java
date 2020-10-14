@@ -3,7 +3,7 @@ package regalowl.hyperconomy.command;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.display.InfoSignHandler;
 
-public class Settax extends BaseCommand implements HyperCommand {
+public class Settax extends BaseCommand {
 
 	public Settax(HyperConomy hc) {
 		super(hc, false);

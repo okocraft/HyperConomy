@@ -5,7 +5,7 @@ import regalowl.hyperconomy.account.HyperAccount;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.MessageBuilder;
 
-public class Hcpay extends BaseCommand implements HyperCommand {
+public class Hcpay extends BaseCommand {
 
 	public Hcpay(HyperConomy hc) {
 		super(hc, true);

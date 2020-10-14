@@ -7,7 +7,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperAccount;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-public class Audit extends BaseCommand implements HyperCommand {
+public class Audit extends BaseCommand {
 
 	private String account;
 	private double cbalance;

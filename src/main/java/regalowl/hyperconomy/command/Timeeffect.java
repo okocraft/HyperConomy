@@ -10,7 +10,7 @@ import regalowl.hyperconomy.timeeffects.TimeEffectType;
 import regalowl.hyperconomy.timeeffects.TimeEffectsManager;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Timeeffect extends BaseCommand implements HyperCommand {
+public class Timeeffect extends BaseCommand {
 	public Timeeffect(HyperConomy hc) {
 		super(hc, false);
 	}

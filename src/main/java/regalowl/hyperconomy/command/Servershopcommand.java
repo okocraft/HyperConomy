@@ -15,7 +15,7 @@ import regalowl.hyperconomy.shop.ServerShop;
 import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Servershopcommand extends BaseCommand implements HyperCommand {
+public class Servershopcommand extends BaseCommand {
 
 	public Servershopcommand(HyperConomy hc) {
 		super(hc, true);

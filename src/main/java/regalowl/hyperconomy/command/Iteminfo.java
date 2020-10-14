@@ -7,7 +7,7 @@ import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.inventory.HItemStack;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Iteminfo extends BaseCommand implements HyperCommand {
+public class Iteminfo extends BaseCommand {
 
 	public Iteminfo(HyperConomy hc) {
 		super(hc, true);

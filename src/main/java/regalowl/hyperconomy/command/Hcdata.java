@@ -14,7 +14,7 @@ import regalowl.hyperconomy.inventory.HItemStack;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.util.Backup;
 
-public class Hcdata extends BaseCommand implements HyperCommand {
+public class Hcdata extends BaseCommand {
 
 	private ArrayList<String> tables;
 	private String table;

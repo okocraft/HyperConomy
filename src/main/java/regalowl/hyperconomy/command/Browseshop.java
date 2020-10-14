@@ -15,7 +15,7 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-public class Browseshop extends BaseCommand implements HyperCommand {
+public class Browseshop extends BaseCommand {
 
 	public Browseshop(HyperConomy hc) {
 		super(hc, false);

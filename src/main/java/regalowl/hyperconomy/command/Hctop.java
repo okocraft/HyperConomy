@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 
-public class Hctop extends BaseCommand implements HyperCommand {
+public class Hctop extends BaseCommand {
 
 	public Hctop(HyperConomy hc) {
 		super(hc, false);

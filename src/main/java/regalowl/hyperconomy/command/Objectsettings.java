@@ -5,7 +5,7 @@ import regalowl.hyperconomy.HyperConomy;
 import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 
-public class Objectsettings extends BaseCommand implements HyperCommand {
+public class Objectsettings extends BaseCommand {
 
 	public Objectsettings(HyperConomy hc) {
 		super(hc, false);

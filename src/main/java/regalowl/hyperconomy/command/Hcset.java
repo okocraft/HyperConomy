@@ -8,7 +8,7 @@ import regalowl.hyperconomy.tradeobject.CompositeTradeItem;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.util.Backup;
 
-public class Hcset extends BaseCommand implements HyperCommand {
+public class Hcset extends BaseCommand {
 
 	public Hcset(HyperConomy hc) {
 		super(hc, false);

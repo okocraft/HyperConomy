@@ -12,7 +12,7 @@ import regalowl.hyperconomy.shop.Shop;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectStatus;
 
-public class Topitems extends BaseCommand implements HyperCommand {
+public class Topitems extends BaseCommand {
 
 	private final int numberPerPage = 10;
 

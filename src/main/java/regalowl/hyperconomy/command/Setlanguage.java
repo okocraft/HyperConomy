@@ -5,7 +5,7 @@ import java.io.File;
 import regalowl.simpledatalib.file.FileTools;
 import regalowl.hyperconomy.HyperConomy;
 
-public class Setlanguage extends BaseCommand implements HyperCommand {
+public class Setlanguage extends BaseCommand {
 
 	public Setlanguage(HyperConomy hc) {
 		super(hc, false);

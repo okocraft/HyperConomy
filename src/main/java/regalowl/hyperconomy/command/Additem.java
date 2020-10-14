@@ -14,7 +14,7 @@ import regalowl.hyperconomy.tradeobject.ComponentTradeItem;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.simpledatalib.CommonFunctions;
 
-public class Additem extends BaseCommand implements HyperCommand {
+public class Additem extends BaseCommand {
 
 	private ArrayList<String> usedNames = new ArrayList<String>();
 

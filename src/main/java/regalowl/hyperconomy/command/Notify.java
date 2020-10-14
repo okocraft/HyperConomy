@@ -13,7 +13,7 @@ import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.transaction.PlayerTransaction;
 import regalowl.hyperconomy.transaction.TransactionType;
 
-public class Notify extends BaseCommand implements HyperCommand, HyperEventListener {
+public class Notify extends BaseCommand implements HyperEventListener {
 
 	public Notify(HyperConomy hc) {
 		super(hc, false);

@@ -6,7 +6,7 @@ import regalowl.hyperconomy.HyperEconomy;
 import regalowl.hyperconomy.account.HyperPlayer;
 import regalowl.hyperconomy.util.LanguageFile;
 
-public class BaseCommand {
+public abstract class BaseCommand implements HyperCommand {
 
 	protected boolean requirePlayer;
 

@@ -7,7 +7,7 @@ import regalowl.hyperconomy.tradeobject.EnchantmentClass;
 import regalowl.hyperconomy.tradeobject.TradeObject;
 import regalowl.hyperconomy.tradeobject.TradeObjectType;
 
-public class Value extends BaseCommand implements HyperCommand {
+public class Value extends BaseCommand {
 
 	public Value(HyperConomy hc) {
 		super(hc, false);
